@@ -19,7 +19,7 @@ namespace Corbet.Application.Features.Products.Queries.GetProductById
         public GetProductByIdQueryHandler(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
-            _mapper = mapper;
+            _mapper = mapper; //gitDemo
         }
 
         public async Task<Product> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)

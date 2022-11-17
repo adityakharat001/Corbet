@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+
 using Corbet.Application.Contracts.Persistence;
+
 using MediatR;
+
 using Microsoft.Extensions.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +31,6 @@ namespace Corbet.Application.Features.Products.Queries.GetAllProducts
             _logger.LogInformation("Products list Initiated");
             var productList = await _productRepository.GetAllProducts();
 
-            // all employee data and Vm datat match or not
             var productData = _mapper.Map<List<GetAllProductsVm>>(productList);
 
             _logger.LogInformation("Products list completed");

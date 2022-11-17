@@ -1,4 +1,5 @@
 ﻿using Corbet.Application.Contracts.Persistence;
+using Corbet.Application.Features.Products.Commands.DeleteProduct;
 using Corbet.Application.Features.Products.Queries.GetAllProducts;
 using Corbet.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -13,8 +14,11 @@ namespace Corbet.Persistence.Repositories
 {
     public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
+        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly ILogger _logger;
         public ProductRepository(ApplicationDbContext dbContext, ILogger<Product> logger) : base(dbContext, logger)
         {
+            _logger = logger;
         }
 
         public async Task<List<GetAllProductsVm>> GetAllProducts()
@@ -48,6 +52,37 @@ namespace Corbet.Persistence.Repositories
                                }).ToList();
             
             return productData;
+        }
+
+        public async Task<DeleteProductCommandDto> RemoveProductAsync(int id)
+        {
+            _logger.LogInformation("In Repository Remove Product Initiated");
+            DeleteProductCommandDto response = new DeleteProductCommandDto();
+            var IsProductExist = await _dbContext.Products.Where(x => x.ProductId == id).FirstOrDefaultAsync();
+            if (IsProductExist != null)
+            {
+
+                IsProductExist.IsDeleted = true;
+                IsProductExist.IsActive = false;
+                await _dbContext.SaveChangesAsync();
+
+                response.ProductCode = IsProductExist.ProductCode;
+                response.ProductName = IsProductExist.ProductName;
+                response.Message = "Product Deleted Successfully";
+                response.Succeeded = true;
+                return response;
+                _logger.LogInformation("In Repository Remove Product Completed");
+            }
+
+            else
+            {
+                response.ProductCode = null;
+                response.ProductName = null;
+                response.Message = "Product with this Id don't Exist";
+                response.Succeeded = false;
+                return response;
+                _logger.LogInformation("In Repository Remove Product Failed");
+            }
         }
     }
 }

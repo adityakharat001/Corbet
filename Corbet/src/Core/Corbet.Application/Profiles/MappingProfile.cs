@@ -11,6 +11,7 @@ using Corbet.Application.Features.Events.Queries.GetEventsExport;
 using Corbet.Application.Features.Events.Queries.GetEventsList;
 using Corbet.Application.Features.Orders.GetOrdersForMonth;
 using Corbet.Application.Features.Products.Commands.CreateProduct;
+using Corbet.Application.Features.Products.Commands.UpdateProduct;
 using Corbet.Application.Features.Products.Queries.GetAllProducts;
 using Corbet.Application.Features.Roles.Commands.CreateRole;
 using Corbet.Application.Features.Roles.Commands.UpdateRole;
@@ -134,6 +135,9 @@ namespace Corbet.Application.Profiles
 
             CreateMap<Product, GetAllProductsQuery>().ReverseMap();
             CreateMap<Product, GetAllProductsVm>().ReverseMap();
+
+            CreateMap<Product, UpdateProductCommand>().ReverseMap();
+            CreateMap<Product, UpdateProductCommandDto>().ReverseMap();
 
         }
     }

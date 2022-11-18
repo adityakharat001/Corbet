@@ -12,5 +12,6 @@ namespace Corbet.Application.Contracts.Persistence
     {
         public Task<DeleteRoleCommandDto> RemoveRoleAsync(int roleId);
         public Task<List<Role>> GetAllRoles();
+        public Task<bool> CheckRoleExists(string RoleName);
     }
 }

@@ -6,6 +6,7 @@
 
 
 @Html.Raw(ViewBag.userUpdateAlert)
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -27,7 +28,7 @@
 
 
         <li class="nav-item">
-            <a class="nav-link"
+            <a class="nav-link collapsed"
                asp-controller="UserRegister"
                asp-action="GetAllUsers">
                 <i class="bi bi-menu-button-wide"></i><span>All Users</span>
@@ -51,7 +52,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">

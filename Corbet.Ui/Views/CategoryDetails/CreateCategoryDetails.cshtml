@@ -122,8 +122,8 @@
     <h1>Add Category Details</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="CreateTaxDetails">Tax Details</a></li>
-            <li class="breadcrumb-item active">Add Category Details</li>
+            @*<li class="breadcrumb-item"><a asp-action="CreateTaxDetails">Tax Details</a></li>*@
+           @* <li class="breadcrumb-item active">Add Category Details</li>*@
         </ol>
     </nav>
 </div>
@@ -139,19 +139,28 @@
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label><span class="text-danger">*</span>
+                <label asp-for="CategoryId" class="control-label"></label><span class="text-danger">*</span>
                 @*<input asp-for="CategoryId" class="form-control" />*@
-                <select asp-for="CategoryName" id="CategoryName" class="form-control" asp-items="ViewBag.CategoryNamelist">
+                <select asp-for="CategoryId" id="CategoryName" class="form-control" asp-items="ViewBag.CategoryNamelist">
                     <option value="">---select Product Category---</option>
                 </select>
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        @*    <div class="form-group">
                 <label asp-for="CategoryDiscription" class="control-label"></label><span class="text-danger">*</span>
                 <input asp-for="CategoryDiscription" class="form-control" />
                 <span asp-validation-for="CategoryDiscription" class="text-danger"></span>
+            </div>*@
+
+
+            <div class="form-group">
+                <label asp-for="CategoryDiscription" class="control-label"></label><span class="text-danger">*</span>
+                <textarea asp-for="CategoryDiscription" class="form-control" id="typing"></textarea>
+                <span asp-validation-for="CategoryDiscription" class="text-danger"></span>
             </div>
-           @* <div class="form-group form-check">
+            <br />
+
+            @* <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
                 </label>

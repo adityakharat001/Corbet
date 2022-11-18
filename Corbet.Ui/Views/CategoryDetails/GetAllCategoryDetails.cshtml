@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Ui.Models.CategoryDetailsViewModel>
+﻿@model IEnumerable<Corbet.Ui.Models.GetCategoryDetailView>
 
 @{
     ViewData["Title"] = "GetAllCategoryDetails";
@@ -120,6 +120,7 @@
     </ul>
 </aside>
 <!-- End Sidebar -->
+<!-- End Sidebar -->
 @*<div class="pagetitle">
     <h1>Product Category Details</h1>
     <nav>
@@ -137,23 +138,22 @@
         <tr>
             <th data-orderable="false">
                 Sr No.
-                @*@Html.DisplayNameFor(model => model.Id)*@
             </th>
             <th>
                 Category Name
-               @* @Html.DisplayNameFor(model => model.CategoryId)*@
+                @*@Html.DisplayNameFor(model => model.CategoryName)*@
             </th>
             <th data-orderable="false">
-                Description
+                Category Discription
                 @*@Html.DisplayNameFor(model => model.CategoryDiscription)*@
             </th>
-            <th data-orderable="false">
+          @*  <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-            @*<th>
+            <th>
                 @Html.DisplayNameFor(model => model.IsDeleted)
             </th>*@
-            <th data-orderable="false">Action</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -164,41 +164,37 @@
                         counter++;
                     }
                     @counter
-               @* @Html.DisplayFor(modelItem => item.Id)*@
             </td>
+
             <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
+                @Html.DisplayFor(modelItem => item.CategoryName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CategoryDiscription)
             </td>
-            <td>
+           @* <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
-            @*<td>
+            <td>
                 @Html.DisplayFor(modelItem => item.IsDeleted)
             </td>*@
-           <td>
+            <td>
+                <td>
                     <a class="btn btn-sm btn-primary" asp-controller="CategoryDetails" asp-action="UpdateCategoryDetails" asp-route-id="@item.Id"><i class="ri-edit-box-fill"></i></a>
                     <button class="btn btn-sm btn-danger" asp-actions="DeleteCategoryDetails" onclick="DeleteAlert('@item.Id')"><i class="ri-delete-bin-6-fill"></i></button>
-           </td>
+                </td>
+            </td>
         </tr>
 }
     </tbody>
 </table>
-
-
-
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 <script>
     $(document).ready(function () {
         $('#myTable').DataTable({
 
         });
-    });
-
-    $("#success-alert").fadeTo(2000, 500).slideUp(500, function CloseAlert() {
-        $("#success-alert").slideUp(500);
     });
 
     function DeleteAlert(id) {
@@ -212,7 +208,8 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/CategoryDetails/DeleteCategoryDetails/${id}`);
+                window.location.assign(`/UserRegister/DeleteUser/${id}`);
+
             }
         })
     }

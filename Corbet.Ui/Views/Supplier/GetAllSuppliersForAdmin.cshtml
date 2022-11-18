@@ -4,6 +4,7 @@
     ViewData["Title"] = "GetAllSuppliersForAdmin";
     int counter = 0;
 }
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -15,7 +16,7 @@
         <!-- End Dashboard Nav -->
 
 
-        <li class="nav-item">
+        <li class="nav-item ">
             <a class="nav-link collapsed"
                asp-controller="Role"
                asp-action="GetAllRoles">
@@ -34,7 +35,7 @@
 
         <li class="nav-item">
 
-            <a class="nav-link "
+            <a class="nav-link collapsed"
                asp-controller="Supplier"
                asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
@@ -43,13 +44,13 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-            asp-controller="Product"
+               asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">
@@ -85,7 +86,7 @@
                         </li>
                     </ul>
                 </li>
-               <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link collapsed"
                        data-bs-target="#tax-nav"
                        data-bs-toggle="collapse"

@@ -6,6 +6,7 @@
 
 @Html.Raw(ViewBag.categoryDetailUpdateAlert)
 
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -140,12 +141,12 @@
                 <span asp-validation-for="CategoryName" class="text-danger"></span>
             </div>*@
              <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label><span class="text-danger">*</span>
+                <label asp-for="CategoryId" class="control-label"></label><span class="text-danger">*</span>
                 @*<input asp-for="CategoryId" class="form-control" />*@
-                <select asp-for="CategoryName" id="CategoryName" class="form-control" asp-items="ViewBag.CategoryNameList">
+                <select asp-for="CategoryId" id="CategoryName" class="form-control" asp-items="ViewBag.CategoryNameList">
                     <option value="">---select Product Category---</option>
                 </select>
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CategoryDiscription" class="control-label"></label><span class="text-danger">*</span>
@@ -162,6 +163,7 @@
                     <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
                 </label>
             </div>*@
+            <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 <a asp-action="GetAllCategoryDetails" class="btn btn-warning">Back to List</a>

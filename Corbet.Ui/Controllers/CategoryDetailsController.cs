@@ -72,7 +72,7 @@ namespace Corbet.Ui.Controllers
         {
             HttpResponseMessage msg = _httpClient.GetAsync(_httpClient.BaseAddress + "ProductCategoryDetails/GetAllCategoryDetails").Result;
             dynamic data = msg.Content.ReadAsStringAsync().Result;
-            var detailsList = JsonConvert.DeserializeObject<List<CategoryDetailsViewModel>>(data);
+            var detailsList = JsonConvert.DeserializeObject<List<GetCategoryDetailView>>(data);
             return View(detailsList);
         }
         #endregion
@@ -89,7 +89,8 @@ namespace Corbet.Ui.Controllers
         #endregion
 
 
-
+        //update category details
+        #region Update Category Details
         [HttpGet]
         public ActionResult UpdateCategoryDetails(int id)
         {
@@ -139,10 +140,9 @@ namespace Corbet.Ui.Controllers
                 return View();
 
             }
-
-
             return RedirectToAction("GetAllCategoryDetails");
         }
+        #endregion
 
     }
 }

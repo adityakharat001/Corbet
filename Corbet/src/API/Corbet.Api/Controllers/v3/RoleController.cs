@@ -3,6 +3,8 @@ using Corbet.Application.Features.Roles.Commands.DeleteRole;
 using Corbet.Application.Features.Roles.Commands.UpdateRole;
 using Corbet.Application.Features.Roles.Queries.GetAllRoles;
 using Corbet.Application.Features.Roles.Queries.GetRoleById;
+using Corbet.Application.Features.Roles.Queries.RoleNameExist;
+
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -73,5 +75,17 @@ namespace Corbet.Api.Controllers.v3
             _logger.LogInformation("Roles delete completed");
             return NoContent();
         }
+
+
+
+        [HttpGet]
+        [Route("RoleNameExist/{RoleName}")]
+        public async Task<ActionResult> RoleNameExist(string RoleName)
+        {
+            var roleExist = await _mediator.Send(new RoleNameExistQuery(RoleName));
+            return Ok(roleExist);
+
+        }
+
     }
 }

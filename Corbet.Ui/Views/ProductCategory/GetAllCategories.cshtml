@@ -12,6 +12,7 @@
         @*<button type="button" class="close" data-dismiss="alert" onclick="CloseAlert">x</button>*@
     </div>
 }
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -165,14 +166,12 @@
 </table>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 <script>
     $(document).ready(function () {
         $('#myTable').DataTable({
 
         });
-    });
-    $("#success-alert").fadeTo(2000, 500).slideUp(500, function CloseAlert() {
-        $("#success-alert").slideUp(500);
     });
 
     function DeleteAlert(id) {
@@ -186,7 +185,8 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/ProductCategory/DeleteCategory/${id}`);
+                window.location.assign(`/CategoryDetails/DeleteCategory/${id}`);
+
             }
         })
     }

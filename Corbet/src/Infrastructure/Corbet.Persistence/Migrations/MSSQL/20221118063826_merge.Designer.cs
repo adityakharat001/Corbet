@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Corbet.Persistence.Migrations.MSSQL
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221116135021_productEntity")]
-    partial class productEntity
+    [Migration("20221118063826_merge")]
+    partial class merge
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -133,7 +133,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Artist = "John Egbert",
                             CategoryId = new Guid("b0788d2f-8003-43c1-92a4-edc76a7c5dde"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date = new DateTime(2023, 5, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(3841),
+                            Date = new DateTime(2023, 5, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(97),
                             Description = "Join John for his farwell tour across 15 continents. John really needs no introduction since he has already mesmerized the world with his banjo.",
                             ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/banjo.jpg",
                             Name = "John Egbert Live",
@@ -145,7 +145,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Artist = "Michael Johnson",
                             CategoryId = new Guid("b0788d2f-8003-43c1-92a4-edc76a7c5dde"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date = new DateTime(2023, 8, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(3941),
+                            Date = new DateTime(2023, 8, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(117),
                             Description = "Michael Johnson doesn't need an introduction. His 25 concert across the globe last year were seen by thousands. Can we add you to the list?",
                             ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/michael.jpg",
                             Name = "The State of Affairs: Michael Live!",
@@ -157,7 +157,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Artist = "DJ 'The Mike'",
                             CategoryId = new Guid("b0788d2f-8003-43c1-92a4-edc76a7c5dde"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date = new DateTime(2023, 3, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(3954),
+                            Date = new DateTime(2023, 3, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(128),
                             Description = "DJs from all over the world will compete in this epic battle for eternal fame.",
                             ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/dj.jpg",
                             Name = "Clash of the DJs",
@@ -169,7 +169,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Artist = "Manuel Santinonisi",
                             CategoryId = new Guid("b0788d2f-8003-43c1-92a4-edc76a7c5dde"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date = new DateTime(2023, 3, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(3965),
+                            Date = new DateTime(2023, 3, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(189),
                             Description = "Get on the hype of Spanish Guitar concerts with Manuel.",
                             ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/guitar.jpg",
                             Name = "Spanish guitar hits with Manuel",
@@ -181,7 +181,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Artist = "Many",
                             CategoryId = new Guid("fe98f549-e790-4e9f-aa16-18c2292a2ee9"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date = new DateTime(2023, 9, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(3976),
+                            Date = new DateTime(2023, 9, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(199),
                             Description = "The best tech conference in the world",
                             ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/conf.jpg",
                             Name = "Techorama 2021",
@@ -193,7 +193,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Artist = "Nick Sailor",
                             CategoryId = new Guid("6313179f-7837-473a-a4d5-a5571b43e6a6"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Date = new DateTime(2023, 7, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(3990),
+                            Date = new DateTime(2023, 7, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(213),
                             Description = "The critics are over the moon and so will you after you've watched this sing and dance extravaganza written by Nick Sailor, the man from 'My dad and sister'.",
                             ImageUrl = "https://gillcleerenpluralsight.blob.core.windows.net/files/GloboTicket/musical.jpg",
                             Name = "To the Moon and Back",
@@ -295,7 +295,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Id = new Guid("7e94bc5b-71a5-4c8c-bc3b-71bb7976237e"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderPaid = true,
-                            OrderPlaced = new DateTime(2022, 11, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(4003),
+                            OrderPlaced = new DateTime(2022, 11, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(225),
                             OrderTotal = 400,
                             UserId = new Guid("a441eb40-9636-4ee6-be49-a66c5ec1330b")
                         },
@@ -304,7 +304,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Id = new Guid("86d3a045-b42d-4854-8150-d6a374948b6e"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderPaid = true,
-                            OrderPlaced = new DateTime(2022, 11, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(4017),
+                            OrderPlaced = new DateTime(2022, 11, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(239),
                             OrderTotal = 135,
                             UserId = new Guid("ac3cfaf5-34fd-4e4d-bc04-ad1083ddc340")
                         },
@@ -313,7 +313,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Id = new Guid("771cca4b-066c-4ac7-b3df-4d12837fe7e0"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderPaid = true,
-                            OrderPlaced = new DateTime(2022, 11, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(4073),
+                            OrderPlaced = new DateTime(2022, 11, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(248),
                             OrderTotal = 85,
                             UserId = new Guid("d97a15fc-0d32-41c6-9ddf-62f0735c4c1c")
                         },
@@ -322,7 +322,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Id = new Guid("3dcb3ea0-80b1-4781-b5c0-4d85c41e55a6"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderPaid = true,
-                            OrderPlaced = new DateTime(2022, 11, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(4085),
+                            OrderPlaced = new DateTime(2022, 11, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(259),
                             OrderTotal = 245,
                             UserId = new Guid("4ad901be-f447-46dd-bcf7-dbe401afa203")
                         },
@@ -331,7 +331,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Id = new Guid("e6a2679c-79a3-4ef1-a478-6f4c91b405b6"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderPaid = true,
-                            OrderPlaced = new DateTime(2022, 11, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(4095),
+                            OrderPlaced = new DateTime(2022, 11, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(269),
                             OrderTotal = 142,
                             UserId = new Guid("7aeb2c01-fe8e-4b84-a5ba-330bdf950f5c")
                         },
@@ -340,7 +340,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Id = new Guid("f5a6a3a0-4227-4973-abb5-a63fbe725923"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderPaid = true,
-                            OrderPlaced = new DateTime(2022, 11, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(4110),
+                            OrderPlaced = new DateTime(2022, 11, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(281),
                             OrderTotal = 40,
                             UserId = new Guid("f5a6a3a0-4227-4973-abb5-a63fbe725923")
                         },
@@ -349,7 +349,7 @@ namespace Corbet.Persistence.Migrations.MSSQL
                             Id = new Guid("ba0eb0ef-b69b-46fd-b8e2-41b4178ae7cb"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderPaid = true,
-                            OrderPlaced = new DateTime(2022, 11, 16, 13, 50, 20, 507, DateTimeKind.Utc).AddTicks(4120),
+                            OrderPlaced = new DateTime(2022, 11, 18, 6, 38, 25, 746, DateTimeKind.Utc).AddTicks(289),
                             OrderTotal = 116,
                             UserId = new Guid("7aeb2c01-fe8e-4b84-a5ba-330bdf950f5c")
                         });
@@ -421,6 +421,80 @@ namespace Corbet.Persistence.Migrations.MSSQL
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Corbet.Domain.Entities.ProductCategory", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LastModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("Corbet.Domain.Entities.ProductCategoryDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CategoryDiscription")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LastModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ProductCategoryDetails");
                 });
 
             modelBuilder.Entity("Corbet.Domain.Entities.Role", b =>
@@ -761,6 +835,17 @@ namespace Corbet.Persistence.Migrations.MSSQL
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Corbet.Domain.Entities.ProductCategoryDetail", b =>
+                {
+                    b.HasOne("Corbet.Domain.Entities.ProductCategory", "productCategories")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("productCategories");
                 });
 
             modelBuilder.Entity("Corbet.Domain.Entities.TaxDetail", b =>

@@ -6,6 +6,7 @@
 
 @Html.Raw(ViewBag.roleUpdateAlert)
 
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -17,8 +18,8 @@
         <!-- End Dashboard Nav -->
 
 
-        <li class="nav-item">
-            <a class="nav-link "
+        <li class="nav-item ">
+            <a class="nav-link collapsed"
                asp-controller="Role"
                asp-action="GetAllRoles">
                 <i class="bi bi-menu-button-wide"></i><span>Roles</span>
@@ -45,13 +46,13 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-            asp-controller="Product"
+               asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">

@@ -61,7 +61,7 @@ namespace Corbet.Persistence.Repositories
                           {
                               Id = e.Id,
                               CategoryName = p.CategoryName,
-                              CategoryDiscription = e.CategoryDiscription,
+                              CategoryDescription = e.CategoryDescription,
                               Status = e.Status,                         
 
                           }).ToList();

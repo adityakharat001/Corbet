@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Corbet.Application.Contracts.Persistence;
-using Corbet.Application.Features.ProductCategory.Command;
 using Corbet.Application.Features.Roles.Commands.CreateRole;
 using Corbet.Application.Responses;
 using MediatR;

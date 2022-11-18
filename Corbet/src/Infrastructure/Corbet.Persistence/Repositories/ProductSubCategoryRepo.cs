@@ -29,7 +29,7 @@ namespace Corbet.Persistence.Repositories
                           where e.IsDeleted == false
                           select new GetCategoryQueryVm
                           {
-                              Id=e.Id,
+                              SubCategoryId=e.SubCategoryId,
                               CategoryName = p.CategoryName,    
                               SubCategoryName = e.SubCategoryName,
                               Description = e.Description,

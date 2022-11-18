@@ -37,29 +37,29 @@ namespace Corbet.Persistence.Repositories
         //soft delete
         public async Task<DeleteProductCategoryCommandDto> RemoveCategoryAsync(int categoryId)
         {
-            _logger.LogInformation("In Repository Remove Category Initiated");
+            _logger.LogInformation("In Repository Remove Product Category Initiated");
             DeleteProductCategoryCommandDto response = new DeleteProductCategoryCommandDto();
-            var IsUserExist = await _dbContext.ProductCategories.Where(x => x.CategoryId == categoryId).FirstOrDefaultAsync();
-            if (IsUserExist != null)
+            var IsProductCateoryExist = await _dbContext.ProductCategories.Where(x => x.CategoryId == categoryId).FirstOrDefaultAsync();
+            if (IsProductCateoryExist != null)
             {
 
-                IsUserExist.IsDeleted = true;
+                IsProductCateoryExist.IsDeleted = true;
                 await _dbContext.SaveChangesAsync();
 
-                response.CategoryName = IsUserExist.CategoryName;
-                response.Message = "Category Deleted Successful";
+                response.CategoryName = IsProductCateoryExist.CategoryName;
+                response.Message = "Product Category  Deleted Successful";
                 response.Succeeded = true;
                 return response;
-                _logger.LogInformation("In Repository Remove Role Completed");
+                _logger.LogInformation("In Repository Remove Product Category Completed");
             }
 
             else
             {
                 response.CategoryName = null;
-                response.Message = "Role with this Id doesn't Exist";
+                response.Message = "Product Category with this Id doesn't Exist";
                 response.Succeeded = false;
                 return response;
-                _logger.LogInformation("In Repository Remove Role Doesn't exist");
+                _logger.LogInformation("In Repository Remove Product Category Doesn't exist");
             }
 
         }

@@ -11,7 +11,8 @@ namespace Corbet.Domain.Entities
 {
     public class ProductSubCategory:AuditableEntityModel
     {
-        public int Id { get; set; }
+        [Key]
+        public int SubCategoryId { get; set; }
         public virtual int CategoryId {get;set;}
         [MaxLength(50)]
         public string SubCategoryName { get; set; }

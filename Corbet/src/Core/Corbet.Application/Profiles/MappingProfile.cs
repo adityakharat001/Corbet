@@ -21,6 +21,10 @@ using Corbet.Application.Features.ProductCategoryDetails.Queries.GetAllCategoryD
 using Corbet.Application.Features.Products.Commands.CreateProduct;
 using Corbet.Application.Features.Products.Commands.UpdateProduct;
 using Corbet.Application.Features.Products.Queries.GetAllProducts;
+using Corbet.Application.Features.ProductSubCategory.Command.CreateSubCategory;
+using Corbet.Application.Features.ProductSubCategory.Command.SubCategoryExist;
+using Corbet.Application.Features.ProductSubCategory.Command.UpdateSubCategory;
+using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryList;
 using Corbet.Application.Features.Roles.Commands.CreateRole;
 using Corbet.Application.Features.Roles.Commands.UpdateRole;
 using Corbet.Application.Features.Roles.Queries.GetAllRoles;
@@ -167,7 +171,7 @@ namespace Corbet.Application.Profiles
             CreateMap<ProductCategoryDetail, GetAllCategoryDetailsQuery>().ReverseMap();
             CreateMap<ProductCategoryDetail, GetAllCategoryDetailsVm>().ReverseMap();
 
-                        CreateMap<ProductSubCategory, CreateSubCategoryCommand>().ReverseMap();
+            CreateMap<ProductSubCategory, CreateSubCategoryCommand>().ReverseMap();
             CreateMap<ProductSubCategory, CreateSubCategoryDto>().ReverseMap();
 
 

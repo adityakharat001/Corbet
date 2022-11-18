@@ -15,11 +15,11 @@ namespace Corbet.Domain.Entities
         public int Id { get; set; }
         public virtual int CategoryId { get; set; }
         [MaxLength(2000)]
-        public string CategoryDiscription { get; set; }
+        public string CategoryDescription { get; set; }
         public bool Status { get; set; }
 
         [ForeignKey("CategoryId")]
-        public virtual ProductCategory productCategories { get; set; }
+        public virtual ProductCategory ProductCategories { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

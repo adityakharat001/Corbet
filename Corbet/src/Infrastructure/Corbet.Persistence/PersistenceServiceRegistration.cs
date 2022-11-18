@@ -2,6 +2,7 @@
 using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Persistence.Repositories;
 using Corbet.Persistence.Services;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +30,7 @@ namespace Corbet.Persistence
             services.AddScoped<IAuthenticationServiceLogin, AuthenticationServiceLogin>();
             services.AddScoped<IProductCategoryRepo, ProductCategoryRepository>();
             services.AddScoped<ICategoryDetailsRepo, CategoryDetailsRepository>();
-              services.AddScoped<IProductSubCategoryRepo, ProductSubCategoryRepo>();
+            services.AddScoped<IProductSubCategoryRepo, ProductSubCategoryRepo>();
 
             return services;
         }

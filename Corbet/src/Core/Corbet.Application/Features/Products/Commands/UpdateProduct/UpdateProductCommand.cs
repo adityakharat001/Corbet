@@ -12,8 +12,8 @@ namespace Corbet.Application.Features.Products.Commands.UpdateProduct
     {
         public int Id { get; set; }
         public string ProductName { get; set; }
-        public int ProductCategory { get; set; }
-        public int ProductSubCategory { get; set; }
+        public int CategoryId { get; set; }
+        public int SubCategoryId { get; set; }
         public int UnitId { get; set; }
         public double Price { get; set; }
         public int PrimarySupplierId { get; set; }

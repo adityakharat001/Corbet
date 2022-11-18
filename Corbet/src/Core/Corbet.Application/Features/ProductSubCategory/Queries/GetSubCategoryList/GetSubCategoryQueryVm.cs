@@ -11,7 +11,7 @@ namespace Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryL
 {
     public class GetCategoryQueryVm
     {
-        public int Id { get; set; }
+        public int SubCategoryId { get; set; }
         public  string CategoryName { get; set; }
 
         public string SubCategoryName { get; set; }

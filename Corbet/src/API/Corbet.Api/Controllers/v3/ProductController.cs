@@ -31,7 +31,7 @@ namespace Corbet.Api.Controllers.v3
 
         [HttpPost]
         [Route("AddProduct")]
-        public async Task<ActionResult> CreateUser(CreateProductCommand product)
+        public async Task<ActionResult> CreateProduct(CreateProductCommand product)
         {
             _logger.LogInformation("Product add initiated");
             var addProduct = await _mediator.Send(product);

@@ -1,5 +1,4 @@
-﻿using Corbet.Application.Features.ProductCategory.Command;
-using Corbet.Application.Features.ProductSubCategory.Command.CreateSubCategory;
+﻿using Corbet.Application.Features.ProductSubCategory.Command.CreateSubCategory;
 using Corbet.Application.Features.ProductSubCategory.Command.SubCategoryExist;
 using Corbet.Application.Features.ProductSubCategory.Command.UpdateSubCategory;
 using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryById;

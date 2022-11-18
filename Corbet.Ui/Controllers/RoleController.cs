@@ -88,5 +88,22 @@ namespace Corbet.Ui.Controllers
             return RedirectToAction("GetAllRoles");
 
         }
+
+
+        [HttpGet]
+        public JsonResult IsRoleExist(string RoleName)
+        {
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"Role/RoleNameExist/{RoleName}").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            bool roleExists = JsonConvert.DeserializeObject(data);
+            if (roleExists == true)
+            {
+                return Json(false);
+            }
+            else
+            {
+                return Json(true);
+            }
+        }
     }
 }

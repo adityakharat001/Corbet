@@ -56,5 +56,18 @@ namespace Corbet.Persistence.Repositories
                 _logger.LogInformation("In Repository Remove Role Doesn't exist");
             }
         }
+
+        public Task<bool> CheckRoleExists(string RoleName)
+        {
+            Role check = _dbContext.Roles.Where(x => x.RoleName == RoleName).FirstOrDefault();
+            if (check != null)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
+        }
     }
 }

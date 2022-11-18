@@ -8,7 +8,7 @@ namespace Corbet.Application.Features.ProductSubCategory.Command.CreateSubCatego
 {
     public class CreateSubCategoryDto
     {
-        public int Id { get; set; }
+        public int SubCategoryId { get; set; }
         public string SubCategoryName { get; set; }
         public string? Description { get; set; }
         public int TaxId { get; set; }

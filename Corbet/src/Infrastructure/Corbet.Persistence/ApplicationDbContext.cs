@@ -40,6 +40,9 @@ namespace Corbet.Persistence
         public DbSet<TaxDetail> TaxDetails { get; set; }
         public DbSet<UnitMeasurement> UnitMeasurements { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+
+        public DbSet<ProductCategoryDetail> ProductCategoryDetails { get; set; }
 
         private IDbContextTransaction _transaction;
 

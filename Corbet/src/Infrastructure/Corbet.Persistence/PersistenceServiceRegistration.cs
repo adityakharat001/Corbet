@@ -27,6 +27,8 @@ namespace Corbet.Persistence
             services.AddScoped<IUnitMeasurementRepository, UnitMeasurementRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IAuthenticationServiceLogin, AuthenticationServiceLogin>();
+            services.AddScoped<IProductCategoryRepo, ProductCategoryRepository>();
+            services.AddScoped<ICategoryDetailsRepo, CategoryDetailsRepository>();
 
             return services;
         }

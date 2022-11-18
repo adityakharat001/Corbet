@@ -10,6 +10,14 @@ using Corbet.Application.Features.Events.Queries.GetEventDetail;
 using Corbet.Application.Features.Events.Queries.GetEventsExport;
 using Corbet.Application.Features.Events.Queries.GetEventsList;
 using Corbet.Application.Features.Orders.GetOrdersForMonth;
+using Corbet.Application.Features.ProductCategory.Commands.CraeteProductCategory;
+using Corbet.Application.Features.ProductCategory.Commands.CreateProductCategory;
+using Corbet.Application.Features.ProductCategory.Commands.UpdateProductCategory;
+using Corbet.Application.Features.ProductCategory.Queries.GetAllProductCategories;
+using Corbet.Application.Features.ProductCategoryDetails.Commands.CreateCategoryDetails;
+using Corbet.Application.Features.ProductCategoryDetails.Commands.DeletCategoryDetails;
+using Corbet.Application.Features.ProductCategoryDetails.Commands.UpdateCategoryDetails;
+using Corbet.Application.Features.ProductCategoryDetails.Queries.GetAllCategoryDetails;
 using Corbet.Application.Features.Products.Commands.CreateProduct;
 using Corbet.Application.Features.Products.Commands.UpdateProduct;
 using Corbet.Application.Features.Products.Queries.GetAllProducts;
@@ -138,6 +146,26 @@ namespace Corbet.Application.Profiles
 
             CreateMap<Product, UpdateProductCommand>().ReverseMap();
             CreateMap<Product, UpdateProductCommandDto>().ReverseMap();
+            CreateMap<CreateProductCategoryCommand, Domain.Entities.ProductCategory>();
+            CreateMap<Domain.Entities.ProductCategory, CreateProductCategoryCommandDto>();
+
+            CreateMap<UpdateProductCategoryCommand, Domain.Entities.ProductCategory>();
+            CreateMap<Domain.Entities.ProductCategory, UpdateProductCategoryCommandDto>();
+
+            CreateMap<CreateCategoryDetailsCommand, ProductCategoryDetail>();
+            CreateMap<ProductCategoryDetail, CreateCategoryDetailsCommandDto>();
+
+            CreateMap<ProductCategory, GetAllProductCategoriesVm>();
+
+            CreateMap<UpdateCategoryDetailsCommand, ProductCategoryDetail>();
+            CreateMap<ProductCategoryDetail, UpdateCategoryDetailsCommandDto>();
+
+            CreateMap<DeleteCategoryDetailsCommand, ProductCategoryDetail>();
+            CreateMap<ProductCategoryDetail, DeleteCategoryDetailsCommandDto>();
+
+
+            CreateMap<ProductCategoryDetail, GetAllCategoryDetailsQuery>().ReverseMap();
+            CreateMap<ProductCategoryDetail, GetAllCategoryDetailsVm>().ReverseMap();
 
         }
     }

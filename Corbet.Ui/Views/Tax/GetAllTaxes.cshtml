@@ -85,11 +85,29 @@
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a asp-controller="Product" asp-action="GetAllProductCategories">
-                        <i class="bi bi-circle"></i><span>Product Categories</span>
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
                     </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="ProductCategory" asp-action="GetAllCategories">
+                                <i class="bi bi-circle"></i><span>Product Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="CategoryDetails" asp-action="GetAllCategoryDetails">
+                                <i class="bi bi-circle"></i><span>Product Category Details</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li>
                     <a asp-controller="Product" asp-action="GetAllProductSubCategories">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>

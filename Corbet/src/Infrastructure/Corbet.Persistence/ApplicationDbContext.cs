@@ -43,6 +43,7 @@ namespace Corbet.Persistence
         public DbSet<ProductCategory> ProductCategories { get; set; }
 
         public DbSet<ProductCategoryDetail> ProductCategoryDetails { get; set; }
+            public DbSet<ProductSubCategory> ProductSubCategories { get; set; }
 
         private IDbContextTransaction _transaction;
 

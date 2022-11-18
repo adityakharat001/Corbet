@@ -167,6 +167,19 @@ namespace Corbet.Application.Profiles
             CreateMap<ProductCategoryDetail, GetAllCategoryDetailsQuery>().ReverseMap();
             CreateMap<ProductCategoryDetail, GetAllCategoryDetailsVm>().ReverseMap();
 
+                        CreateMap<ProductSubCategory, CreateSubCategoryCommand>().ReverseMap();
+            CreateMap<ProductSubCategory, CreateSubCategoryDto>().ReverseMap();
+
+
+            CreateMap<ProductSubCategory, GetCategoryQuery>().ReverseMap();
+            CreateMap<ProductSubCategory, GetCategoryQueryVm>().ReverseMap();
+
+
+            CreateMap<ProductSubCategory, UpdateSubCategoryCommand>().ReverseMap();
+            CreateMap<ProductSubCategory, UpdateSubCategoryDto>().ReverseMap();
+
+            CreateMap<ProductSubCategory, SubCategoryExistCommand>().ReverseMap();
+
         }
     }
 }

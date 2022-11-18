@@ -1,0 +1,194 @@
+﻿@model IEnumerable<Corbet.Ui.Models.GetSubCategoryVm>
+
+
+@{
+    ViewData["Title"] = "GetAllSubCategory";
+    int counter = 0;
+}
+<html>
+    <head></head>
+   
+
+<body>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
+
+        <li class="nav-item">
+            <a class="nav-link "
+               asp-controller="Role"
+               asp-action="GetAllRoles">
+                <i class="bi bi-menu-button-wide"></i><span>Roles</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="UserRegister"
+               asp-action="GetAllUsers">
+                <i class="bi bi-menu-button-wide"></i><span>All Users</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link collapsed"
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliersForAdmin">
+                <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Product"
+               asp-action="GetAllProducts">
+                <i class="bi bi-menu-button-wide"></i><span>Products</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               data-bs-target="#generics-nav"
+               data-bs-toggle="collapse"
+               href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>Generics</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="generics-nav"
+                class="nav-content collapse"
+                data-bs-parent="#sidebar-nav">
+                <li>
+                    <a asp-controller="UnitMeasurement" asp-action="GetAllUnitMeasurements">
+                        <i class="bi bi-circle"></i><span>Unit Data</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Tax Management</span>
+                    </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="Tax" asp-action="GetAllTaxes">
+                                <i class="bi bi-circle"></i><span>Tax Types</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Tax" asp-action="GetAllTaxDetails">
+                                <i class="bi bi-circle"></i><span>Tax Details</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a asp-controller="Product" asp-action="GetAllProductCategories">
+                        <i class="bi bi-circle"></i><span>Product Categories</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+                        <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</aside>
+<!
+<h1>GetAllSubCategory</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table" id="myTable">
+    <thead style="background:white;">
+        <tr>
+            <th>
+                Sr.No
+              @*  @Html.DisplayNameFor(model => model.Id)*@
+            </th>
+            <th>
+                Category
+@*                @Html.DisplayNameFor(model => model.CategoryName)
+*@            </th>
+            <th>
+                SubCategory
+@*                @Html.DisplayNameFor(model => model.SubCategoryName)
+*@            </th>
+            @*<th>
+
+                @Html.DisplayNameFor(model => model.Description)
+            </th>*@
+            <th>
+                Tax Type
+@*                @Html.DisplayNameFor(model => model.TaxName)
+*@            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+                     <td>
+                        @{
+                            counter++;
+                        }
+                        @counter
+                    </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubCategoryName)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.TaxName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+                <td class="tableActions">
+                    <a class="btn btn-sm btn-primary" asp-controller="SubCategory" asp-action="UpdateSubCategory" asp-route-id="@item.Id"><i class="ri-edit-box-fill "></i></a>
+                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.Id')"><i class="ri-delete-bin-6-fill "></i></button>
+                </td>
+           @* <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>*@
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+$(document).ready(function () {
+        $('#myTable').DataTable({
+ 
+        });
+});
+</script>

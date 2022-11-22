@@ -9,5 +9,6 @@ namespace Corbet.Application.Features.Roles.Queries.RoleNameExist
     public class RoleNameExistDto
     {
         public bool RoleExist { get; set; }
+
     }
 }

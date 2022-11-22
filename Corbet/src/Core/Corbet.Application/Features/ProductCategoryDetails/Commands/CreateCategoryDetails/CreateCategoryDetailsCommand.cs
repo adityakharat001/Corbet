@@ -12,7 +12,7 @@ namespace Corbet.Application.Features.ProductCategoryDetails.Commands.CreateCate
 
     {
         public int CategoryId { get; set; }
-        public string CategoryDiscription { get; set; }
-        public bool Status { get; set; } = false;
+        public string CategoryDescription { get; set; }
+        public bool Status { get; set; }
     }
 }

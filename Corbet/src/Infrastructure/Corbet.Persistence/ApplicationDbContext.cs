@@ -1,9 +1,11 @@
 ﻿using Corbet.Application.Contracts;
 using Corbet.Domain.Common;
 using Corbet.Domain.Entities;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -14,7 +16,7 @@ using System.Threading.Tasks;
 namespace Corbet.Persistence
 {
     [ExcludeFromCodeCoverage]
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext : DbContext
     {
         private readonly ILoggedInUserService _loggedInUserService;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ILoggedInUserService loggedInUserService)
@@ -42,15 +44,26 @@ namespace Corbet.Persistence
         public DbSet<UnitMeasurement> UnitMeasurements { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
-
         public DbSet<ProductCategoryDetail> ProductCategoryDetails { get; set; }
+        public DbSet<ProductSubCategory> ProductSubCategories { get; set; }
 
         private IDbContextTransaction _transaction;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            modelBuilder.Entity<Product>()
+                .HasOne(x => x.ProductSubCategories)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<Product>()
+                .HasOne(x => x.SecondarySupplier)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
 
+
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
             //seed data, added through migrations
             var concertGuid = Guid.Parse("{B0788D2F-8003-43C1-92A4-EDC76A7C5DDE}");
             var musicalGuid = Guid.Parse("{6313179F-7837-473A-A4D5-A5571B43E6A6}");

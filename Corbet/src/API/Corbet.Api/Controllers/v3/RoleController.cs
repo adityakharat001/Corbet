@@ -76,8 +76,6 @@ namespace Corbet.Api.Controllers.v3
             return NoContent();
         }
 
-
-
         [HttpGet]
         [Route("RoleNameExist/{RoleName}")]
         public async Task<ActionResult> RoleNameExist(string RoleName)

@@ -18,17 +18,35 @@ namespace Corbet.Domain.Entities
         public string ProductCode { get; set; }
         [MaxLength(300)]
         public string ProductName { get; set; }
-        public int ProductCategory { get; set; }
-        public int ProductSubCategory { get; set; }
-        public int UnitId { get; set; }
+        public virtual int CategoryId { get; set; }
+        public virtual int SubCategoryId { get; set; }
+        public virtual int UnitId { get; set; }
         public double Price { get; set; }
-        public int PrimarySupplierId { get; set; }
-        public int SecondarySupplierId { get; set; }
+        public  virtual int PrimarySupplierId { get; set; }
+        public virtual int SecondarySupplierId { get; set; }
         [MaxLength(1000)]
         public string? ImagePath { get; set; }
-        public int TaxId { get; set; }
+        public virtual int TaxId { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsDeleted { get; set; }
+
+        [ForeignKey("UnitId")]
+        public virtual UnitMeasurement UnitMeasurements { get; set; }
+
+        [ForeignKey("PrimarySupplierId")]
+        public virtual Supplier PrimarySupplier { get; set; }
+        
+        [ForeignKey("SecondarySupplierId")]
+        public virtual Supplier SecondarySupplier { get; set; }
+        
+        [ForeignKey("CategoryId")]
+        public virtual ProductCategory ProductCategories { get; set; }
+        
+        [ForeignKey("SubCategoryId")]
+        public virtual ProductSubCategory ProductSubCategories { get; set; }
+        
+        [ForeignKey("TaxId")]
+        public virtual Tax Taxes { get; set; }
     }
 
 

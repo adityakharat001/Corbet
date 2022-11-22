@@ -14,7 +14,7 @@ namespace Corbet.Ui.Models
 
         [DisplayName("Category Description")]
         [Required(ErrorMessage = "Please Add Product Category description")]
-        public string CategoryDiscription { get; set; }
+        public string CategoryDescription { get; set; }
         public bool Status { get; set; }
         public bool IsDeleted { get; set; } 
     }

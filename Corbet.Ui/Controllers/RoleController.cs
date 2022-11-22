@@ -105,7 +105,5 @@ namespace Corbet.Ui.Controllers
                 return Json(true);
             }
         }
-
-
     }
 }

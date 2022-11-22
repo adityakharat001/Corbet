@@ -12,6 +12,6 @@ namespace Corbet.Application.Features.ProductCategoryDetails.Commands.UpdateCate
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
-        public string CategoryDiscription { get; set; }
+        public string CategoryDescription { get; set; }
     }
 }

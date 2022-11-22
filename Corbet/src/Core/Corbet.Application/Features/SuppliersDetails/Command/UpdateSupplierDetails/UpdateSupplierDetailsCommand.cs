@@ -4,13 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Corbet.Application.Features.Suppliers.Commands.UpdateSupplier
+
+using Corbet.Application.Responses;
+using MediatR;
+
+namespace Corbet.Application.Features.SuppliersDetails.Command.UpdateSupplierDetails
 {
-    public class UpdateSupplierAdminCommandDto
+    public class UpdateSupplierDetailsCommand : IRequest<Response<UpdateSupplierDetailsCommandDto>>
     {
-        public int SupplierId { get; set; }
+        public int Id { get; set; }
         public string SupplierName { get; set; }
         public int CreditLimit { get; set; }
         public bool IsPaymentDone { get; set; }
     }
+
 }

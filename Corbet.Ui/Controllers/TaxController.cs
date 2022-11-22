@@ -40,6 +40,7 @@ namespace Corbet.Ui.Controllers
                 string data = JsonConvert.SerializeObject(tax);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "Tax/AddTax", content).Result;
+                TempData["AlertMessage"] = "Tax Type Added Suucessfully";
                 return RedirectToRoute(new { controller = "Tax", action = "GetAllTaxes" });
             }
             return View();
@@ -85,6 +86,7 @@ namespace Corbet.Ui.Controllers
             string data = JsonConvert.SerializeObject(taxDetails);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "Tax/AddTaxDetail", content).Result;
+            TempData["AlertMessage"] = "Tax Details Added Suucessfully";
             return RedirectToRoute(new { controller = "Tax", action = "GetAllTaxDetails" });
         }
 

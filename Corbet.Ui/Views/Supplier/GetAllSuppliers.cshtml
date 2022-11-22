@@ -1,12 +1,17 @@
-﻿@model Corbet.Ui.Models.SupplierUpdateAdminDto
+﻿@model IEnumerable<Corbet.Ui.Models.SupplierViewModel>
 
 @{
-    ViewData["Title"] = "UpdateSupplierForAdmin";
+    ViewData["Title"] = "GetAllSuppliers";
+    int counter = 0;
 }
-
-@Html.Raw(ViewBag.supplierUpdateAlert)
-
-
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success" id="success-alert">
+        <strong>Successful.!!</strong>
+        @TempData["AlertMessage"]
+        @*<button type="button" class="close" data-dismiss="alert" onclick="CloseAlert">x</button>*@
+    </div>
+}
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -39,7 +44,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliersForAdmin">
+               asp-action="GetAllSuppliers">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -88,6 +93,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link collapsed"
                        data-bs-target="#tax-nav"
@@ -120,59 +126,88 @@
         </li>
     </ul>
 </aside>
-<!-- End Sidebar-->
-<div class="pagetitle">
-    <h1>Update Supplier</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Supplier" asp-action="GetAllSuppliers">Suppliers</a></li>
-            <li class="breadcrumb-item active">Update Supplier</li>
-        </ol>
-    </nav>
-</div>
-<h4>Supplier</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="UpdateSupplierForAdmin">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-                <label asp-for="SupplierId" class="control-label"></label>
-                <input asp-for="SupplierId" class="form-control" />
-                <span asp-validation-for="SupplierId" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="SupplierName" class="control-label"></label>
-                <span class="text-danger">*</span>
-                <input asp-for="SupplierName" class="form-control" />
-                <span asp-validation-for="SupplierName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreditLimit" class="control-label"></label>
-                <span class="text-danger">*</span>
-                <input asp-for="CreditLimit" class="form-control" />
-                <span asp-validation-for="CreditLimit" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Payment Status</label>
-                <select class="form-control" asp-for="IsPaymentDone">
-                    <option value="false">Unpaid</option>
-                    <option value="true">Paid</option>
-                    <span asp-validation-for="IsPaymentDone" class="text-danger"></span>
-                </select>
-            </div>
-            <br/>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a class="btn btn-warning" asp-action="GetAllSuppliersForAdmin">Back to List</a>
-            </div>
-        </form>
-    </div>
-</div>
+<!-- End Sidebar -->
+<h4>All Suppliers</h4>
+<p>
+    <a class="btn btn-primary" asp-controller="Supplier" asp-action="AddSupplier">Add Supplier</a>
+</p>
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th data-orderable="false">
+               @* @Html.DisplayNameFor(model => model.Id)*@
+               Sr.No.
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupplierName)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.CreaditLimit)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.PaymentStatus)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastModifiedDate)
+            </th>*@
+            <th data-orderable="false">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Id)*@
+                @{counter++;}
+                @counter
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreaditLimit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentStatus)
+            </td>
+           @* <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModifiedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModifiedDate)
+            </td>*@
+            <td>
+               <a class="btn btn-sm btn-primary" asp-controller="Supplier" asp-action="UpdateSupplier" asp-route-id="@item.Id"><i class="ri-edit-box-fill "></i></a>      
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
 
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    }
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+
+        });
+    });
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        $("#success-alert").slideUp(500);
+    });
+</script>

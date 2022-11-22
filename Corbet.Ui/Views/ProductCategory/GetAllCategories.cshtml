@@ -45,7 +45,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliersForAdmin">
+               asp-action="GetAllSuppliers">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -94,6 +94,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link collapsed"
                        data-bs-target="#tax-nav"
@@ -165,15 +166,21 @@
     </tbody>
 </table>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
+
+
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#myTable').DataTable({
 
         });
     });
-
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        $("#success-alert").slideUp(500);
+    });
     function DeleteAlert(id) {
         Swal.fire({
             title: 'Are you sure?',
@@ -185,8 +192,7 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/CategoryDetails/DeleteCategory/${id}`);
-
+                window.location.assign(`/ProductCategory/DeleteCategory/${id}`);
             }
         })
     }

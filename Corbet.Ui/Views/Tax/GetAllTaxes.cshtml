@@ -5,6 +5,15 @@
     int counter = 0;
 }
 
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success" id="success-alert">
+        <strong>Successful.!!</strong>
+        @TempData["AlertMessage"]
+        @*<button type="button" class="close" data-dismiss="alert" onclick="CloseAlert">x</button>*@
+    </div>
+}
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -170,7 +179,9 @@ $(document).ready(function () {
  
         });
 });
-
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        $("#success-alert").slideUp(500);
+    });
 function DeleteAlert(id)
  {
     Swal.fire({

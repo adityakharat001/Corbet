@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Corbet.Domain\Corbet.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\SuppliersDetails\Queries\GetAllSupplierDetails\" />
+  </ItemGroup>
+
 </Project>

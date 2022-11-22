@@ -4,6 +4,7 @@
     ViewData["Title"] = "UpdateCategory";
 }
 
+@Html.Raw(ViewBag.categoryUpdateAlert)
 
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -37,7 +38,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliersForAdmin">
+               asp-action="GetAllSuppliers">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -120,7 +121,7 @@
 </aside>
 <!-- End Sidebar -->
 
-<h4>ProductCategoryModel</h4>
+<h4>Update Product Category</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -139,7 +140,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-                <a class="btn btn-warning" asp-action="GetAllTaxes">Back to List</a>
+                <a class="btn btn-warning" asp-action="GetAllCategories">Back to List</a>
             </div>
         </form>
     </div>

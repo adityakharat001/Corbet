@@ -57,7 +57,7 @@ namespace Corbet.Ui.Controllers
             string data = JsonConvert.SerializeObject(categoryDetails);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategoryDetails/AddCategoryDetails", content).Result;
-           
+            TempData["AlertMessage"] = "Product Category Deatails Added Suucessfully";
             return RedirectToRoute(new { controller = "CategoryDetails", action = "GetAllCategoryDetails" });
         }
 

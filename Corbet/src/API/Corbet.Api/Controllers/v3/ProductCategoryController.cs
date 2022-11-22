@@ -1,6 +1,7 @@
 ﻿using Corbet.Application.Features.ProductCategory.Commands.CraeteProductCategory;
 using Corbet.Application.Features.ProductCategory.Commands.DeleteProductCategory;
 using Corbet.Application.Features.ProductCategory.Commands.UpdateProductCategory;
+using Corbet.Application.Features.ProductCategory.Queries.CategoryNameExist;
 using Corbet.Application.Features.ProductCategory.Queries.GetAllProductCategories;
 using Corbet.Application.Features.ProductCategory.Queries.GetCategoryById;
 using Corbet.Application.Features.Roles.Commands.CreateRole;
@@ -77,6 +78,14 @@ namespace Corbet.Api.Controllers.v3
             _logger.LogInformation("Get category initiated");
             var response = await _mediator.Send(new GetCategoryByIdQuery() { CategoryId = id });
             _logger.LogInformation("Get category completed");
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("CategoryNameExist")]
+        public async Task<IActionResult> CategoryNameExist(string categoryName)
+        {
+            var response = await _mediator.Send(new CategoryNameExistQuery(categoryName));
             return Ok(response);
         }
     }

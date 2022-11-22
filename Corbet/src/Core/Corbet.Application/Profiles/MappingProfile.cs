@@ -13,6 +13,7 @@ using Corbet.Application.Features.Orders.GetOrdersForMonth;
 using Corbet.Application.Features.ProductCategory.Commands.CraeteProductCategory;
 using Corbet.Application.Features.ProductCategory.Commands.CreateProductCategory;
 using Corbet.Application.Features.ProductCategory.Commands.UpdateProductCategory;
+using Corbet.Application.Features.ProductCategory.Queries.CategoryNameExist;
 using Corbet.Application.Features.ProductCategory.Queries.GetAllProductCategories;
 using Corbet.Application.Features.ProductCategoryDetails.Commands.CreateCategoryDetails;
 using Corbet.Application.Features.ProductCategoryDetails.Commands.DeletCategoryDetails;
@@ -27,6 +28,8 @@ using Corbet.Application.Features.Roles.Queries.GetAllRoles;
 using Corbet.Application.Features.Suppliers.Commands.CreateSupplier;
 using Corbet.Application.Features.Suppliers.Commands.UpdateSupplier;
 using Corbet.Application.Features.Suppliers.Queries.GetAllSuppliers;
+using Corbet.Application.Features.SuppliersDetails.Command.CreateSupplierDetails;
+using Corbet.Application.Features.SuppliersDetails.Command.UpdateSupplierDetails;
 using Corbet.Application.Features.Taxes.Commands.CreateTax;
 using Corbet.Application.Features.Taxes.Commands.CreateTaxDetail;
 using Corbet.Application.Features.Taxes.Commands.UpdateTax;
@@ -93,16 +96,24 @@ namespace Corbet.Application.Profiles
             CreateMap<User, ResetPasswordDto>().ReverseMap();
 
 
-            CreateMap<Supplier, CreateSupplierCommand>().ReverseMap();
-            CreateMap<Supplier, CreateSupplierCommandDto>().ReverseMap();
+            CreateMap<SupplierDetails, CreateSupplierDetailsCommand>().ReverseMap();
+            CreateMap<SupplierDetails, CreateSupplierDetailsCommandDto>().ReverseMap();
 
-            CreateMap<Supplier, GetAllSuppliersQuery>().ReverseMap();
-            CreateMap<Supplier, GetAllSuppliersQueryVm>().ReverseMap();
+          
+
+            CreateMap<SupplierDetails, UpdateSupplierDetailsCommand>().ReverseMap();
+            CreateMap<SupplierDetails, UpdateSupplierDetailsCommandDto>().ReverseMap();
+
+            CreateMap<Supplier, CreateSupplierCommand>().ReverseMap();
+            CreateMap<Supplier, CreateSuplierCommandDto>().ReverseMap();
+
 
             CreateMap<Supplier, UpdateSupplierCommand>().ReverseMap();
             CreateMap<Supplier, UpdateSupplierCommandDto>().ReverseMap();
-            CreateMap<Supplier, UpdateSupplierAdminCommand>().ReverseMap();
-            CreateMap<Supplier, UpdateSupplierAdminCommandDto>().ReverseMap();
+
+
+            CreateMap<Supplier, GetAllSuppliersQuery>().ReverseMap();
+            CreateMap<Supplier, GetAllSuppliersQueryVm>().ReverseMap();
 
             CreateMap<Tax, GetAllTaxesQuery>().ReverseMap();
             CreateMap<Tax, GetAllTaxesVm>().ReverseMap();
@@ -146,6 +157,7 @@ namespace Corbet.Application.Profiles
 
             CreateMap<Product, UpdateProductCommand>().ReverseMap();
             CreateMap<Product, UpdateProductCommandDto>().ReverseMap();
+
             CreateMap<CreateProductCategoryCommand, Domain.Entities.ProductCategory>();
             CreateMap<Domain.Entities.ProductCategory, CreateProductCategoryCommandDto>();
 
@@ -166,6 +178,9 @@ namespace Corbet.Application.Profiles
 
             CreateMap<ProductCategoryDetail, GetAllCategoryDetailsQuery>().ReverseMap();
             CreateMap<ProductCategoryDetail, GetAllCategoryDetailsVm>().ReverseMap();
+
+            CreateMap<ProductCategory, CategoryNameExistQuery>().ReverseMap();
+            CreateMap<ProductCategory, CategoryNameExistDto>().ReverseMap();
 
         }
     }

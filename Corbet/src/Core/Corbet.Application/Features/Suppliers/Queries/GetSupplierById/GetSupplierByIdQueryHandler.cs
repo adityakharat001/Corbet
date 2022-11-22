@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Corbet.Application.Features.Suppliers.Queries.GetSupplierById
 {
-    internal class GetSupplierByIdQueryHandler : IRequestHandler<GetSupplierByIdQuery, Supplier>
+    public class GetSupplierByIdQueryHandler : IRequestHandler<GetSupplierByIdQuery, Supplier>
     {
 
         private readonly ISupplierRepository _supplierRepository;
@@ -24,7 +24,7 @@ namespace Corbet.Application.Features.Suppliers.Queries.GetSupplierById
 
         public async Task<Supplier> Handle(GetSupplierByIdQuery request, CancellationToken cancellationToken)
         {
-            Supplier user = await _supplierRepository.GetById(request.SupplierId);
+            Supplier user = await _supplierRepository.GetById(request.Id);
             return user;
         }
     }

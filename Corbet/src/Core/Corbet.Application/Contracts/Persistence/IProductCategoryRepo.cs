@@ -11,6 +11,7 @@ namespace Corbet.Application.Contracts.Persistence
 {
     public interface IProductCategoryRepo : IAsyncRepository<ProductCategory>
     {
+        public Task<bool> CheckCategoryExists(string categoryName);
         public Task<List<ProductCategory>> GetAllCategories();
         public Task<DeleteProductCategoryCommandDto> RemoveCategoryAsync(int categoryId);
     }

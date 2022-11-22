@@ -66,9 +66,9 @@ namespace Corbet.Persistence.Repositories
 
         //check category exist
 
-        public Task<bool> CheckCategoryExists(string category)
+        public Task<bool> CheckCategoryExists(string categoryName)
         {
-            string lowerCaseTax = category.ToLower();
+            string lowerCaseTax = categoryName.ToLower();
             ProductCategory check = _dbContext.ProductCategories.Where(x => x.CategoryName.ToLower() == lowerCaseTax).FirstOrDefault();
             if (check != null)
             {

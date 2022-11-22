@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Corbet.Application.Features.Suppliers.Commands.CreateSupplier
+namespace Corbet.Application.Features.SuppliersDetails.Command.DeleteSupplierDetails
 {
-    public class CreateSupplierCommandDto
+    public class DeleteSupplierDetailsCommandDto
     {
-        public int SupplierId { get; set; }
+        public string Message { get; set; }
         public string SupplierName { get; set; }
         public string Email { get; set; }
-        public int PhoneNumber { get; set; }
-
-
+        public bool Succeeded { get; set; }
     }
 }

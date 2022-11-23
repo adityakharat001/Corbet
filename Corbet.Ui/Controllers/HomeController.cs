@@ -28,5 +28,15 @@ namespace Corbet.Ui.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        public ActionResult NotFoundPage()
+        {
+            return View();
+        }
+        public ActionResult SupplierLayout()
+        {
+            return View();
+        }
     }
 }

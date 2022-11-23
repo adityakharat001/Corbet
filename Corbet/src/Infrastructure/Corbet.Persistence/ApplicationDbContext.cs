@@ -46,6 +46,10 @@ namespace Corbet.Persistence
         public DbSet<ProductCategoryDetail> ProductCategoryDetails { get; set; }
         public DbSet<ProductSubCategory> ProductSubCategories { get; set; }
 
+
+        public DbSet<OrderManagement> OrderManagements { get; set; }
+  
+
         private IDbContextTransaction _transaction;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -49,8 +49,19 @@ namespace Corbet.Ui.Controllers
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "user", AuthData);
                     string Username = HttpContext.Session.GetString("UserName");
                     TempData["UserName"] = Username.Replace("\"", "");
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "RoleId", AuthData.RoleId);
+                    string RoleId = HttpContext.Session.GetString("RoleId");
+                    string roleId=RoleId.Replace("\"","");
+                    if (roleId == "1")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "Index" });
+                    }
+                    if (roleId == "2")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "SupplierLayout" });
 
-                    return RedirectToRoute(new { controller = "Home", action = "Index" });
+                    }
+                    
                 }
                 TempData["Error"] = "Failed To Login User. Please Enter Valid Credentials";
                 return View();
@@ -59,6 +70,7 @@ namespace Corbet.Ui.Controllers
         }
 
 
+        //NotFound
 
         [HttpGet]
         public IActionResult ForgotPassword()

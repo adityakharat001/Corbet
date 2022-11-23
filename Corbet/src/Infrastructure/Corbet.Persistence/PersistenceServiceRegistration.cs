@@ -31,6 +31,7 @@ namespace Corbet.Persistence
             services.AddScoped<IProductCategoryRepo, ProductCategoryRepository>();
             services.AddScoped<ICategoryDetailsRepo, CategoryDetailsRepository>();
             services.AddScoped<IProductSubCategoryRepo, ProductSubCategoryRepo>();
+            services.AddScoped<IOrderManagementRepo, OrderManagementRepo>();    
 
             return services;
         }

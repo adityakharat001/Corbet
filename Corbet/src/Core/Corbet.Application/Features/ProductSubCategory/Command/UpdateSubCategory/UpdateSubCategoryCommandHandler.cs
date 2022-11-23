@@ -29,7 +29,7 @@ namespace Corbet.Application.Features.ProductSubCategory.Command.UpdateSubCatego
         }
         public async Task<Response<UpdateSubCategoryDto>> Handle(UpdateSubCategoryCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Update taxDetail initiated");
+            _logger.LogInformation("Update subCategory initiated");
             var subcategory = await _productSubCategoryRepo.GetById(request.Id);
             if (subcategory == null)
             {

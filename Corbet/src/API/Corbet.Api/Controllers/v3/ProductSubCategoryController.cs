@@ -1,4 +1,6 @@
-﻿using Corbet.Application.Features.ProductSubCategory.Command.CreateSubCategory;
+﻿using Corbet.Application.Features.ProductCategory.Commands.DeleteProductCategory;
+using Corbet.Application.Features.ProductSubCategory.Command.CreateSubCategory;
+using Corbet.Application.Features.ProductSubCategory.Command.DeleteSubCategory;
 using Corbet.Application.Features.ProductSubCategory.Command.SubCategoryExist;
 using Corbet.Application.Features.ProductSubCategory.Command.UpdateSubCategory;
 using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryById;
@@ -31,6 +33,10 @@ namespace Corbet.Api.Controllers.v3
         {
             _logger.LogInformation("Adding SubCategory initiated");
             var response = await _mediator.Send(createSubCategoryCommand);
+            if (response == null)
+            {
+                return BadRequest();
+            }
             _logger.LogInformation("Adding SubCategory completed");
             return Ok(response);
         }
@@ -75,6 +81,18 @@ namespace Corbet.Api.Controllers.v3
             var response=await _mediator.Send(subCategoryExistCommand);
             _logger.LogInformation("SubCategoryExist Completed");
             return Ok(response);
+        }
+
+
+
+        [HttpDelete]
+        [Route("DeleteSubCategory")]
+        public async Task<ActionResult> DeleteSubCategory(int Id)
+        {
+            _logger.LogInformation("Remove SubCategory Initiated");
+            var dtos = await _mediator.Send(new DeleteSubCategoryCommand() { SubCategoryId = Id });
+            _logger.LogInformation("Remove User Completed");
+            return Ok(dtos);
         }
     }
 }

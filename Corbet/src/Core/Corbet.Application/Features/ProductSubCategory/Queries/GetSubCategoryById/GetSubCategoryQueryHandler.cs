@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Corbet.Application.Contracts.Persistence;
+using Corbet.Application.Exceptions;
 using Corbet.Application.Features.Taxes.Queries.GetTaxById;
 using Corbet.Application.Responses;
 using Corbet.Domain.Entities;
@@ -29,10 +30,12 @@ namespace Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryB
         {
 
             var subCategory = await _productSubCategoryRepo.GetById(request.Id);
-            if (subCategory.IsDeleted)
+            if (subCategory == null)
             {
-                return null;
+                throw new NotFoundException(nameof(ProductSubCategory), request.Id);
             }
+          
+            
             return new Response<Domain.Entities.ProductSubCategory>(subCategory);
         }
     }

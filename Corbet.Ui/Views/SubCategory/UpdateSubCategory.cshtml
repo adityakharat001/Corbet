@@ -1,11 +1,29 @@
-﻿@model Corbet.Ui.Models.TaxUpdateModel
+﻿@model Corbet.Ui.Models.SubCategoryUpdateView
+     
+@if (TempData["NotUpdate"] != null)
+{
+  
 
-@{
-    ViewData["Title"] = "UpdateTax";
+    <script>
+                             
+        const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 4000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+Toast.fire({
+  icon: 'error',
+  title: 'Oops ! SubCategory Not Updated'
+})
+    </script>
 }
-
-@Html.Raw(ViewBag.taxUpdateAlert)
-
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -120,46 +138,84 @@
     </ul>
 </aside>
 <!-- End Sidebar -->
+
 <div class="pagetitle">
-    <h1>Update Tax Type</h1>
+    <h1>Update SubCategory</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="UpdateTax">Tax Types</a></li>
-            <li class="breadcrumb-item active">Update Tax Type</li>
+            <li class="breadcrumb-item"><a asp-action="CreateSubCategory">SubCategory</a></li>
+            <li class="breadcrumb-item active">Update SubCategory</li>
         </ol>
     </nav>
 </div>
 
-<h4>Tax Type</h4>
+<h3>Update SubCategory</h3>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="UpdateTax">
+        <form asp-action="UpdateSubCategory">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="TaxId" class="control-label"></label>
-                <input asp-for="TaxId" class="form-control" />
-                <span asp-validation-for="TaxId" class="text-danger"></span>
+                <label asp-for="CategoryId" class="control-label"></label>
+                <input asp-for="CategoryId" class="form-control" />
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>*@
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+    <div class="form-group">
+                <label asp-for="CategoryId" class="control-label">Category</label>
                 <span class="text-danger">*</span>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div><br/>
+                <select asp-for="CategoryId" id="CategoryId" class="form-control" asp-items="ViewBag.SubCategorylistData">
+                    <option value="">---select Category Name---</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="SubCategoryName" class="control-label">SubCategory</label>
+                <span class="text-danger">*</span>
+                <input asp-for="SubCategoryName" class="form-control" />
+                <span asp-validation-for="SubCategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxId" class="control-label">Tax Type</label>
+                <span class="text-danger">*</span>
+                <select asp-for="TaxId" id="TaxId" class="form-control" asp-items="ViewBag.TaxNameList">
+                    <option value="">---select Tax Type---</option>
+                </select>
+                <span asp-validation-for="TaxId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <span class="text-danger">*</span>
+                @* <input asp-for="UserStatus" class="form-control" />
+                <span asp-validation-for="UserStatus" class="text-danger"></span>*@
+                <select asp-for="Status" class="form-control" required>
+                    <option value="">--Select type--</option>
+                    <option asp-for="Status" value=true>Active</option>
+                    <option asp-for="Status" value=false>InActive</option>
 
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-                <a class="btn btn-warning" asp-action="GetAllTaxes">Back to List</a>
+                <a class="btn btn-warning" asp-action="GetAllSubCategory">Back to List</a>
 
             </div>
         </form>
     </div>
 </div>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

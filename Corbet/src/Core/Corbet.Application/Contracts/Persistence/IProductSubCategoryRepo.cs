@@ -1,4 +1,5 @@
-﻿using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryList;
+﻿using Corbet.Application.Features.ProductSubCategory.Command.DeleteSubCategory;
+using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryList;
 using Corbet.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace Corbet.Application.Contracts.Persistence
     {
         Task<List<GetCategoryQueryVm>> GetAllSubCategoryDetail();
         bool SubCategoryExist(ProductSubCategory productSubCategory);
+        Task<DeleteSubCategoryDto> RemoveSubCategoryAsync(int Id);
     }
 }

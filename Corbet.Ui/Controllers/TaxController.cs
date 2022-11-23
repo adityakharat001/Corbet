@@ -1,9 +1,17 @@
-﻿using Corbet.Application.Features.Taxes.Queries.GetAllTaxDetails;
+﻿using System.Security.Cryptography;
+using System.Text;
+using System.Web.Helpers;
+
+using Corbet.Application.Features.Taxes.Queries.GetAllTaxDetails;
 using Corbet.Application.Responses;
 using Corbet.Ui.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Primitives;
+
 using Newtonsoft.Json;
+
+using static AutoMapper.Internal.ExpressionFactory;
 
 namespace Corbet.Ui.Controllers
 {
@@ -109,22 +117,83 @@ namespace Corbet.Ui.Controllers
         {
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "Tax/GetAllTaxes").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
-            var taxlist = JsonConvert.DeserializeObject<List<TaxViewModel>>(data);
+           List< TaxViewModel> taxlist = JsonConvert.DeserializeObject<List<TaxViewModel>>(data);
+            foreach(var i in taxlist)
+            {
+                string clearText = i.TaxId;
+                string EncryptionKey = Environment.GetEnvironmentVariable("EncryptionDeckryptionKey")?.ToString().Length > 0 ? Environment.GetEnvironmentVariable("EncryptionDeckryptionKey") : "";
+                byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+                using (Aes encryptor = Aes.Create())
+                {
+                    var salt = Encoding.UTF8.GetBytes("0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76");
+                    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, salt);
+                    encryptor.Key = pdb.GetBytes(32);
+                    encryptor.IV = pdb.GetBytes(16);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                        {
+                            cs.Write(clearBytes, 0, clearBytes.Length);
+                            cs.Close();
+                        }
+                     string withslash = Convert.ToBase64String(ms.ToArray());
+                        i.TaxId = withslash.Replace("/", "%2F");
+                    }
+                }
+            }
+            //string taxIdvalue;
+            //foreach(var i in taxlist){
+            //   // i.TaxId = i.TaxId;
+            //    byte[] encoded = System.Text.Encoding.UTF8.GetBytes(i.TaxId.ToString());
+            //    i.TaxId = Convert.ToBase64String(encoded);
+            //   // i.TaxId=Convert.ToInt32(taxIdvalue);
+
+            //}
+            //    int id1 = taxlist.TaxId;
+            //    //Encrypt Key
+            //    byte[] byKey = { };
+            //    byte[] IV =
+            //      {
+            //18,52,86,120,144,171,205,239
+            //    };
+            //    byKey = System.Text.Encoding.UTF8.GetBytes("SecrityKey");
+            //    DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+            //    byte[] inputByteArray = System.Text.Encoding.UTF8.GetBytes();
+            //    MemoryStream ms = new MemoryStream();
+            //    CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(byKey, IV), CryptoStreamMode.Write);
+            //    cs.Write(inputByteArray, 0, inputByteArray.Length);
+            //    cs.FlushFinalBlock();
+            //    string valuenew = Convert.ToBase64String(ms.ToArray());
+            //    taxlist.TaxId = valuenew;
+           // byte[] encoded = System.Text.Encoding.UTF8.GetBytes(encodeMe);
+           //taxlist.TaxId= Convert.ToInt32(encoded);
             return View(taxlist);
         }
         #endregion
 
         [HttpGet]
-        public ActionResult UpdateTax(int id)
+        public ActionResult UpdateTax(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
-            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/GetTaxById?id={id}").Result;
-            dynamic responseData = response.Content.ReadAsStringAsync().Result;
-            TaxUpdateModel taxData = JsonConvert.DeserializeObject<Response<TaxUpdateModel>>(responseData).Data;
-            return View(taxData);
+       
+              
 
-        }
+                string data = JsonConvert.SerializeObject(id);
+                StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/GetTaxById?id={id}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    dynamic responseData = response.Content.ReadAsStringAsync().Result;
+                    TaxUpdateModel taxData = JsonConvert.DeserializeObject<Response<TaxUpdateModel>>(responseData).Data;
+                    return View(taxData);
+                }
+                return RedirectToRoute(new { controller = "Home", action = "NotFoundPage" });
+            }
+           
+
+                
+            
+
+  
 
 
 
@@ -133,6 +202,7 @@ namespace Corbet.Ui.Controllers
         {
             if (ModelState.IsValid)
             {
+               
                 string data = JsonConvert.SerializeObject(tax);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "Tax/UpdateTax", content).Result;
@@ -242,6 +312,35 @@ namespace Corbet.Ui.Controllers
 
 
 
+
+        [HttpGet]
+        public JsonResult EncrytToUrl(string clearText)
+        {
+            
+                string EncryptionKey = Environment.GetEnvironmentVariable("EncryptionDeckryptionKey")?.ToString().Length > 0 ? Environment.GetEnvironmentVariable("EncryptionDeckryptionKey") : "";
+                byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+                using (Aes encryptor = Aes.Create())
+                {
+                    var salt = Encoding.UTF8.GetBytes("0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76");
+                    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, salt);
+                    encryptor.Key = pdb.GetBytes(32);
+                    encryptor.IV = pdb.GetBytes(16);
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                        {
+                            cs.Write(clearBytes, 0, clearBytes.Length);
+                            cs.Close();
+                        }
+                        clearText = Convert.ToBase64String(ms.ToArray());
+                    }
+                }
+       
+            
+
+            return Json(clearText, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public JsonResult IsTaxExist(string tax)
         {
@@ -258,5 +357,10 @@ namespace Corbet.Ui.Controllers
             }
         }
 
+
+     
+      
+
+        
     }
 }

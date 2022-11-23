@@ -14,6 +14,6 @@ namespace Corbet.Domain.Entities
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [MaxLength(20)]
-        public string Type { get; set; } = null!;
+        public string Type { get; set; }
     }
 }

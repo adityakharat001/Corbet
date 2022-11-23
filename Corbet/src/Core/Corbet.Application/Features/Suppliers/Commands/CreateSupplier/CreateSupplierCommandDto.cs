@@ -11,7 +11,7 @@ namespace Corbet.Application.Features.Suppliers.Commands.CreateSupplier
         public int SupplierId { get; set; }
         public string SupplierName { get; set; }
         public string Email { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
 
     }

@@ -1,4 +1,5 @@
-﻿using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryList;
+﻿using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryByCategoryId;
+using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryList;
 using Corbet.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace Corbet.Application.Contracts.Persistence
     {
         Task<List<GetCategoryQueryVm>> GetAllSubCategoryDetail();
         bool SubCategoryExist(ProductSubCategory productSubCategory);
+        List<GetSubCategoryByCategoryIdVm> GetSubCategoryByCategoryId(int categoryId);
     }
 }

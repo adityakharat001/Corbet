@@ -29,7 +29,6 @@ namespace Corbet.Application.Features.Products.Commands.CreateProduct
         public async Task<Response<CreateProductCommandDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
 
-
             _logger.LogInformation("Adding Product initiated");
             var product = _mapper.Map<Product>(request);
             var productData = await _productRepository.AddAsync(product);

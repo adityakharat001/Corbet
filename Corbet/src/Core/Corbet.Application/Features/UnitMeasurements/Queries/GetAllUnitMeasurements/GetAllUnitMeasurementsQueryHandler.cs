@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Corbet.Application.Features.UnitMeasurements.Queries.GetAllUnitMeasurementss
 {
-    public class GetAllUnitMeasurementsQueryHandler : IRequestHandler<GetAllUnitMeasurementsQuery, Response<List<GetAllUnitMeasurementsVm>>>
+    public class GetAllUnitMeasurementsQueryHandler : IRequestHandler<GetAllUnitMeasurementsQuery, List<GetAllUnitMeasurementsVm>>
     {
         private readonly IMapper _mapper;
         private readonly IUnitMeasurementRepository _unitMeasurementRepository;
@@ -24,11 +24,11 @@ namespace Corbet.Application.Features.UnitMeasurements.Queries.GetAllUnitMeasure
             _mapper = mapper;
             this._unitMeasurementRepository = _unitMeasurementRepository;
         }
-        public async Task<Response<List<GetAllUnitMeasurementsVm>>> Handle(GetAllUnitMeasurementsQuery request, CancellationToken cancellationToken)
+        public async Task<List<GetAllUnitMeasurementsVm>> Handle(GetAllUnitMeasurementsQuery request, CancellationToken cancellationToken)
         {
             var unitMeasurements = await _unitMeasurementRepository.ListAllAsync();
             var unitMeasurementsVm = _mapper.Map<List<GetAllUnitMeasurementsVm>>(unitMeasurements);
-            return new Response<List<GetAllUnitMeasurementsVm>>() { Data = unitMeasurementsVm, Succeeded = true };
+            return unitMeasurementsVm;
         }
     }
 }

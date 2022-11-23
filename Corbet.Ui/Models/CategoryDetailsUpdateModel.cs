@@ -8,7 +8,6 @@ namespace Corbet.Ui.Models
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
-       
         public string CategoryDescription { get; set; }
         public bool Status { get; set; }
         public bool IsDeleted { get; set; } 

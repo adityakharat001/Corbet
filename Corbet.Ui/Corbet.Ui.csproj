@@ -11,12 +11,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
     <PackageReference Include="Nancy" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Corbet\src\Core\Corbet.Application\Corbet.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\ProductImages\" />
   </ItemGroup>
 
 </Project>

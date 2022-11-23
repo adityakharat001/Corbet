@@ -64,7 +64,7 @@ namespace Corbet.Api.Controllers.v3
 
         [HttpPost]
         [Route("UpdateProduct")]
-        public async Task<ActionResult> UpdateUser([FromBody] UpdateProductCommand product)
+        public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductCommand product)
         {
             _logger.LogInformation("Update Product Initiated");
             var response = await _mediator.Send(product);

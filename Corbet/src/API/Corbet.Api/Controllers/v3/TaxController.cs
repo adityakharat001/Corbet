@@ -97,7 +97,7 @@ namespace Corbet.Api.Controllers.v3
         #region Getting All TaxTypes
         [HttpGet]
         [Route("GetAllTaxes")]
-        public async Task<IActionResult> GetAllTaxes()
+        public async Task<ActionResult> GetAllTaxes()
         {
             _logger.LogInformation("Initiated");
             var taxList = await _mediator.Send(new GetAllTaxesQuery());

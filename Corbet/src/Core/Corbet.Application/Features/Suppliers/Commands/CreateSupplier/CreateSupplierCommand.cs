@@ -12,10 +12,10 @@ namespace Corbet.Application.Features.Suppliers.Commands.CreateSupplier
     {
         public string SupplierName { get; set; }
         public string Email { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string BillingAddress { get; set; }
         public string SupplierType { get; set; }
-        public int CreditLimit { get; set; }
+        public long CreditLimit { get; set; }
         public DateTime CreditPeriod { get; set; }
         //public string? DocumentPath { get; set; }
 

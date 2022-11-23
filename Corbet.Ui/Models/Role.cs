@@ -9,8 +9,9 @@ namespace Corbet.Ui.Models
         [DisplayName("Role Id")]
         public int RoleId { get; set; }
         [DisplayName("Role")]
+  
+        [RegularExpression(@"^([a-zA-Z])*$", ErrorMessage = " Role Name must contain only alphabet")]
         [Remote("IsRoleExist", "Role", HttpMethod = "GET", ErrorMessage = "Role Already Exist")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Role Name should contain only alphabets")]
         public string RoleName { get; set; }
     }
 }

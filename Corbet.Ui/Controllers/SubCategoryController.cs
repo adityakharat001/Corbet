@@ -1,6 +1,11 @@
-﻿using Corbet.Ui.Models;
+﻿using Corbet.Application.Responses;
+using Corbet.Ui.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
+using Nancy;
+using Nancy.Diagnostics;
+
 using Newtonsoft.Json;
 using System.Net.Http;
 
@@ -21,8 +26,44 @@ namespace Corbet.Ui.Controllers
         [HttpGet]
         public ActionResult CreateSubCategory()
         {
-            
-                return View();
+            HttpResponseMessage msg = client.GetAsync(client.BaseAddress + "ProductCategory/GetAllCategories").Result;
+            if (msg.IsSuccessStatusCode)
+            {
+                var responseData = msg.Content.ReadAsStringAsync().Result;
+
+                dynamic SubCategoryList = JsonConvert.DeserializeObject(responseData);
+
+
+                var SubCategorylistData = new List<SelectListItem>();
+                foreach (var item in SubCategoryList)
+                {
+                    SubCategorylistData.Add(new SelectListItem { Text = item.categoryName.ToString(), Value = item.categoryId.ToString() });
+                    // TaxNamelist.Add(new SelectListItem { Text = item.TaxId, Value = item.Name.ToString() });
+
+                }
+                ViewBag.SubCategorylistData = SubCategorylistData;
+
+                HttpResponseMessage msg2 = client.GetAsync(client.BaseAddress + "Tax/GetAllTaxes").Result;
+                if (msg.IsSuccessStatusCode)
+                {
+                    var responseData1 = msg2.Content.ReadAsStringAsync().Result;
+
+                    dynamic TaxList = JsonConvert.DeserializeObject(responseData1);
+
+
+                    var TaxNamelist = new List<SelectListItem>();
+                    foreach (var item in TaxList)
+                    {
+                        TaxNamelist.Add(new SelectListItem { Text = item.name.ToString(), Value = item.taxId.ToString() });
+                        // TaxNamelist.Add(new SelectListItem { Text = item.TaxId, Value = item.Name.ToString() });
+
+                    }
+                    ViewBag.TaxNamelist = TaxNamelist;
+
+                }
+                    return View();
+            }
+            return View();
         }
 
         [HttpPost]
@@ -36,10 +77,22 @@ namespace Corbet.Ui.Controllers
                 string data = JsonConvert.SerializeObject(subCategoryAddView);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = client.PostAsync(client.BaseAddress + "ProductSubCategory/AddSubProductCategory", content).Result;
-                return RedirectToAction("GetAllSubCategory");
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["AlertMessage"] = "Product SubCategory Added Suucessfully";
+                    return RedirectToAction("GetAllSubCategory");
+                }
+                else
+                {
+                    TempData["Message"] = "SubCategory Data Already Exist!!!!";
+                    return View();
+                }
+               
+
 
             }
             return View();
+
         }
 
 
@@ -54,5 +107,100 @@ namespace Corbet.Ui.Controllers
         }
 
 
+
+
+        //Update Controller
+        [HttpGet]
+        public ActionResult UpdateSubCategory(int id)
+        {
+            string data = JsonConvert.SerializeObject(id);
+            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"ProductSubCategory/GetSubCategoryById?id={id}").Result;
+            dynamic categoryData = response.Content.ReadAsStringAsync().Result;
+            SubCategoryUpdateView category = JsonConvert.DeserializeObject<Response<SubCategoryUpdateView>>(categoryData).Data;
+            HttpResponseMessage msg = client.GetAsync(client.BaseAddress + "ProductCategory/GetAllCategories").Result;
+            if (msg.IsSuccessStatusCode)
+            {
+                var responseData = msg.Content.ReadAsStringAsync().Result;
+
+                dynamic SubCategoryList = JsonConvert.DeserializeObject(responseData);
+
+
+                var SubCategorylistData = new List<SelectListItem>();
+                foreach (var item in SubCategoryList)
+                {
+                    SubCategorylistData.Add(new SelectListItem { Text = item.categoryName.ToString(), Value = item.categoryId.ToString() });
+                    // TaxNamelist.Add(new SelectListItem { Text = item.TaxId, Value = item.Name.ToString() });
+
+                }
+                ViewBag.SubCategorylistData = SubCategorylistData;
+
+                //Viewbag for Tax Type
+                HttpResponseMessage Taxresponse = client.GetAsync(client.BaseAddress + "Tax/GetAllTaxes").Result;
+                if (msg.IsSuccessStatusCode)
+                   {
+                    var TaxresponseData = Taxresponse.Content.ReadAsStringAsync().Result;
+
+                    dynamic TaxList = JsonConvert.DeserializeObject(TaxresponseData);
+
+
+                    var TaxNamelist = new List<SelectListItem>();
+                    foreach (var item in TaxList)
+                    {
+                        TaxNamelist.Add(new SelectListItem { Text = item.name.ToString(), Value = item.taxId.ToString() });
+                        // TaxNamelist.Add(new SelectListItem { Text = item.TaxId, Value = item.Name.ToString() });
+
+                    }
+                    ViewBag.TaxNameList = TaxNamelist;
+
+
+                    return View(category);
+                }
+            }
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult UpdateSubCategory(SubCategoryUpdateView subcategoryUpdate)
+        {
+            if (ModelState.IsValid)
+            {
+                string userid = HttpContext.Session.GetString("UserId");
+               
+                subcategoryUpdate.LastModifiedBy = Convert.ToInt32(userid);
+                string data = JsonConvert.SerializeObject(subcategoryUpdate);
+                StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage response = client.PostAsync(client.BaseAddress + "ProductSubCategory/UpdateSubCategory", content).Result;
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    ViewBag.supplierUpdateAlert = "<script type='text/javascript'>Swal.fire('SubCategory Update','SubCategory Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/SubCategory/GetAllSubCategory');</script>";
+                    return RedirectToAction("GetAllSubCategory");
+                }
+                else
+                {
+                    TempData["NotUpdate"] = "SubCategory Data Not updated !!!!";
+                    return View();
+
+                }
+                
+            }
+            return RedirectToAction("GetAllSubCategory");
+        }
+
+
+        public ActionResult DeleteSubCategory(int id)
+        {
+            string data = JsonConvert.SerializeObject(id);
+            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"ProductSubCategory/DeleteSubCategory?id={id}").Result;
+
+            ViewBag.DeleteSuccess = "Data Deleted Successful!!";
+
+            return RedirectToAction("GetAllSubCategory");
+
+        }
     }
 }

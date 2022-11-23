@@ -89,6 +89,10 @@ namespace Corbet.Api.Controllers.v3
         {
             _logger.LogInformation("Get tax initiated");
             var response = await _mediator.Send(new GetTaxByIdQuery() { TaxId = id });
+            if (response == null)
+            {
+                return BadRequest();
+            }
             _logger.LogInformation("Get tax completed");
             return Ok(response);
         }

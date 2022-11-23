@@ -20,6 +20,7 @@ namespace Corbet.Application.Features.ProductSubCategory.Command.UpdateSubCatego
         public string SubCategoryName { get; set; }
         public string? Description { get; set; }
         public  int TaxId { get; set; }
+        public int? LastModifiedBy { get; set; }
         public bool Status { get; set; }
 
 

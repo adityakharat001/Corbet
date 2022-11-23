@@ -6,7 +6,7 @@ namespace Corbet.Ui.Models
 {
     public class GetSubCategoryVm
     {
-        public int Id { get; set; }
+        public int SubCategoryId { get; set; }
         public string CategoryName { get; set; }
 
         public string SubCategoryName { get; set; }

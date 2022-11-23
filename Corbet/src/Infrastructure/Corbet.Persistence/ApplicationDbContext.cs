@@ -32,7 +32,7 @@ namespace Corbet.Persistence
 
         public DbSet<Event> Events { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Order> Orders { get; set; }
+ 
         public DbSet<Message> Messages { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
@@ -46,6 +46,10 @@ namespace Corbet.Persistence
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductCategoryDetail> ProductCategoryDetails { get; set; }
         public DbSet<ProductSubCategory> ProductSubCategories { get; set; }
+
+        public DbSet<Order> Orders { get; set; }    
+        public DbSet<OrderManagement> OrderManagements { get; set; }
+  
 
         private IDbContextTransaction _transaction;
 

@@ -37,10 +37,11 @@ namespace Corbet.Persistence.Services
             }
             else
             {
+                int RoleId=user.RoleId; 
                 int userId = user.UserId;
                 string name = $"{user.FirstName} {user.LastName}";
                 string token = GenerateToken(user.UserId, user.Email, name);
-                return new AuthenticationResponse() { IsAuthenticated = true, Token = token, Message = "Login Successful", UserName = name, Id = userId };
+                return new AuthenticationResponse() { IsAuthenticated = true, Token = token, Message = "Login Successful", UserName = name, Id = userId ,RoleId=RoleId};
 
             }
         }

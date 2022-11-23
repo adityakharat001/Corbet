@@ -2,6 +2,8 @@
 using Corbet.Application.Contracts.Persistence;
 using Corbet.Application.Features.Roles.Commands.CreateRole;
 using Corbet.Application.Responses;
+using Corbet.Domain.Entities;
+
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,9 +29,18 @@ namespace Corbet.Application.Features.ProductSubCategory.Command.CreateSubCatego
         public async Task<Response<CreateSubCategoryDto>> Handle(CreateSubCategoryCommand request, CancellationToken cancellationToken)
         {
             var SubCategoryData = _mapper.Map<Domain.Entities.ProductSubCategory>(request);
-            var SubCategoryAdded = await _productSubCategoryRepo.AddAsync(SubCategoryData);
-            var productDto = _mapper.Map<CreateSubCategoryDto>(SubCategoryAdded);
-            return new Response<CreateSubCategoryDto>(productDto);
+           bool IsExist= _productSubCategoryRepo.SubCategoryExist(SubCategoryData);
+            if (IsExist)
+            {
+                var SubCategoryAdded = await _productSubCategoryRepo.AddAsync(SubCategoryData);
+                var productDto = _mapper.Map<CreateSubCategoryDto>(SubCategoryAdded);
+                return new Response<CreateSubCategoryDto>(productDto);
+            }
+
+            else
+            {
+                return null;
+            }
 
 
         }

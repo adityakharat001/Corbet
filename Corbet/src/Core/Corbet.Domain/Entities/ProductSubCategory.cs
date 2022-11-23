@@ -19,6 +19,7 @@ namespace Corbet.Domain.Entities
         public string? Description { get; set; }
         public  virtual int TaxId { get; set; }
         public bool Status { get; set; }
+     
          public bool IsDeleted { get; set; }
         [ForeignKey("TaxId")]
         public virtual Tax Taxes { get; set; }

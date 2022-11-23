@@ -40,9 +40,8 @@ namespace Corbet.Persistence.Repositories
             var orderingdata = (from o in _dbContext.OrderManagements
                                 join p in _dbContext.Products
                                 on o.OrderProductId equals p.ProductId
-                                join s in _dbContext.Suppliers
+                                join s in _dbContext.SupplierDetails
                                 on o.SupplierId equals s.SupplierId
-                                where o.IsDeleted==false
                                 select new GetOrderListVm
                                 {
                                     Price = p.Price,

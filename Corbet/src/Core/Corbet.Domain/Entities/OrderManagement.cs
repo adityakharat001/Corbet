@@ -15,6 +15,7 @@ namespace Corbet.Domain.Entities
     {
         [Key]
         public int OrderId { get; set; }
+        public string OrderCode { get; set; }
         public   int SupplierId { get; set; }
         public virtual  int OrderProductId { get; set; }
         public int Quantity { get; set; }
@@ -23,6 +24,7 @@ namespace Corbet.Domain.Entities
 
 
         public string Description { get; set; }
+
 
         public bool IsDeleted { get; set; } = false;
  

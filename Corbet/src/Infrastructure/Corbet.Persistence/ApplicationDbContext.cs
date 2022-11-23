@@ -38,6 +38,7 @@ namespace Corbet.Persistence
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<SupplierDetails> SupplierDetails { get; set; }
         public DbSet<Tax> Taxes { get; set; }
         public DbSet<TaxDetail> TaxDetails { get; set; }
         public DbSet<UnitMeasurement> UnitMeasurements { get; set; }

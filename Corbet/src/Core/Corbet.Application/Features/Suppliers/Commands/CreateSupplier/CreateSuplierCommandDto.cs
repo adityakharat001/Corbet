@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Corbet.Application.Features.Suppliers.Commands.CreateSupplier
 {
-    public class CreateSupplierCommandDto
+    public class CreateSuplierCommandDto
     {
-        public int SupplierId { get; set; }
+        public int Id { get; set; }
         public string SupplierName { get; set; }
-        public string Email { get; set; }
-        public int PhoneNumber { get; set; }
-
-
+        public long CreaditLimit { get; set; }
+        public bool PaymentStatus { get; set; } = true;
     }
 }

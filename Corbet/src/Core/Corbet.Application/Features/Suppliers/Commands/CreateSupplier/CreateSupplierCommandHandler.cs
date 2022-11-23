@@ -1,42 +1,41 @@
-﻿using AutoMapper;
-using Corbet.Application.Contracts.Persistence;
-using Corbet.Application.Responses;
-using Corbet.Domain.Entities;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AutoMapper;
+
+using Corbet.Application.Contracts.Persistence;
+using Corbet.Application.Responses;
+using Corbet.Domain.Entities;
+
+using MediatR;
+
+using Microsoft.Extensions.Logging;
+
 namespace Corbet.Application.Features.Suppliers.Commands.CreateSupplier
 {
-    public class CreateSupplierCommandHandler : IRequestHandler<CreateSupplierCommand, Response<CreateSupplierCommandDto>>
+    public class CreateSupplierCommandHandler:IRequestHandler<CreateSupplierCommand, Response<CreateSuplierCommandDto>>
     {
-        private readonly ILogger<CreateSupplierCommandHandler> _logger;
         private readonly IMapper _mapper;
+        private readonly ILogger<CreateSupplierCommandHandler> _logger;
         private readonly ISupplierRepository _supplierRepository;
 
-
-        public CreateSupplierCommandHandler(ILogger<CreateSupplierCommandHandler> logger, IMapper mapper, ISupplierRepository supplierRepository)
+        public CreateSupplierCommandHandler(IMapper mapper, ILogger<CreateSupplierCommandHandler> logger, ISupplierRepository supplierRepository)
         {
-            _logger = logger;
             _mapper = mapper;
+            _logger = logger;
             _supplierRepository = supplierRepository;
         }
 
-        public async Task<Response<CreateSupplierCommandDto>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
+        public async Task<Response<CreateSuplierCommandDto>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
         {
-
-            _logger.LogInformation("Adding Supplier Information initiated");
-
             var supplier = _mapper.Map<Supplier>(request);
             var supplierData = await _supplierRepository.AddAsync(supplier);
-            var supplierDto = _mapper.Map<CreateSupplierCommandDto>(supplierData);
-            return new Response<CreateSupplierCommandDto>(supplierDto);
-            _logger.LogInformation("Adding Supplier Completed");
-           
+            
+            var supplierDto = _mapper.Map<CreateSuplierCommandDto>(supplierData);
+            return new Response<CreateSuplierCommandDto>(supplierDto);
         }
     }
 }

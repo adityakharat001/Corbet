@@ -1,4 +1,7 @@
 ﻿using Corbet.Domain.Common;
+
+using Microsoft.AspNetCore.Mvc;
+
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,7 +12,7 @@ namespace Corbet.Ui.Models
         [Required(ErrorMessage = "Tax Id is required")]
         [DisplayName("Tax Id")]
         public int Id { get; set; }
-        //[Remote("IsTaxExist", "Tax", HttpMethod = "GET", ErrorMessage = "Tax Name Already Exist")]
+        [Remote("IsTaxExist", "Tax", HttpMethod = "GET", ErrorMessage = "Tax Name Already Exist")]
         [Required(ErrorMessage = "Tax Name is required")]
         [RegularExpression(@"^[A-Za-z0-9]+$", ErrorMessage = "Tax Name should not contain special characters")]
         [DisplayName("Tax Name")]

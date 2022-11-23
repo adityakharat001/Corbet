@@ -1,32 +1,25 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+using Corbet.Domain.Common;
 
 namespace Corbet.Ui.Models
 {
-    public class SupplierViewModel
+    public class SupplierViewModel:AuditableEntityModel
     {
-        [DisplayName("Supplier Id")]
-        public int SupplierId { get; set; }
+
+        public int Id { get; set; }
+        
+        [Required(ErrorMessage = "Supplier Name is required")]
         [DisplayName("Supplier Name")]
+        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Supplier Name should contain only alphabets")]
+        [MaxLength(100)]
         public string SupplierName { get; set; }
-        [DisplayName("Email")]
-        public string Email { get; set; }
-        [DisplayName("Phone")]
-        public string PhoneNumber { get; set; }
-        [DisplayName("Billing Address")]
-        public string BillingAddress { get; set; }
-        public string SupplierType { get; set; }
+        [Required(ErrorMessage = "Credit Limit is required")]
+        [Range(500, Int32.MaxValue, ErrorMessage = "Minimum value must be at least 500")]
         [DisplayName("Credit Limit")]
-        public long CreditLimit { get; set; }
-        [DisplayName("Credit Period")]
-        public DateTime CreditPeriod { get; set; }
-        public string? DocumentPath { get; set; }
-        [DisplayName("Creation Date")]
-        public DateTime CreatedDate { get; set; }
+        public long CreaditLimit { get; set; }
         [DisplayName("Payment Status")]
-        public bool IsPaymentDone { get; set; }
-        [DisplayName("Active Status")]
-        public bool IsActive { get; set; }
-        [DisplayName("Delted Status")]
-        public bool IsDeleted { get; set; }
+        public bool PaymentStatus { get; set; } = true;
     }
 }

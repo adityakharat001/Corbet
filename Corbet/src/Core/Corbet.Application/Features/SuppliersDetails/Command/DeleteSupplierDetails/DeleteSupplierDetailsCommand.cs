@@ -12,11 +12,10 @@ namespace Corbet.Application.Features.SuppliersDetails.Command.DeleteSupplierDet
     public class DeleteSupplierDetailsCommand : IRequest<Response<DeleteSupplierDetailsCommandDto>>
     {
         public int SupplierId { get; set; }
-       
+        //public DeleteSupplierDetailsCommand(int id)
+        //{
+        //    SupplierId= id;
+        //}
 
-        public DeleteSupplierDetailsCommand(int id)
-        {
-            SupplierId = id;
-        }
     }
 }

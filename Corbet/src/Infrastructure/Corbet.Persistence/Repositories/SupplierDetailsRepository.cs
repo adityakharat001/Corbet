@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Corbet.Application.Contracts.Persistence;
 using Corbet.Application.Features.ProductCategoryDetails.Commands.DeletCategoryDetails;
-
+using Corbet.Application.Features.SuppliersDetails.Command.DeleteSupplierDetails;
 using Corbet.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -24,36 +24,46 @@ namespace Corbet.Persistence.Repositories
             _mapper = mapper;
         }
 
-        public async Task<DeleteCategoryDetailsCommandDto> RemoveSupplierDetailsAsync(int supplierId)
+        public async Task<DeleteSupplierDetailsCommandDto> RemoveSupplierDetailsAsync(int id)
         {
-            _logger.LogInformation("In Repository Remove Supplier Initiated");
-            DeleteCategoryDetailsCommandDto response = new DeleteCategoryDetailsCommandDto();
-            var IsSupplierExist = await _dbContext.SupplierDetails.Where(x => x.SupplierId == supplierId).FirstOrDefaultAsync();
+            _logger.LogInformation("Initiated in repository");
+            DeleteSupplierDetailsCommandDto response = new DeleteSupplierDetailsCommandDto();
+            var IsSupplierExist = await _dbContext.SupplierDetails.Where(x => x.SupplierId == id).FirstOrDefaultAsync();
             if (IsSupplierExist != null)
             {
-
                 IsSupplierExist.IsDeleted = true;
-                IsSupplierExist.IsActive = false;
                 await _dbContext.SaveChangesAsync();
 
-                //response.Email = IsSupplierExist.Email;
-                //response.SupplierName = IsSupplierExist.SupplierName;
-                response.Message = "Supplier Details Deleted Successful";
+                response.Message = "Category Details Successful";
                 response.Succeeded = true;
-                return response;
-                _logger.LogInformation("In Repository Remove Supplier Details Completed");
-            }
 
+                return response;
+                _logger.LogInformation("remove category completed");
+            }
             else
             {
-                //response.Email = null;
-                //response.SupplierName = null;
-                response.Message = "Supplier Details with this Id doesn't Exist";
+                response.Message = "Category details with this id doesn't exist";
                 response.Succeeded = false;
                 return response;
-                _logger.LogInformation("In Repository Supplier Details Doesn't exist");
+                _logger.LogInformation("In Repository Remove Category deatils Doesn't exist");
             }
+
         }
+        public Supplier SupplierDetailsAdding(SupplierDetails supplierDetails)
+        {
+            Supplier supplier = new Supplier()
+            {
+                uniqueId = supplierDetails.SupplierId,
+                SupplierName = supplierDetails.SupplierName,
+                CreaditLimit = supplierDetails.CreditLimit
+            };
+            return supplier;
+        }
+
+
+
+
+
 
         public async Task<bool> ToggleActiveStatus(int supplierId)
         {
@@ -61,19 +71,19 @@ namespace Corbet.Persistence.Repositories
             var supplierExist = await _dbContext.SupplierDetails.Where(x => x.SupplierId == supplierId).FirstOrDefaultAsync();
             if (supplierExist != null)
             {
-                if (supplierExist.IsActive)
-                {
-                    supplierExist.IsActive = false;
-                    _dbContext.SaveChanges();
-                    return false;
-                }
-                else if (!supplierExist.IsActive)
-                {
-                    supplierExist.IsActive = true;
-                    _dbContext.SaveChanges();
-                    return true;
-                }
-                return false;
+                //if (supplierExist.)
+                //{
+                //    supplierExist.IsActive = false;
+                //    _dbContext.SaveChanges();
+                //    return false;
+                //}
+                //else if (!supplierExist.IsActive)
+                //{
+                //    supplierExist.IsActive = true;
+                //    _dbContext.SaveChanges();
+                //    return true;
+                //}
+                //return false;
             }
             return false;
 

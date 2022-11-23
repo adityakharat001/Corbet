@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Corbet.Application.Features.SuppliersDetails.Command.DeleteSupplierDetails
 {
-    public class DeleteSupplierDetailsCommandHandler : IRequestHandler<DeleteCategoryDetailsCommand, Response<DeleteCategoryDetailsCommandDto>>
+    public class DeleteSupplierDetailsCommandHandler : IRequestHandler<DeleteSupplierDetailsCommand, Response<DeleteSupplierDetailsCommandDto>>
     {
         private readonly IMapper _mapper;
         private readonly ILogger<DeleteSupplierDetailsCommandHandler> _logger;
@@ -25,27 +25,27 @@ namespace Corbet.Application.Features.SuppliersDetails.Command.DeleteSupplierDet
             _supplierRepository = supplierRepository;
         }
 
-        public async Task<Response<DeleteCategoryDetailsCommandDto>> Handle(DeleteCategoryDetailsCommand request, CancellationToken cancellationToken)
+        public async Task<Response<DeleteSupplierDetailsCommandDto>> Handle(DeleteSupplierDetailsCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("initiated");
+            var supplierDeatils = await _supplierRepository.RemoveSupplierDetailsAsync(request.SupplierId);
+            _logger.LogInformation("Delete category deatils Completed");
 
-            _logger.LogInformation("Delete Supplier Initiated");
-            var supplierDto = await _supplierRepository.RemoveSupplierDetailsAsync(request.Id);
-            _logger.LogInformation("Delete Supplier Completed");
-            if (supplierDto.Succeeded)
+            if (supplierDeatils.Succeeded)
             {
-                //mapper.Map<DeleteCommandDto>(userdto);
-                return new Response<DeleteCategoryDetailsCommandDto>(supplierDto, "Success");
+                return new Response<DeleteSupplierDetailsCommandDto>(supplierDeatils, "Success");
             }
             else
             {
-                var res = new Response<DeleteCategoryDetailsCommandDto>(supplierDto, "Failed");
+                var res = new Response<DeleteSupplierDetailsCommandDto>(supplierDeatils, "Failed");
                 res.Succeeded = false;
                 return res;
             }
 
-
             throw new NotImplementedException();
+
         }
+        }
+
     }
-    
-}
+

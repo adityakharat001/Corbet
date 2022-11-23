@@ -62,9 +62,9 @@ namespace Corbet.Api.Controllers.v3
         [Route("DeleteCategoryDetails")]
         public async Task<IActionResult> DeleteCategoryDetails(int id)
         {
-            _logger.LogInformation("Tax Details delete initiated");
+            _logger.LogInformation("Category Details delete initiated");
             await _mediator.Send(new DeleteCategoryDetailsCommand() {Id = id });
-            _logger.LogInformation("Tax Details delete completed");
+            _logger.LogInformation("Category Details delete completed");
             return NoContent();
         }
         #endregion

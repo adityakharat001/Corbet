@@ -18,13 +18,14 @@ namespace Corbet.Application.Features.SuppliersDetails.Command.CreateSupplierDet
     {
         private readonly ILogger<CreateSupplierDetailsCommandHandler> _logger;
         private readonly IMapper _mapper;
-        private readonly ISupplierDetailsRepository _supplierRepository;
+        private readonly ISupplierDetailsRepository _supplierDetailsRepository;
+        private readonly ISupplierRepository _supplierRepository;
 
-
-        public CreateSupplierDetailsCommandHandler(ILogger<CreateSupplierDetailsCommandHandler> logger, IMapper mapper, ISupplierDetailsRepository supplierRepository)
+        public CreateSupplierDetailsCommandHandler(ILogger<CreateSupplierDetailsCommandHandler> logger, IMapper mapper, ISupplierDetailsRepository supplierDetailsRepository, ISupplierRepository supplierRepository)
         {
             _logger = logger;
             _mapper = mapper;
+            _supplierDetailsRepository = supplierDetailsRepository;
             _supplierRepository = supplierRepository;
         }
 
@@ -33,7 +34,13 @@ namespace Corbet.Application.Features.SuppliersDetails.Command.CreateSupplierDet
             _logger.LogInformation("Adding Supplier Information initiated");
 
             var supplier = _mapper.Map<SupplierDetails>(request);
-            var supplierData = await _supplierRepository.AddAsync(supplier);
+            var supplierData = await _supplierDetailsRepository.AddAsync(supplier);
+            Supplier obj= _supplierDetailsRepository.SupplierDetailsAdding(supplier);
+            if (obj != null)
+            {
+                var data =await _supplierRepository.AddAsync(obj);
+
+            }
             var supplierDto = _mapper.Map<CreateSupplierDetailsCommandDto>(supplierData);
             return new Response<CreateSupplierDetailsCommandDto>(supplierDto);
             _logger.LogInformation("Adding Supplier Completed");

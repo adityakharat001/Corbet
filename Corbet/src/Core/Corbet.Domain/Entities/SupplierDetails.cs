@@ -12,22 +12,20 @@ namespace Corbet.Domain.Entities
     {
         [Key]
         public int SupplierId { get; set; }
-        [MaxLength(30)]
+        [MaxLength(150)]
+        //company name=supplierName
         public string SupplierName { get; set; }
-        [MaxLength(100)]
+        [MaxLength(150)]
         public string Email { get; set; }
         [MaxLength(10)]
         public string PhoneNumber { get; set; }
-        [MaxLength(250)]
+        [MaxLength(300)]
         public string BillingAddress { get; set; }
-        [MaxLength(100)]
+        [MaxLength(200)]
         public string SupplierType { get; set; }
         public long CreditLimit { get; set; }
         public DateTime CreditPeriod { get; set; } = DateTime.Now;
-        public string? DocumentPath { get; set; } = "rinku.pdf";
-        public bool IsActive { get; set; } = false;
-        public bool IsDeleted { get; set; } = false;
-        public bool IsPaymentDone { get; set; } = false;
-
+        public string? DocumentPath { get; set; } = "rinku.pdf"; 
+        public bool IsDeleted { get; set; }
     }
 }

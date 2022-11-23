@@ -24,8 +24,8 @@ namespace Corbet.Application.Features.Suppliers.Queries.GetSupplierById
 
         public async Task<Supplier> Handle(GetSupplierByIdQuery request, CancellationToken cancellationToken)
         {
-            Supplier user = await _supplierRepository.GetById(request.Id);
-            return user;
+            Supplier supply = await _supplierRepository.GetById(request.Id);
+            return supply;
         }
     }
 }

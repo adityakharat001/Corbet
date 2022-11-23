@@ -13,6 +13,7 @@ namespace Corbet.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
+        public int uniqueId { get; set; }
         [MaxLength(100)]
         public string SupplierName { get; set; }
         public long CreaditLimit { get; set; }

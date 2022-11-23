@@ -63,12 +63,10 @@ namespace Corbet.Api.Controllers.v3
         {
             _logger.LogInformation("Get All Suplliers initiated");
             var response = await _mediator.Send(new GetAllSuppliersQuery());
-
             _logger.LogInformation("Get All Suppliers completed");
             return Ok(response);
         }
         #endregion
-
 
 
         //get supplier by Id

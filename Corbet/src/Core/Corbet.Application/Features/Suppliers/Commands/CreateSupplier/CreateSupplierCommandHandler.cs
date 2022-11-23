@@ -33,6 +33,7 @@ namespace Corbet.Application.Features.Suppliers.Commands.CreateSupplier
         {
             var supplier = _mapper.Map<Supplier>(request);
             var supplierData = await _supplierRepository.AddAsync(supplier);
+            
             var supplierDto = _mapper.Map<CreateSuplierCommandDto>(supplierData);
             return new Response<CreateSuplierCommandDto>(supplierDto);
         }

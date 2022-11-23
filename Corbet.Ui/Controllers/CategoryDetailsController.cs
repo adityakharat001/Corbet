@@ -52,7 +52,7 @@ namespace Corbet.Ui.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateCategoryDetails(CategoryDetailsViewModel categoryDetails)
+        public ActionResult CreateCategoryDetails(CategoryDetailsUpdateModel categoryDetails)
         {
             string data = JsonConvert.SerializeObject(categoryDetails);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");

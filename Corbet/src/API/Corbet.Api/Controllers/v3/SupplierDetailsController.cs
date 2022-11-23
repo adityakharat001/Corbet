@@ -4,6 +4,8 @@ using Corbet.Application.Features.ProductCategoryDetails.Commands.UpdateCategory
 using Corbet.Application.Features.SuppliersDetails.Command.CreateSupplierDetails;
 using Corbet.Application.Features.SuppliersDetails.Command.DeleteSupplierDetails;
 using Corbet.Application.Features.SuppliersDetails.Command.UpdateSupplierDetails;
+using Corbet.Application.Features.SuppliersDetails.Queries.GetAllSupplierDetails;
+using Corbet.Application.Features.SuppliersDetails.Queries.GetSupplierDetailsById;
 
 using MediatR;
 
@@ -52,18 +54,42 @@ namespace Corbet.Api.Controllers.v3
         }
         #endregion
 
-
+        #region Get All Suppliers Details
+        [HttpGet]
+        [Route("GetAlSuppliersDetails")]
+        public async Task<IActionResult> GetAllSuppliersDetails()
+        {
+            _logger.LogInformation("");
+            var details = await _mediator.Send(new GetAllSupplierDetailsQuery());
+            _logger.LogInformation("");
+            return Ok(details);
+        }
+        #endregion
 
         #region Delete Supplier Details
         [HttpDelete]
         [Route("DeleteSupplierDetails")]
         public async Task<IActionResult> DeleteSupplierDetails(int id)
         {
-            _logger.LogInformation("Supplier Details delete initiated");
-            await _mediator.Send(new DeleteSupplierDetailsCommand(id));
-            _logger.LogInformation("Suppl Details delete completed");
+            _logger.LogInformation("Suppliers Details delete initiated");
+            await _mediator.Send(new DeleteSupplierDetailsCommand() { SupplierId = id });
+            _logger.LogInformation("Suppliers Details delete completed");
             return NoContent();
         }
         #endregion
+
+
+        #region get Supplier Details By Id
+        [HttpGet]
+        [Route("GetSupplierDetailsById")]
+        public async Task<IActionResult> GetSupplierDetailsById(int id)
+        {
+            _logger.LogInformation("get details by id initiated");
+            var details = await _mediator.Send(new GetSupplierDetailsByIdQuery() { SupplierId = id });
+            _logger.LogInformation("completed");
+            return Ok(details);
+        }
+        #endregion
+
     }
 }

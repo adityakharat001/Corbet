@@ -10,7 +10,7 @@ namespace Corbet.Application.Features.SuppliersDetails.Command.UpdateSupplierDet
     {
         public int SupplierId { get; set; }
         public string SupplierName { get; set; }
-        public int CreditLimit { get; set; }
-        public bool IsPaymentDone { get; set; }
+        public long CreditLimit { get; set; }
+    
     }
 }

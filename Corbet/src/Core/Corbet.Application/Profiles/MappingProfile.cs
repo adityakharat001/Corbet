@@ -34,6 +34,7 @@ using Corbet.Application.Features.Suppliers.Commands.UpdateSupplier;
 using Corbet.Application.Features.Suppliers.Queries.GetAllSuppliers;
 using Corbet.Application.Features.SuppliersDetails.Command.CreateSupplierDetails;
 using Corbet.Application.Features.SuppliersDetails.Command.UpdateSupplierDetails;
+using Corbet.Application.Features.SuppliersDetails.Queries.GetAllSupplierDetails;
 using Corbet.Application.Features.Taxes.Commands.CreateTax;
 using Corbet.Application.Features.Taxes.Commands.CreateTaxDetail;
 using Corbet.Application.Features.Taxes.Commands.UpdateTax;
@@ -102,11 +103,13 @@ namespace Corbet.Application.Profiles
 
             CreateMap<SupplierDetails, CreateSupplierDetailsCommand>().ReverseMap();
             CreateMap<SupplierDetails, CreateSupplierDetailsCommandDto>().ReverseMap();
-
-          
+      
 
             CreateMap<SupplierDetails, UpdateSupplierDetailsCommand>().ReverseMap();
             CreateMap<SupplierDetails, UpdateSupplierDetailsCommandDto>().ReverseMap();
+
+            CreateMap<SupplierDetails, GetAllSupplierDetailsQuery>().ReverseMap();
+            CreateMap<SupplierDetails, GetAllSupplierDetailsQueryVm>().ReverseMap();
 
             CreateMap<Supplier, CreateSupplierCommand>().ReverseMap();
             CreateMap<Supplier, CreateSuplierCommandDto>().ReverseMap();
@@ -118,6 +121,9 @@ namespace Corbet.Application.Profiles
 
             CreateMap<Supplier, GetAllSuppliersQuery>().ReverseMap();
             CreateMap<Supplier, GetAllSuppliersQueryVm>().ReverseMap();
+
+            CreateMap<SupplierDetails, GetAllSupplierDetailsQuery>().ReverseMap();
+            CreateMap<SupplierDetails, GetAllSupplierDetailsQueryVm>().ReverseMap();
 
             CreateMap<Tax, GetAllTaxesQuery>().ReverseMap();
             CreateMap<Tax, GetAllTaxesVm>().ReverseMap();

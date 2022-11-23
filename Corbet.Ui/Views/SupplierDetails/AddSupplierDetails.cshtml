@@ -1,7 +1,7 @@
-﻿@model Corbet.Ui.Models.CategoryDetailsUpdateModel
+﻿@model Corbet.Ui.Models.SupplierDetailsViewModel
 
 @{
-    ViewData["Title"] = "CreateCategoryDetails";
+    ViewData["Title"] = "AddSupplierDetails";
 }
 
 <aside id="sidebar" class="sidebar">
@@ -118,60 +118,97 @@
     </ul>
 </aside>
 <!-- End Sidebar -->
-<div class="pagetitle">
-    <h1>Add Category Details</h1>
-    <nav>
-        <ol class="breadcrumb">
-            @*<li class="breadcrumb-item"><a asp-action="CreateTaxDetails">Tax Details</a></li>*@
-           @* <li class="breadcrumb-item active">Add Category Details</li>*@
-        </ol>
-    </nav>
-</div>
 
+<h4>Add Supplier Details</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateCategoryDetails">
+        <form asp-action="AddSupplierDetails">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <label asp-for="SupplierId" class="control-label"></label>
+                <input asp-for="SupplierId" class="form-control" />
+                <span asp-validation-for="SupplierId" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label><span class="text-danger">*</span>
-                @*<input asp-for="CategoryName" class="form-control" />*@
-                <select asp-for="CategoryId" id="CategoryName" class="form-control" asp-items="ViewBag.CategoryNamelist">
-                    <option value="">---select Product Category---</option>
-                </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <label asp-for="SupplierName" class="control-label"></label><span class="text-danger">*</span>
+                <input asp-for="SupplierName" class="form-control" />
+                <span asp-validation-for="SupplierName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryDescription" class="control-label"></label><span class="text-danger">*</span>
-                <input asp-for="CategoryDescription" class="form-control" />
-                <span asp-validation-for="CategoryDescription" class="text-danger"></span>
+                <label asp-for="Email" class="control-label"></label><span class="text-danger">*</span>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <br />
-
-            @* <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
-                </label>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label><span class="text-danger">*</span>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BillingAddress" class="control-label"></label><span class="text-danger">*</span>
+                <input asp-for="BillingAddress" class="form-control" />
+                <span asp-validation-for="BillingAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupplierType" class="control-label"></label><span class="text-danger">*</span>
+                <input asp-for="SupplierType" class="form-control" />
+                <span asp-validation-for="SupplierType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreditLimit" class="control-label"></label><span class="text-danger">*</span>
+                <input asp-for="CreditLimit" class="form-control" />
+                <span asp-validation-for="CreditLimit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreditPeriod" class="control-label"></label>
+                <input asp-for="CreditPeriod" class="form-control" />
+                <span asp-validation-for="CreditPeriod" class="text-danger"></span>
+            </div>
+        @*    <div class="form-group">
+                <label asp-for="DocumentPath" class="control-label"></label>
+                <input asp-for="DocumentPath" class="form-control" />
+                <span asp-validation-for="DocumentPath" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
                 </label>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastModifiedBy" class="control-label"></label>
+                <input asp-for="LastModifiedBy" class="form-control" />
+                <span asp-validation-for="LastModifiedBy" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastModifiedDate" class="control-label"></label>
+                <input asp-for="LastModifiedDate" class="form-control" />
+                <span asp-validation-for="LastModifiedDate" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a class="btn btn-warning" asp-action="GetAllCategoryDetails">Back to List</a>
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

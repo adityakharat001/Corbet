@@ -8,9 +8,9 @@ namespace Corbet.Application.Features.SuppliersDetails.Command.DeleteSupplierDet
 {
     public class DeleteSupplierDetailsCommandDto
     {
+        //public string Email { get; set; }
+        //public string SupplierName { get; set; }
         public string Message { get; set; }
-        public string SupplierName { get; set; }
-        public string Email { get; set; }
         public bool Succeeded { get; set; }
     }
 }

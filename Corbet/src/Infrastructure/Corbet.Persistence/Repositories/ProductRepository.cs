@@ -34,12 +34,18 @@ namespace Corbet.Persistence.Repositories
                                on p.TaxId equals td.TaxId
                                join t in _dbContext.Taxes
                                on p.TaxId equals t.TaxId
+                               join c in _dbContext.ProductCategories
+                               on p.CategoryId equals c.CategoryId
+                               join sc in _dbContext.ProductSubCategories
+                               on p.SubCategoryId equals sc.SubCategoryId
                                where (p.Price > td.MinTax && p.Price < td.MaxTax) && p.IsDeleted == false
                                select new GetAllProductsVm
                                {
                                    Id = p.ProductId,
                                    ProductCode = p.ProductCode,
                                    ProductName = p.ProductName,
+                                   ProductCategory = c.CategoryName,
+                                   ProductSubCategory = sc.SubCategoryName,
                                    Unit = u.Type,
                                    Price = p.Price,
                                    PrimarySupplier = s.SupplierName,

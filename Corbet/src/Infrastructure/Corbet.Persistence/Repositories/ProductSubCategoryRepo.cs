@@ -1,4 +1,5 @@
 ﻿using Corbet.Application.Contracts.Persistence;
+using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryByCategoryId;
 using Corbet.Application.Features.ProductSubCategory.Command.DeleteSubCategory;
 using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryList;
 using Corbet.Application.Features.Taxes.Queries.GetAllTaxDetails;
@@ -46,6 +47,18 @@ namespace Corbet.Persistence.Repositories
             return subcategorydata;
         }
 
+        public List<GetSubCategoryByCategoryIdVm> GetSubCategoryByCategoryId(int categoryId)
+        {
+            var subcategorydata = (from e in _dbContext.ProductSubCategories
+                                   where e.IsDeleted == false && e.CategoryId == categoryId
+                                   select new GetSubCategoryByCategoryIdVm
+                                   {
+                                       SubCategoryId = e.SubCategoryId,
+                                       SubCategoryName = e.SubCategoryName, 
+                                   }).ToList();
+            return subcategorydata;
+
+        }
 
 
         //subCategory Exist

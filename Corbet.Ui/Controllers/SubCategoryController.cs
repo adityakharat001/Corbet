@@ -99,7 +99,7 @@ namespace Corbet.Ui.Controllers
         [HttpGet]
         public ActionResult GetAllSubCategory()
         {
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "ProductSubCategory/AllSubCategory").Result;
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "ProductSubCategory/GetAllSubCategories").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
             var subCategoryList = JsonConvert.DeserializeObject<List<GetSubCategoryVm>>(data);
             return View(subCategoryList);

@@ -11,7 +11,6 @@ namespace Corbet.Ui.Models
         [DisplayName("Category Name")]
         [Required(ErrorMessage ="Please Enter Category Name")]
         public int CategoryId { get; set; }
-
         [DisplayName("Category Description")]
         [Required(ErrorMessage = "Please Add Product Category description")]
         public string CategoryDescription { get; set; }

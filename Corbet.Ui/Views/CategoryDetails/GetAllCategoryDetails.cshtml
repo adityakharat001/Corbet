@@ -153,7 +153,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.IsDeleted)
             </th>*@
-            <th></th>
+            <th data-orderable="false">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -178,16 +178,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.IsDeleted)
             </td>*@
-            <td>
+            
                 <td>
                     <a class="btn btn-sm btn-primary" asp-controller="CategoryDetails" asp-action="UpdateCategoryDetails" asp-route-id="@item.Id"><i class="ri-edit-box-fill"></i></a>
                     <button class="btn btn-sm btn-danger" asp-actions="DeleteCategoryDetails" onclick="DeleteAlert('@item.Id')"><i class="ri-delete-bin-6-fill"></i></button>
                 </td>
-            </td>
+            
         </tr>
 }
     </tbody>
 </table>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
@@ -208,8 +209,7 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/UserRegister/DeleteUser/${id}`);
-
+                window.location.assign(`/CategoryDetails/GetAllCategoryDetails${id}`);
             }
         })
     }

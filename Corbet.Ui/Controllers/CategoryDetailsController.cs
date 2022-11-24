@@ -127,7 +127,7 @@ namespace Corbet.Ui.Controllers
         {
             string data = JsonConvert.SerializeObject(taxDetails);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategoryDetails/UpdateCategoryDetail", content).Result;
+            HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategoryDetails/UpdateCategoryDetails", content).Result;
 
             if (response.IsSuccessStatusCode)
             {

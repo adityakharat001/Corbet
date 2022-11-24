@@ -21,18 +21,12 @@ namespace Corbet.Ui.Controllers
                 HttpResponseMessage response = httpClient.GetAsync($"{baseAddress}/UnitMeasurement/GetAllUnitMeasurements").Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    string apiResponse = response.Content.ReadAsStringAsync().Result;
-                    var jsonArrayResponse = JObject.Parse(apiResponse);
-
-                    var resultData = jsonArrayResponse["data"].ToString();
-
-                    JavaScriptSerializer js = new JavaScriptSerializer();
-                    var unitMeasurementList = js.Deserialize<List<UnitMeasurement>>(resultData);
+                    dynamic data = response.Content.ReadAsStringAsync().Result;
+                    var unitMeasurementList = JsonConvert.DeserializeObject<List<UnitMeasurement>>(data);
                     return View(unitMeasurementList);
                 }
                 else
                 {
-                    //ViewBag.kang = "<script type='text/javascript'>Swal.fire('','Old password and new password are same. If you wanna reset the password, try different password.','warning');</script>";
                     return View();
                 }
             }
@@ -70,7 +64,7 @@ namespace Corbet.Ui.Controllers
                         //ViewBag.emailAvailabilityAlert = "<script type='text/javascript'>Swal.fire('','Incorrect email address or no user exists with this email id.','warning');</script>";
                         return View();
                     }
-                   
+
                 }
             }
             return View();
@@ -131,7 +125,8 @@ namespace Corbet.Ui.Controllers
                         return View();
                     }
                 }
-            }return View();
+            }
+            return View();
         }
 
         public async Task<IActionResult> DeleteUnitMeasurement(int id)

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+
+using Corbet.Application.Features.AddCart.Command;
 using Corbet.Application.Features.Categories.Commands.CreateCategory;
 using Corbet.Application.Features.Categories.Commands.StoredProcedure;
 using Corbet.Application.Features.Categories.Queries.GetCategoriesList;
@@ -9,7 +11,6 @@ using Corbet.Application.Features.Events.Commands.UpdateEvent;
 using Corbet.Application.Features.Events.Queries.GetEventDetail;
 using Corbet.Application.Features.Events.Queries.GetEventsExport;
 using Corbet.Application.Features.Events.Queries.GetEventsList;
-using Corbet.Application.Features.OrderManagement.Command;
 using Corbet.Application.Features.Orders.GetOrdersForMonth;
 using Corbet.Application.Features.ProductCategory.Commands.CraeteProductCategory;
 using Corbet.Application.Features.ProductCategory.Commands.CreateProductCategory;
@@ -206,8 +207,13 @@ namespace Corbet.Application.Profiles
 
             CreateMap<ProductSubCategory, SubCategoryExistCommand>().ReverseMap();
 
-            CreateMap<OrderManagement,CreateOrderCommand>().ReverseMap();
-            CreateMap<OrderManagement, CreateOrderDto>().ReverseMap();
+
+            CreateMap<AddToCart,CreateCartCommand>().ReverseMap();
+            CreateMap<AddToCart, CreateCartCommandDto>().ReverseMap();
+
+
+            //CreateMap<OrderManagement,CreateOrderCommand>().ReverseMap();
+            //CreateMap<OrderManagement, CreateOrderDto>().ReverseMap();
 
         }
     }

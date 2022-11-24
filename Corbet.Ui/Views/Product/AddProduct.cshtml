@@ -1,8 +1,7 @@
-﻿
-@model Corbet.Ui.Models.SupplierDetailsViewModel
+﻿@model Corbet.Ui.Models.ProductResponseDto
 
 @{
-    ViewData["Title"] = "UpdateSupplierDetails";
+    ViewData["Title"] = "AddProduct";
 }
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -36,20 +35,20 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link"
+            <a class="nav-link collapsed"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">
@@ -108,8 +107,8 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="Product" asp-action="GetAllProductSubCategories">
+                <li>
+                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -118,93 +117,104 @@
     </ul>
 </aside>
 <!-- End Sidebar -->
-<h4>SupplierDetailsViewModel</h4>
+<div class="pagetitle">
+    <h1>Products</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="GetAllProducts">Products</a></li>
+            <li class="breadcrumb-item active">New Product</li>
+        </ol>
+    </nav>
+</div>
+<h4>Add Product</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="UpdateSupplierDetails">
+        <form asp-action="AddProduct" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="SupplierId" class="control-label"></label>
-                <input asp-for="SupplierId" class="form-control" />
-                <span asp-validation-for="SupplierId" class="text-danger"></span>
+                <label asp-for="ProductName" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SupplierName" class="control-label"></label>
-                <input asp-for="SupplierName" class="form-control" />
-                <span asp-validation-for="SupplierName" class="text-danger"></span>
+                <label asp-for="CategoryId" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="CategoryId" class="form-control" id="ddlCategory"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+                @*<label asp-for="CategoryId" class="form-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.ProductCategorylist" required>
+                <option value="">---Select Category---</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="SubCategoryId" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="SubCategoryId" class="form-control" id="ddlSubcategory"></select>
+                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+
+                @* <label asp-for="SubCategoryId" class="form-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="SubCategoryId" class="form-control" asp-items="@ViewBag.SubCategorylist" required>
+                <option value="">---Select Subcategory---</option>
+                </select>
+                <span asp-validation-for="SubCategoryId" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                <label asp-for="UnitId" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="UnitId" class="form-control" id="ddlUnit"></select>
+                <span asp-validation-for="UnitId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BillingAddress" class="control-label"></label>
-                <input asp-for="BillingAddress" class="form-control" />
-                <span asp-validation-for="BillingAddress" class="text-danger"></span>
+                <label asp-for="Price" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SupplierType" class="control-label"></label>
-                <input asp-for="SupplierType" class="form-control" />
-                <span asp-validation-for="SupplierType" class="text-danger"></span>
+                <label asp-for="PrimarySupplierId" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="PrimarySupplierId" class="form-control" id="ddlPrimarySupplier"></select>
+                <span asp-validation-for="PrimarySupplierId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreditLimit" class="control-label"></label>
-                <input asp-for="CreditLimit" class="form-control" />
-                <span asp-validation-for="CreditLimit" class="text-danger"></span>
+                <label asp-for="SecondarySupplierId" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="SecondarySupplierId" class="form-control" id="ddlSecondarySupplier">                </select>
+                <span asp-validation-for="SecondarySupplierId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreditPeriod" class="control-label"></label>
-                <input asp-for="CreditPeriod" class="form-control" />
-                <span asp-validation-for="CreditPeriod" class="text-danger"></span>
+                <label asp-for="Image" class="control-label">Upload Image</label>
+                <input asp-for="Image" type="file" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DocumentPath" class="control-label"></label>
-                <input asp-for="DocumentPath" class="form-control" />
-                <span asp-validation-for="DocumentPath" class="text-danger"></span>
+                <label asp-for="TaxId" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="TaxId" class="form-control" id="ddlTax"></select>
+                <span asp-validation-for="TaxId" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
+            <br />
             <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastModifiedBy" class="control-label"></label>
-                <input asp-for="LastModifiedBy" class="form-control" />
-                <span asp-validation-for="LastModifiedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastModifiedDate" class="control-label"></label>
-                <input asp-for="LastModifiedDate" class="form-control" />
-                <span asp-validation-for="LastModifiedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-warning" asp-action="GetAllProducts">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/assets/js/productDropdown.js" defer></script>

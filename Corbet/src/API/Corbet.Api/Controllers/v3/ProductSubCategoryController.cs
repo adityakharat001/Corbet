@@ -3,6 +3,7 @@ using Corbet.Application.Features.ProductSubCategory.Command.CreateSubCategory;
 using Corbet.Application.Features.ProductSubCategory.Command.DeleteSubCategory;
 using Corbet.Application.Features.ProductSubCategory.Command.SubCategoryExist;
 using Corbet.Application.Features.ProductSubCategory.Command.UpdateSubCategory;
+using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryByCategoryId;
 using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryById;
 using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryList;
 using Corbet.Application.Features.Roles.Queries.GetAllRoles;
@@ -43,7 +44,7 @@ namespace Corbet.Api.Controllers.v3
 
 
         [HttpGet]
-        [Route("AllSubCategory")]
+        [Route("GetAllSubCategories")]
         public async Task<IActionResult> GetAllSubCategory()
         {
             _logger.LogInformation("SubCategory list initiated");
@@ -62,6 +63,18 @@ namespace Corbet.Api.Controllers.v3
             _logger.LogInformation("Get SubCategory completed");
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("GetSubCategoryByCategoryId/{id}")]
+        public async Task<IActionResult> GetSubCategoryByCategoryId(int id)
+        {
+            _logger.LogInformation("Get SubCategory initiated");
+            var response = await _mediator.Send(new GetSubCategoryByCategoryIdQuery() { CategoryId = id });
+            _logger.LogInformation("Get SubCategory completed");
+            return Ok(response);
+        }
+
+
         //Update SubCategory
         [HttpPost]
         [Route("UpdateSubCategory")]

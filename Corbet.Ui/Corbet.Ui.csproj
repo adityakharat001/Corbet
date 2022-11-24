@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Corbet\src\Core\Corbet.Application\Corbet.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\ProductImages\" />
+  </ItemGroup>
+
 </Project>

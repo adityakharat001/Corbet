@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Corbet.Application.Features.UnitMeasurements.Queries.GetAllUnitMeasurements
 {
-    public class GetAllUnitMeasurementsQuery : IRequest<Response<List<GetAllUnitMeasurementsVm>>>
+    public class GetAllUnitMeasurementsQuery : IRequest<List<GetAllUnitMeasurementsVm>>
     {
     }
 }

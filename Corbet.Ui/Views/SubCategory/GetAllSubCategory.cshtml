@@ -109,33 +109,29 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                       data-bs-target="#category-nav"
                        data-bs-toggle="collapse"
                        href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Tax Management</span>
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="category-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
-                            <a asp-controller="Tax" asp-action="GetAllTaxes">
-                                <i class="bi bi-circle"></i><span>Tax Types</span>
+                            <a asp-controller="ProductCategory" asp-action="GetAllCategories">
+                                <i class="bi bi-circle"></i><span>Product Category</span>
                             </a>
                         </li>
                         <li>
-                            <a asp-controller="Tax" asp-action="GetAllTaxDetails">
-                                <i class="bi bi-circle"></i><span>Tax Details</span>
+                            <a asp-controller="CategoryDetails" asp-action="GetAllCategoryDetails">
+                                <i class="bi bi-circle"></i><span>Product Category Details</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a asp-controller="Product" asp-action="GetAllProductCategories">
-                        <i class="bi bi-circle"></i><span>Product Categories</span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Product" asp-action="GetAllProductSubCategories">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -143,17 +139,21 @@
         </li>
     </ul>
 </aside>
-<!
-<h2 style="color:white;font-width:30px;margin-left:90px;">List of SubCategory</h1>
-    
+<!-- End Sidebar -->
+<div class="pagetitle">
+    <h1>Product Sub Categories</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Product Sub Categories</li>
+        </ol>
+    </nav>
+</div>
 
-
-    <p>
-        <a class="btn btn-primary" asp-controller="SubCategory" asp-action="CreateSubCategory"> New SubCategory </a>
-    </p>
-
-<table class="table" id="myTable" style="border:1px solid black;">
-    <thead style="background:white;">
+<p>
+    <a class="btn btn-primary" asp-action="CreateSubCategory">Create New</a>
+</p>
+<table class="table" id="myTable">
+    <thead>
         <tr>
             <th>
                 Sr.No

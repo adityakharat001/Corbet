@@ -14,6 +14,16 @@
         </li>
         <!-- End Dashboard Nav -->
 
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
 
         <li class="nav-item ">
             <a class="nav-link collapsed"
@@ -87,12 +97,12 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                       data-bs-target="#category-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="category-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -108,8 +118,8 @@
                     </ul>
                 </li>
 
-                <li>
-                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="Product" asp-action="GetAllProductSubCategories">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>

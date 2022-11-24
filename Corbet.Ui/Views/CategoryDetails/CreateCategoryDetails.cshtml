@@ -85,14 +85,14 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                 <li class="nav-item">
+                    <a class="nav-link "
+                       data-bs-target="#category-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="category-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -134,13 +134,13 @@
         <form asp-action="CreateCategoryDetails">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
             </div>*@
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label><span class="text-danger">*</span>
-                @*<input asp-for="CategoryName" class="form-control" />*@
+                @*<input asp-for="CategoryId" class="form-control" />*@
                 <select asp-for="CategoryId" id="CategoryName" class="form-control" asp-items="ViewBag.CategoryNamelist">
                     <option value="">---select Product Category---</option>
                 </select>
@@ -159,9 +159,9 @@
                 </label>
             </div>
             <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
+            <label class="form-check-label">
+            <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+            </label>
             </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -174,5 +174,10 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/assets/js/productDropdown.js" defer></script>

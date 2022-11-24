@@ -16,4 +16,5 @@ namespace Corbet.Application.Features.Roles.Queries.RoleNameExist
             RoleName = roleName;
         }
     }
+
 }

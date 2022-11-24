@@ -35,7 +35,7 @@ namespace Corbet.Application.UnitTests.Orders.Queries
         {
             var handler = new GetOrdersForMonthQueryHandler(_mockOrderRepository.Object, _mapper);
 
-            var result = await handler.Handle(new GetOrdersForMonthQuery(){ Date = Convert.ToDateTime("2021-08-26 10:44:09.5406918"), Page = 1, Size = 2}, CancellationToken.None);
+            var result = await handler.Handle(new GetOrdersForMonthQuery() { Date = Convert.ToDateTime("2021-08-26 10:44:09.5406918"), Page = 1, Size = 2 }, CancellationToken.None);
 
             result.ShouldBeOfType<PagedResponse<IEnumerable<OrdersForMonthDto>>>();
             result.Data.ShouldBeOfType<List<OrdersForMonthDto>>();
@@ -43,3 +43,4 @@ namespace Corbet.Application.UnitTests.Orders.Queries
         }
     }
 }
+ 

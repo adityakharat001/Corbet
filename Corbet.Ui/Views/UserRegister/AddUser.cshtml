@@ -4,6 +4,7 @@
     ViewData["Title"] = "AddUser";
 }
 
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -15,7 +16,7 @@
         <!-- End Dashboard Nav -->
 
 
-        <li class="nav-item collapsed">
+        <li class="nav-item ">
             <a class="nav-link collapsed"
                asp-controller="Role"
                asp-action="GetAllRoles">
@@ -25,7 +26,7 @@
 
 
         <li class="nav-item">
-            <a class="nav-link"
+            <a class="nav-link collapsed"
                asp-controller="UserRegister"
                asp-action="GetAllUsers">
                 <i class="bi bi-menu-button-wide"></i><span>All Users</span>
@@ -36,20 +37,20 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliersForAdmin">
+               asp-action="GetAllSuppliers">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-            asp-controller="Product"
+               asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">

@@ -4,6 +4,16 @@
     ViewData["Title"] = "GetAllTaxes";
     int counter = 0;
 }
+
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success" id="success-alert">
+        <strong>Successful.!!</strong>
+        @TempData["AlertMessage"]
+        @*<button type="button" class="close" data-dismiss="alert" onclick="CloseAlert">x</button>*@
+    </div>
+}
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -43,7 +53,7 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-            asp-controller="Product"
+               asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
             </a>
@@ -136,6 +146,7 @@
             <th>
                 Sr. No
             </th>
+            <th>TaxId</th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -151,16 +162,21 @@
                     @counter
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.TaxId)
+</td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-primary" asp-controller="Tax" asp-action="UpdateTax" asp-route-id="@item.TaxId"><i class="ri-edit-box-fill "></i></a>
+                    <button class="btn btn-sm btn-primary" onclick="Encode('@item.TaxId')" @*asp-controller="Tax" asp-action="UpdateTax" asp-route-id="@item.TaxId"*@><i class="ri-edit-box-fill "></i></button>
                     <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')" ><i class="ri-delete-bin-6-fill "></i></button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
@@ -169,7 +185,9 @@ $(document).ready(function () {
  
         });
 });
-
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        $("#success-alert").slideUp(500);
+    });
 function DeleteAlert(id)
  {
     Swal.fire({
@@ -186,4 +204,37 @@ function DeleteAlert(id)
         }
     })
 }
-</script>
+
+          function Encode(id){
+
+            console.log("calll");
+             console.log(id);
+           console.log(typeof(id));
+      console.log(id);
+        encryptedId = id.replaceAll('//', '');
+        console.log(encryptedId);
+        window.location.assign(`/Tax/UpdateTax/${id}`);
+          }
+    //  //  const encryptedId = CryptoJS.AES.encrypt(id, "THISISASECURITYKEY");
+    //  //  console.log(encryptedId);
+    //  //  encryptedId=encryptedId.replaceAll('//', '');
+    //  //console.log(encryptedId);
+    //    $.ajax({
+    //        url: '@Url.Action("EncrytToUrl", "Tax")',
+    //        type: 'GET',
+    //        dataType: 'json',
+    //        cache: false,
+    //        data: { 'id': id },
+    //        success: function (results) {
+    //            var newid=results;
+    //        },
+    //        error: function () {
+    //            alert('Error occured');
+    //        }
+    //    });
+    //    console.log("end");
+    //}
+        //window.location.assign(`/Tax/UpdateTax/${encryptedId}`);
+      
+           
+        </script>

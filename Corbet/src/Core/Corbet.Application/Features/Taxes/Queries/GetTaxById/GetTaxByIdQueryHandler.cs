@@ -27,7 +27,7 @@ namespace Corbet.Application.Features.Taxes.Queries.GetTaxById
         {
 
             var tax = await _taxRepository.GetById(request.TaxId);
-            if (tax.IsDeleted)
+            if (tax==null)
             {
                 return null;
             }

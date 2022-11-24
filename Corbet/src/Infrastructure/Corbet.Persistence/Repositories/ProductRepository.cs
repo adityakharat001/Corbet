@@ -26,9 +26,9 @@ namespace Corbet.Persistence.Repositories
             var productData = (from u in _dbContext.UnitMeasurements
                                join p in _dbContext.Products
                                on u.Id equals p.UnitId
-                               join s in _dbContext.Suppliers
+                               join s in _dbContext.SupplierDetails
                                on p.PrimarySupplierId equals s.SupplierId
-                               join sf in _dbContext.Suppliers
+                               join sf in _dbContext.SupplierDetails
                                on p.SecondarySupplierId equals sf.SupplierId
                                join td in _dbContext.TaxDetails
                                on p.TaxId equals td.TaxId

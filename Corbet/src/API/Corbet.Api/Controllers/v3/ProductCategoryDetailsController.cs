@@ -45,8 +45,8 @@ namespace Corbet.Api.Controllers.v3
 
         #region Update Category Details
         [HttpPost]
-        [Route("UpdateCategoryDetail")]
-        public async Task<ActionResult> UpdateCategoryDetail([FromBody] UpdateCategoryDetailsCommand updateCategoryDetailCommand)
+        [Route("UpdateCategoryDetails")]
+        public async Task<ActionResult> UpdateCategoryDetails([FromBody] UpdateCategoryDetailsCommand updateCategoryDetailCommand)
         {
             _logger.LogInformation("Update Category Detail initiated");
             var response = await _mediator.Send(updateCategoryDetailCommand);
@@ -62,9 +62,9 @@ namespace Corbet.Api.Controllers.v3
         [Route("DeleteCategoryDetails")]
         public async Task<IActionResult> DeleteCategoryDetails(int id)
         {
-            _logger.LogInformation("Tax Details delete initiated");
-            await _mediator.Send(new DeleteCategoryDetailsCommand() { Id = id });
-            _logger.LogInformation("Tax Details delete completed");
+            _logger.LogInformation("Category Details delete initiated");
+            await _mediator.Send(new DeleteCategoryDetailsCommand() {Id = id });
+            _logger.LogInformation("Category Details delete completed");
             return NoContent();
         }
         #endregion

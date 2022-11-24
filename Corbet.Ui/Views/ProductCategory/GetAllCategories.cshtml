@@ -12,6 +12,7 @@
         @*<button type="button" class="close" data-dismiss="alert" onclick="CloseAlert">x</button>*@
     </div>
 }
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -44,7 +45,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliersForAdmin">
+               asp-action="GetAllSuppliers">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -93,6 +94,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link collapsed"
                        data-bs-target="#tax-nav"
@@ -164,6 +166,11 @@
     </tbody>
 </table>
 
+
+
+
+
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -171,10 +178,9 @@
 
         });
     });
-    $("#success-alert").fadeTo(2000, 500).slideUp(500, function CloseAlert() {
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
         $("#success-alert").slideUp(500);
     });
-
     function DeleteAlert(id) {
         Swal.fire({
             title: 'Are you sure?',

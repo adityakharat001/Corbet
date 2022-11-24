@@ -16,6 +16,7 @@ namespace Corbet.Api.Middleware
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
 
+
         public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
         {
             _next = next; _logger = logger;

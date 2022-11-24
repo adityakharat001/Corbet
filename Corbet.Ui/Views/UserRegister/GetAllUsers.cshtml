@@ -5,6 +5,14 @@
     int counter = 0;
 }
 
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success" id="success-alert">
+        <strong>Successful.!!</strong>
+        @TempData["AlertMessage"]
+        @*<button type="button" class="close" data-dismiss="alert" onclick="CloseAlert">x</button>*@
+    </div>
+}
 
 
 <aside id="sidebar" class="sidebar">
@@ -28,7 +36,7 @@
 
 
         <li class="nav-item">
-            <a class="nav-link"
+            <a class="nav-link collapsed"
                asp-controller="UserRegister"
                asp-action="GetAllUsers">
                 <i class="bi bi-menu-button-wide"></i><span>All Users</span>
@@ -39,7 +47,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliersForAdmin">
+               asp-action="GetAllSuppliers">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -52,7 +60,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">
@@ -103,6 +111,7 @@
                                 <i class="bi bi-circle"></i><span>Product Category</span>
                             </a>
                         </li>
+
                         <li>
                             <a asp-controller="CategoryDetails" asp-action="GetAllCategoryDetails">
                                 <i class="bi bi-circle"></i><span>Product Category Details</span>
@@ -112,7 +121,7 @@
                 </li>
 
                 <li>
-                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -190,11 +199,14 @@
 
 <script>
 $(document).ready(function () {
+
         $('#myTable').DataTable({
  
         });
 });
-
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        $("#success-alert").slideUp(500);
+    });
 function DeleteAlert(id)
  {
     Swal.fire({

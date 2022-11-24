@@ -30,6 +30,7 @@ namespace Corbet.Ui.Controllers
                 string data = JsonConvert.SerializeObject(role);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Role/AddRole", content).Result;
+                TempData["AlertMessage"] = "User Role Added Suucessfully";
                 return RedirectToAction("GetAllRoles");
 
             }
@@ -88,7 +89,6 @@ namespace Corbet.Ui.Controllers
             return RedirectToAction("GetAllRoles");
 
         }
-
 
         [HttpGet]
         public JsonResult IsRoleExist(string RoleName)

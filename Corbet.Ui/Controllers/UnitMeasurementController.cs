@@ -38,6 +38,7 @@ namespace Corbet.Ui.Controllers
             }
         }
 
+
         [HttpGet]
         public IActionResult CreateUnitMeasurement()
         {
@@ -60,6 +61,7 @@ namespace Corbet.Ui.Controllers
                         var jsonArrayResponse = JObject.Parse(responseData);
 
                         var result = jsonArrayResponse["data"].ToString();
+                        TempData["AlertMessage"] = "Unit Measurement Added Suucessfully";
                         return RedirectToAction("GetAllUnitMeasurements");
                     }
                     else
@@ -68,6 +70,7 @@ namespace Corbet.Ui.Controllers
                         //ViewBag.emailAvailabilityAlert = "<script type='text/javascript'>Swal.fire('','Incorrect email address or no user exists with this email id.','warning');</script>";
                         return View();
                     }
+                   
                 }
             }
             return View();

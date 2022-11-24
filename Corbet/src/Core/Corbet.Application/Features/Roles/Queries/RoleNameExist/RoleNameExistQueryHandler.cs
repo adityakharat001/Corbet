@@ -5,11 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AutoMapper;
-
 using Corbet.Application.Contracts.Persistence;
-
 using MediatR;
-
 using Microsoft.Extensions.Logging;
 
 namespace Corbet.Application.Features.Roles.Queries.RoleNameExist
@@ -35,4 +32,8 @@ namespace Corbet.Application.Features.Roles.Queries.RoleNameExist
         }
 
     }
+
+
+
+
 }

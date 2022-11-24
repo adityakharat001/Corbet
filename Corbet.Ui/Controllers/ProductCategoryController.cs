@@ -1,4 +1,5 @@
 ﻿using Corbet.Application.Responses;
+using Corbet.Domain.Entities;
 using Corbet.Ui.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +66,7 @@ namespace Corbet.Ui.Controllers
 
 
         //Update product category
-
+        #region Update category
         [HttpGet]
         public ActionResult UpdateCategory(int id)
         {
@@ -76,7 +77,6 @@ namespace Corbet.Ui.Controllers
             ProductCategoryModel category = JsonConvert.DeserializeObject<Response<ProductCategoryModel>>(categoryData).Data;
             return View(category);
         }
-
 
 
         [HttpPost]
@@ -91,12 +91,12 @@ namespace Corbet.Ui.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    ViewBag.supplierUpdateAlert = "<script type='text/javascript'>Swal.fire('Supplier Update','Supplier Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/Supplier/GetAllSuppliersForAdmin');</script>";
+                    ViewBag.categoryUpdateAlert = "<script type='text/javascript'>Swal.fire('Category Update','Product Category Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/ProductCategory/GetAllCategories');</script>";
                     return View();
                 }
                 else
                 {
-                    ViewBag.supplierUpdateAlert = "<script type='text/javascript'>Swal.fire('Supplier Update','Failed To Update Supplier Details!','error');</script>";
+                    ViewBag.categoryUpdateAlert = "<script type='text/javascript'>Swal.fire('Category Update','Failed To Update Product Category!','error');</script>";
                     return View();
 
                 }
@@ -104,6 +104,11 @@ namespace Corbet.Ui.Controllers
             }
             return RedirectToAction("GetAllCategories");
         }
+
+        #endregion
+
+        //delete category 
+        #region Delete category
         public ActionResult DeleteCategory(int id)
         {
             string data = JsonConvert.SerializeObject(id);
@@ -112,6 +117,28 @@ namespace Corbet.Ui.Controllers
             return RedirectToAction("GetAllCategories");
 
         }
+
+        #endregion
+
+
+        //is category exist
+        #region Category exist
+
+        public JsonResult IsCategoryExist(string CategoryName)
+      {
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"ProductCategory/CategoryNameExist?categoryName={CategoryName}").Result;
+            dynamic data=response.Content.ReadAsStringAsync().Result;
+            bool categoryExist=JsonConvert.DeserializeObject(data);
+            if (categoryExist == true)
+            {
+                return Json(false);
+            }
+            else
+            {
+                return Json(true);
+            }
+        }
+        #endregion 
 
     }
 }

@@ -34,10 +34,10 @@ namespace Corbet.Domain.Entities
         public virtual UnitMeasurement UnitMeasurements { get; set; }
 
         [ForeignKey("PrimarySupplierId")]
-        public virtual Supplier PrimarySupplier { get; set; }
+        public virtual SupplierDetails PrimarySupplier { get; set; }
         
         [ForeignKey("SecondarySupplierId")]
-        public virtual Supplier SecondarySupplier { get; set; }
+        public virtual SupplierDetails SecondarySupplier { get; set; }
         
         [ForeignKey("CategoryId")]
         public virtual ProductCategory ProductCategories { get; set; }
@@ -48,7 +48,5 @@ namespace Corbet.Domain.Entities
         [ForeignKey("TaxId")]
         public virtual Tax Taxes { get; set; }
     }
-
-
 
 }

@@ -56,12 +56,11 @@ namespace Corbet.Ui.Controllers
                     {
                         return RedirectToRoute(new { controller = "Home", action = "Index" });
                     }
-                    if (roleId == "2")
-                    {
-                        return RedirectToRoute(new { controller = "Home", action = "SupplierLayout" });
+                    //if (roleId == "2")
+                    //{
+                    //    return RedirectToRoute(new { controller = "Home", action = "SupplierLayout" });
 
-                    }
-                    
+                    //}                 
                 }
                 TempData["Error"] = "Failed To Login User. Please Enter Valid Credentials";
                 return View();

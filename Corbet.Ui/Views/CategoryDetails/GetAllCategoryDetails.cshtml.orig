@@ -1,7 +1,9 @@
-﻿@model Corbet.Ui.Models.Role
+﻿@model IEnumerable<Corbet.Ui.Models.GetCategoryDetailView>
 
 @{
-    ViewData["Title"] = "CreateRole";
+    ViewData["Title"] = "GetAllCategoryDetails";
+    int counter = 0;
+
 }
 
 <aside id="sidebar" class="sidebar">
@@ -86,7 +88,7 @@
                     </ul>
                 </li>
                  <li class="nav-item">
-                    <a class="nav-link collapsed"
+                    <a class="nav-link"
                        data-bs-target="#category-nav"
                        data-bs-toggle="collapse"
                        href="#">
@@ -108,8 +110,8 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
+                <li>
+                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -118,44 +120,102 @@
     </ul>
 </aside>
 <!-- End Sidebar -->
-
-<div class="pagetitle">
-    <h1>Add Role</h1>
+<!-- End Sidebar -->
+@*<div class="pagetitle">
+    <h1>Product Category Details</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="GetAllRoles">Roles</a></li>
-            <li class="breadcrumb-item active">Add Role</li>
+            <li class="breadcrumb-item"><a asp-action="GetAllCategoryDetails">Product Category Details</a></li>
         </ol>
     </nav>
-</div>
+</div>*@
+<p>
+    <a class="btn btn-primary" asp-action="CreateCategoryDetails">Add Product Category Details</a>
+</p>
 
-<h4>Role</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateRole">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RoleName" class="control-label"></label>
-                <span class="text-danger">*</span>
-                <input asp-for="RoleName" class="form-control" />
-                <span asp-validation-for="RoleName" class="text-danger"></span>
-            </div>
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th data-orderable="false">
+                Sr No.
+            </th>
+            <th>
+                Category Name
+                @*@Html.DisplayNameFor(model => model.CategoryName)*@
+            </th>
+            <th data-orderable="false">
+                Description
+                @*@Html.DisplayNameFor(model => model.CategoryDescription)*@
+            </th>
+          @*  <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>*@
+            <th data-orderable="false">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @{
+                        counter++;
+                    }
+                    @counter
+            </td>
 
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryDescription)
+            </td>
+           @* <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>*@
+            
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-controller="CategoryDetails" asp-action="UpdateCategoryDetails" asp-route-id="@item.Id"><i class="ri-edit-box-fill"></i></a>
+                    <button class="btn btn-sm btn-danger" asp-actions="DeleteCategoryDetails" onclick="DeleteAlert('@item.Id')"><i class="ri-delete-bin-6-fill"></i></button>
+                </td>
+            
+        </tr>
+}
+    </tbody>
+</table>
 
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
-                <a class="btn btn-warning" asp-controller="Role" asp-action="GetAllRoles">Back to List</a>
-            </div>
-        </form>
-    </div>
-</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+
+        });
+    });
+
+    function DeleteAlert(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+<<<<<<< HEAD
+                window.location.assign(`/CategoryDetails/GetAllCategoryDetails${id}`);
+=======
+                window.location.assign(`/CategoryDetails/DeleteCategoryDetails/${id}`);
+
+>>>>>>> c4b6f3676c98c61e7e20582b9715064970236ade
+            }
+        })
     }
-  }
-
+</script>

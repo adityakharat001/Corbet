@@ -1,9 +1,12 @@
-﻿namespace Corbet.Ui.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Corbet.Ui.Models
 {
     public class Product
     {
         public int Id { get; set; }
         public string ProductCode { get; set; }
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " Product Name must contain only alphabet")]
         public string ProductName { get; set; }
         public string ProductCategory { get; set; }
         public string ProductSubCategory { get; set; }

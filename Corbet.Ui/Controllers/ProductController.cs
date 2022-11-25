@@ -56,6 +56,7 @@ namespace Corbet.Ui.Controllers
             string data = JsonConvert.SerializeObject(product);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Product/AddProduct", content).Result;
+            TempData["AlertMessage"] = "Product Added Suucessfully";
             return RedirectToRoute(new { controller = "Product", action = "GetAllProducts" });
         }
 

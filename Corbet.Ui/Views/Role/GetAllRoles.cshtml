@@ -116,8 +116,8 @@
                     </ul>
                 </li>
 
-                <li>
-                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -128,15 +128,15 @@
 <!-- End Sidebar -->
 <div class="pagetitle">
     <h1>Roles</h1>
-    <nav>
+   @* <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Roles</li>
         </ol>
-    </nav>
+    </nav>*@
 </div>
 
 <p>
-    <a class="btn btn-primary" asp-controller="Role" asp-action="CreateRole">Create New</a>
+    <a class="btn btn-primary" asp-controller="Role" asp-action="CreateRole">Add New Role</a>
 </p>
 <table class="table" id="myTable">
     <thead>

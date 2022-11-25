@@ -11,7 +11,7 @@ namespace Corbet.Ui.Models
         public int SupplierId { get; set; }
         [DisplayName("Supplier Name")]
         [Required(ErrorMessage ="Enter Supplier Name")]
-        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "Supplier Name should contain only alphabets")]
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " Sub Category Name must contain only alphabet")]
         [MaxLength(150)]
         //company name=supplierName
         public string SupplierName { get; set; }

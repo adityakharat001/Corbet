@@ -119,7 +119,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -143,10 +143,10 @@
 <table class="table" id="myTable">
     <thead>
         <tr>
-            <th>
+            <th data-orderable="false">
                 Sr. No
             </th>
-            <th>TaxId</th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -161,15 +161,15 @@
                     @{counter++;}
                     @counter
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TaxId)
-</td>
+                                 
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-primary" onclick="Encode('@item.TaxId')" @*asp-controller="Tax" asp-action="UpdateTax" asp-route-id="@item.TaxId"*@><i class="ri-edit-box-fill "></i></button>
-                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')" ><i class="ri-delete-bin-6-fill "></i></button>
+                    <a class="btn btn-sm btn-primary" asp-controller="Tax" asp-action="UpdateTax" asp-route-id="@item.TaxId"><i class="ri-edit-box-fill "></i></a>
+                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')"><i class="ri-delete-bin-6-fill "></i></button>
+                    @* onclick="Encode('@item.TaxId')"*@
                 </td>
             </tr>
         }

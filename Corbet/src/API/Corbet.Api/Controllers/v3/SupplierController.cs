@@ -56,7 +56,7 @@ namespace Corbet.Api.Controllers.v3
 
 
         //get alll supplier
-        #region Get All Suppliers
+#region Get All Suppliers
         [HttpGet]
         [Route("GetAllSuppliers")]
         public async Task<ActionResult> GetAllSuppliers()
@@ -66,7 +66,7 @@ namespace Corbet.Api.Controllers.v3
             _logger.LogInformation("Get All Suppliers completed");
             return Ok(response);
         }
-        #endregion
+#endregion
 
 
         //get supplier by Id

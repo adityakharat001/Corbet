@@ -12,7 +12,7 @@ namespace Corbet.Ui.Models
         
         [Required(ErrorMessage = "Supplier Name is required")]
         [DisplayName("Supplier Name")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Supplier Name should contain only alphabets")]
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " Supplier Name must contain only alphabet")]
         [MaxLength(100)]
         public string SupplierName { get; set; }
         [Required(ErrorMessage = "Credit Limit is required")]

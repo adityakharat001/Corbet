@@ -80,7 +80,7 @@
         success: function (d) {
             console.table(d);
             $.each(d, function (i, primarysupplier) {
-                ddlPrimarySupplier.append($("<option></option>").val(primarysupplier.supplierId).html(primarysupplier.supplierName));
+                ddlPrimarySupplier.append($("<option></option>").val(primarysupplier.id).html(primarysupplier.supplierName));
             });
         },
         error: function () {
@@ -103,12 +103,12 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function (d) {
-                    let newD = d.filter(item => item.supplierId != SelectedSupplier);
+                    let newD = d.filter(item => item.id != SelectedSupplier);
                     console.table(newD);
-                    ddlSecondarySupplier.empty(); // Clear the please wait
+                    ddlSecondarySupplier.empty();
                     ddlSecondarySupplier.append($("<option></option>").val('').html('Select Secondary Supplier'));
                     $.each(newD, function (i, secondarysupplier) {
-                        ddlSecondarySupplier.append($("<option></option>").val(secondarysupplier.supplierId).html(secondarysupplier.supplierName));
+                        ddlSecondarySupplier.append($("<option></option>").val(secondarysupplier.id).html(secondarysupplier.supplierName));
                     });
                     $(`#ddlSecondarySupplier option[value='${SelectedSupplier}']`).remove();
                 },
@@ -118,6 +118,7 @@
             });
         }
     });
+
 
     var ddlTax = $('#ddlTax');
     ddlTax.append($("<option></option>").val('').html('Select Tax Type'));

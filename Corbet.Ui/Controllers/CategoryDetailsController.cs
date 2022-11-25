@@ -123,9 +123,9 @@ namespace Corbet.Ui.Controllers
 
 
         [HttpPost]
-        public ActionResult UpdateCategoryDetails(CategoryDetailsUpdateModel taxDetails)
+        public ActionResult UpdateCategoryDetails(CategoryDetailsViewModel categoryDetails)
         {
-            string data = JsonConvert.SerializeObject(taxDetails);
+            string data = JsonConvert.SerializeObject(categoryDetails);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategoryDetails/UpdateCategoryDetails", content).Result;
 

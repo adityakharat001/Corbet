@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "AddProduct";
 }
+
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -145,12 +147,6 @@
                 <select asp-for="CategoryId" class="form-control" id="ddlCategory"></select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
 
-                @*<label asp-for="CategoryId" class="form-label"></label>
-                <span class="text-danger">*</span>
-                <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.ProductCategorylist" required>
-                <option value="">---Select Category---</option>
-                </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label asp-for="SubCategoryId" class="control-label"></label>
@@ -158,12 +154,6 @@
                 <select asp-for="SubCategoryId" class="form-control" id="ddlSubcategory"></select>
                 <span asp-validation-for="SubCategoryId" class="text-danger"></span>
 
-                @* <label asp-for="SubCategoryId" class="form-label"></label>
-                <span class="text-danger">*</span>
-                <select asp-for="SubCategoryId" class="form-control" asp-items="@ViewBag.SubCategorylist" required>
-                <option value="">---Select Subcategory---</option>
-                </select>
-                <span asp-validation-for="SubCategoryId" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label asp-for="UnitId" class="control-label"></label>
@@ -216,5 +206,8 @@
     }
     }
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="~/assets/js/productDropdown.js" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="~/assets/js/productDropdown.js"></script>
+<script>
+
+</script>

@@ -12,7 +12,7 @@ namespace Corbet.Ui.Models
         [Required(ErrorMessage = "First Name is required")]
         [MinLength(3, ErrorMessage ="First Name must at least 3 characters")]
         [MaxLength(20, ErrorMessage ="First Name must less than 20 characters")]
-        [RegularExpression(@"^([a-zA-Z])*$", ErrorMessage = " First Name must contain only alphabet")]
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " Role Name must contain only alphabet")]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 

@@ -87,12 +87,20 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link collapsed"
+<<<<<<< HEAD
+                       data-bs-target="#tax-nav"
+=======
                        data-bs-target="#category-nav"
+>>>>>>> c4b6f3676c98c61e7e20582b9715064970236ade
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
                     </a>
+<<<<<<< HEAD
+                    <ul id="tax-nav"
+=======
                     <ul id="category-nav"
+>>>>>>> c4b6f3676c98c61e7e20582b9715064970236ade
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -108,8 +116,13 @@
                     </ul>
                 </li>
 
-               <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
+<<<<<<< HEAD
+                <li>
+                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+=======
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="Product" asp-action="GetAllProductSubCategories">
+>>>>>>> c4b6f3676c98c61e7e20582b9715064970236ade
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -118,7 +131,12 @@
     </ul>
 </aside>
 <!-- End Sidebar -->
+<<<<<<< HEAD
+<h1>Update Supplier Details</h1>
+
+=======
 <h4>SupplierDetailsViewModel</h4>
+>>>>>>> c4b6f3676c98c61e7e20582b9715064970236ade
 <hr />
 <div class="row">
     <div class="col-md-4">

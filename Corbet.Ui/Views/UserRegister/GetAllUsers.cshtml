@@ -120,7 +120,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -133,7 +133,7 @@
     <h1>Users</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">Users</li>
+            @*<li class="breadcrumb-item">Users</li>*@
         </ol>
     </nav>
 </div>
@@ -144,14 +144,14 @@
 <table class="table" id="myTable">
     <thead>
         <tr>
-            <th>Sr. No</th>
+            <th data-orderable="false">Sr. No</th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
-            <th>
+            <th data-orderable="false">
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>

@@ -142,30 +142,23 @@
                 <label asp-for="TaxId" class="control-label">Tax Type</label>
                 <sup class="text-danger">*</sup>
                 <select asp-for="TaxId" id="TaxId" class="form-control" asp-items="ViewBag.TaxNamelist">
-                    <option value="">---select Tax Type---</option>
+                    <option value="">---Select Tax Type---</option>
                 </select>
                 <span asp-validation-for="TaxId" class="text-danger"></span>
             </div>
-            <br />
-
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <label class="control-label">Tax Slab</label>
-                    <sup class="text-danger">*</sup>
-                </div>
-                <span style="margin-top:-20px;margin-right:-80px;font-size:small;" class="ms-1">(MinSlab)</span>
-                <select asp-for="MinTax" style="width:50px" class="form-control ms-2 form-select" id="minslab" name="mintax" asp-items="ViewBag.MinTaxList" onselect="TaxSlabChecking()" required>
-                    <option value="0">1</option>
-                </select>
+            <div class="form-group">
+                <label asp-for="MinTax" class="control-label"></label>
+                <sup class="text-danger">*</sup>
+                <input asp-for="MinTax" class="form-control" required />
                 <span asp-validation-for="MinTax" class="text-danger"></span>
-                <span style="margin-right:-80px;margin-top:-20px;font-size:small;" class="ms-1">(MaxSlab)</span>
-                <select asp-for="MaxTax" style="width:50px" class="form-control ms-2 form-select" id="maxslab" name="maxtax" asp-items="ViewBag.MaxTaxList" onselect="TaxSlabChecking()" required>
-                    <option value="0">1</option>
-                </select>
-                <span asp-validation-for="MaxTax" class="text-danger"></span>
-                <span id="slabvalidbox" class="text-danger"></</span>
             </div>
-            <br />
+            <div class="form-group">
+                <label asp-for="MaxTax" class="control-label"></label>
+                <sup class="text-danger">*</sup>
+                <input asp-for="MaxTax" class="form-control" required />
+                <span asp-validation-for="MaxTax" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="Percentage" class="control-label"></label>
                 <sup class="text-danger">*</sup>
@@ -192,7 +185,6 @@
 
             </div>
             <br />
-            <br />
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary" />
                 <a class="btn btn-warning" asp-action="GetAllTaxDetails">Back to List</a>
@@ -201,6 +193,7 @@
         </form>
     </div>
 </div>
+
 
 
 @section Scripts {

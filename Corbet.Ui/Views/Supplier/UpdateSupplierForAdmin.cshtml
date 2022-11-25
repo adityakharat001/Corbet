@@ -1,8 +1,11 @@
-﻿@model Corbet.Ui.Models.SupplierViewModel
+﻿@model Corbet.Ui.Models.SupplierUpdateAdminDto
 
 @{
-    ViewData["Title"] = "AddSupplier";
+    ViewData["Title"] = "UpdateSupplierForAdmin";
 }
+
+@Html.Raw(ViewBag.supplierUpdateAlert)
+
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -14,7 +17,7 @@
         <!-- End Dashboard Nav -->
 
 
-        <li class="nav-item ">
+        <li class="nav-item">
             <a class="nav-link collapsed"
                asp-controller="Role"
                asp-action="GetAllRoles">
@@ -32,23 +35,22 @@
         </li>
 
         <li class="nav-item">
-
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-               asp-controller="Product"
+            asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link"
+            <a class="nav-link collapsed"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">
@@ -84,15 +86,14 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#category-nav"
+                       data-bs-target="#tax-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
                     </a>
-                    <ul id="category-nav"
+                    <ul id="tax-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -108,8 +109,8 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="Product" asp-action="GetAllProductSubCategories">
+                <li>
+                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -117,45 +118,59 @@
         </li>
     </ul>
 </aside>
-<!-- End Sidebar -->
-<h1>Add Supplier</h1>
-
+<!-- End Sidebar-->
+<div class="pagetitle">
+    <h1>Update Supplier</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Supplier" asp-action="GetAllSuppliers">Suppliers</a></li>
+            <li class="breadcrumb-item active">Update Supplier</li>
+        </ol>
+    </nav>
+</div>
+<h4>Supplier</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddSupplier">
+        <form asp-action="UpdateSupplierForAdmin">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <label asp-for="SupplierId" class="control-label"></label>
+                <input asp-for="SupplierId" class="form-control" />
+                <span asp-validation-for="SupplierId" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="SupplierName" class="control-label"></label><span class="text-danger">*</span>
+                <label asp-for="SupplierName" class="control-label"></label>
+                <span class="text-danger">*</span>
                 <input asp-for="SupplierName" class="form-control" />
                 <span asp-validation-for="SupplierName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreaditLimit" class="control-label"></label><span class="text-danger">*</span>
-                <input asp-for="CreaditLimit" class="form-control" />
-                <span asp-validation-for="CreaditLimit" class="text-danger"></span>
+                <label asp-for="CreditLimit" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <input asp-for="CreditLimit" class="form-control" />
+                <span asp-validation-for="CreditLimit" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PaymentStatus" /> @Html.DisplayNameFor(model => model.PaymentStatus)
-                </label>
+            <div class="form-group">
+                <label class="control-label">Payment Status</label>
+                <select class="form-control" asp-for="IsPaymentDone">
+                    <option value="false">Unpaid</option>
+                    <option value="true">Paid</option>
+                    <span asp-validation-for="IsPaymentDone" class="text-danger"></span>
+                </select>
             </div>
-         
+            <br/>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-                <a class="btn btn-warning" asp-controller="Supplier" asp-action="GetAllSuppliers">Back to List</a>
+                <a class="btn btn-warning" asp-action="GetAllSuppliersForAdmin">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
 
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

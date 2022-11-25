@@ -146,7 +146,7 @@
             <th>
                 Sr. No
             </th>
-            <th>TaxId</th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -158,83 +158,49 @@
         {
             <tr>
                 <td>
-                    @{counter++;}
+                    @{
+                        counter++;
+                    }
                     @counter
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TaxId)
-</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-primary" onclick="Encode('@item.TaxId')" @*asp-controller="Tax" asp-action="UpdateTax" asp-route-id="@item.TaxId"*@><i class="ri-edit-box-fill "></i></button>
-                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')" ><i class="ri-delete-bin-6-fill "></i></button>
+                    <a class="btn btn-sm btn-primary" asp-controller="Tax" asp-action="UpdateTax" asp-route-id="@item.TaxId"><i class="ri-edit-box-fill "></i></a>
+                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')"><i class="ri-delete-bin-6-fill "></i></button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
-
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-$(document).ready(function () {
+    $(document).ready(function() {
         $('#myTable').DataTable({
- 
+
         });
-});
-    $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+    });
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
         $("#success-alert").slideUp(500);
     });
-function DeleteAlert(id)
- {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.assign(`/Tax/DeleteTaxType/${id}`);
-        }
-    })
-}
+    function DeleteAlert(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.assign(`/Tax/DeleteTaxType/${id}`);
+            }
+        })
+    }
 
-          function Encode(id){
+    
 
-            console.log("calll");
-             console.log(id);
-           console.log(typeof(id));
-      console.log(id);
-        encryptedId = id.replaceAll('//', '');
-        console.log(encryptedId);
-        window.location.assign(`/Tax/UpdateTax/${id}`);
-          }
-    //  //  const encryptedId = CryptoJS.AES.encrypt(id, "THISISASECURITYKEY");
-    //  //  console.log(encryptedId);
-    //  //  encryptedId=encryptedId.replaceAll('//', '');
-    //  //console.log(encryptedId);
-    //    $.ajax({
-    //        url: '@Url.Action("EncrytToUrl", "Tax")',
-    //        type: 'GET',
-    //        dataType: 'json',
-    //        cache: false,
-    //        data: { 'id': id },
-    //        success: function (results) {
-    //            var newid=results;
-    //        },
-    //        error: function () {
-    //            alert('Error occured');
-    //        }
-    //    });
-    //    console.log("end");
-    //}
-        //window.location.assign(`/Tax/UpdateTax/${encryptedId}`);
-      
-           
-        </script>
+</script>

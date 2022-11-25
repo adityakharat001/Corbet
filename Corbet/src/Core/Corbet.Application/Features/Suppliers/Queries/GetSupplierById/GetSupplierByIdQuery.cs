@@ -10,6 +10,6 @@ namespace Corbet.Application.Features.Suppliers.Queries.GetSupplierById
 {
     public class GetSupplierByIdQuery:IRequest<Supplier>
     {
-        public int Id { get; set; }
+        public int SupplierId { get; set; }
     }
 }

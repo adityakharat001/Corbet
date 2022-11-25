@@ -105,7 +105,7 @@
                 success: function (d) {
                     let newD = d.filter(item => item.supplierId != SelectedSupplier);
                     console.table(newD);
-                    ddlSecondarySupplier.empty(); // Clear the please wait
+                    ddlSecondarySupplier.empty();
                     ddlSecondarySupplier.append($("<option></option>").val('').html('Select Secondary Supplier'));
                     $.each(newD, function (i, secondarysupplier) {
                         ddlSecondarySupplier.append($("<option></option>").val(secondarysupplier.supplierId).html(secondarysupplier.supplierName));
@@ -118,6 +118,7 @@
             });
         }
     });
+
 
     var ddlTax = $('#ddlTax');
     ddlTax.append($("<option></option>").val('').html('Select Tax Type'));

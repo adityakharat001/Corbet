@@ -12,7 +12,7 @@ namespace Corbet.Application.Features.Suppliers.Queries.GetAllSuppliers
 {
     public class GetAllSuppliersQueryHandler : IRequestHandler<GetAllSuppliersQuery, List<GetAllSuppliersQueryVm>>
     {
-    private readonly ILogger<GetAllSuppliersQueryHandler> _logger;
+        private readonly ILogger<GetAllSuppliersQueryHandler> _logger;
     private readonly IMapper _mapper;
     private readonly ISupplierRepository _supplierRepository;
 

@@ -6,7 +6,6 @@
 
 @Html.Raw(ViewBag.roleUpdateAlert)
 
-
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -51,6 +50,15 @@
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Stock"
+               asp-action="GetAllStocks">
+                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
+            </a>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link"
                data-bs-target="#generics-nav"
@@ -88,7 +96,7 @@
                         </li>
                     </ul>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link collapsed"
                        data-bs-target="#category-nav"
                        data-bs-toggle="collapse"
@@ -111,16 +119,35 @@
                     </ul>
                 </li>
 
-                <li>
-                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
+                    </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="StockType" asp-action="GetAllStockTypes">
+                                <i class="bi bi-circle"></i><span>Stock Types</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </li>
     </ul>
 </aside>
 <!-- End Sidebar -->
+
 <div class="pagetitle">
     <h1>Update Role</h1>
     <nav>

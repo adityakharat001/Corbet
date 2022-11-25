@@ -16,6 +16,7 @@ namespace Corbet.Persistence.Repositories
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly ILogger _logger;
+
         public ProductRepository(ApplicationDbContext dbContext, ILogger<Product> logger) : base(dbContext, logger)
         {
             _logger = logger;
@@ -23,7 +24,7 @@ namespace Corbet.Persistence.Repositories
 
         public async Task<List<GetAllProductsVm>> GetAllProducts()
         {
-            var productData = (from u in _dbContext.UnitMeasurements
+            var productData =  (from u in _dbContext.UnitMeasurements
                                join p in _dbContext.Products
                                on u.Id equals p.UnitId
                                join s in _dbContext.SupplierDetails
@@ -89,6 +90,12 @@ namespace Corbet.Persistence.Repositories
                 return response;
                 _logger.LogInformation("In Repository Remove Product Failed");
             }
+        }
+
+
+        public async Task<Product> GetByIdAsync(int productId)
+        {
+            return await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
         }
     }
 }

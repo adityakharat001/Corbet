@@ -46,6 +46,8 @@ namespace Corbet.Persistence
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductCategoryDetail> ProductCategoryDetails { get; set; }
         public DbSet<ProductSubCategory> ProductSubCategories { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
+        public DbSet<StockType> StockTypes { get; set; }
 
         public DbSet<Order> Orders { get; set; }    
         public DbSet<OrderManagement> OrderManagements { get; set; }

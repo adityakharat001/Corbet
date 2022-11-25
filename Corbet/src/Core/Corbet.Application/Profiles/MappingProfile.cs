@@ -31,6 +31,16 @@ using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryList;
 using Corbet.Application.Features.Roles.Commands.CreateRole;
 using Corbet.Application.Features.Roles.Commands.UpdateRole;
 using Corbet.Application.Features.Roles.Queries.GetAllRoles;
+using Corbet.Application.Features.Stocks.Commands.AddStock;
+using Corbet.Application.Features.Stocks.Commands.DeleteStock;
+using Corbet.Application.Features.Stocks.Commands.UpdateStock;
+using Corbet.Application.Features.Stocks.Queries.GetAllStocks;
+using Corbet.Application.Features.Stocks.Queries.GetStockByStockId;
+using Corbet.Application.Features.StockTypes.Commands.AddStockType;
+using Corbet.Application.Features.StockTypes.Commands.DeleteStockType;
+using Corbet.Application.Features.StockTypes.Commands.UpdateStockType;
+using Corbet.Application.Features.StockTypes.Queries.GetAllStockTypes;
+using Corbet.Application.Features.StockTypes.Queries.GetStockTypeById;
 using Corbet.Application.Features.Suppliers.Commands.CreateSupplier;
 using Corbet.Application.Features.Suppliers.Commands.UpdateSupplier;
 using Corbet.Application.Features.Suppliers.Queries.GetAllSuppliers;
@@ -210,6 +220,28 @@ namespace Corbet.Application.Profiles
 
             CreateMap<OrderManagement,CreateOrderCommand>().ReverseMap();
             CreateMap<OrderManagement, CreateOrderDto>().ReverseMap();
+
+            //StockTypes
+            CreateMap<GetAllStockTypesQuery, StockType>();
+            CreateMap<StockType, GetAllStockTypesVm>();
+            CreateMap<AddStockTypeCommand, StockType>();
+            CreateMap<StockType, AddStockTypeDto>();
+            CreateMap<StockType, GetStockTypeByIdVm>();
+            CreateMap<DeleteStockTypeCommand, StockType>();
+            CreateMap<StockType, DeleteStockTypeDto>();
+            CreateMap<UpdateStockTypeCommand, StockType>();
+            CreateMap<StockType, UpdateStockTypeDto>();
+            CreateMap<Stock, GetStockByStockIdVm>();
+
+            //Stocks
+            CreateMap<AddStockCommand, Stock>();
+            CreateMap<Stock, AddStockDto>();
+            CreateMap<Stock, GetAllStocksVm>();
+            CreateMap<GetAllStocksVm, GetAllStocksVmOut>();
+            CreateMap<DeleteStockCommand, Stock>();
+            CreateMap<Stock, DeleteStockDto>();
+            CreateMap<UpdateStockCommand, Stock>();
+            CreateMap<Stock, UpdateStockDto>();
 
         }
     }

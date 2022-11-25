@@ -8,16 +8,11 @@ using System.Threading.Tasks;
 
 namespace Corbet.Application.Features.Suppliers.Commands.UpdateSupplier
 {
-    public class UpdateSupplierCommand: IRequest<Response<UpdateSupplierCommandDto>>
+    public class UpdateSupplierAdminCommand:IRequest<Response<UpdateSupplierAdminCommandDto>>
     {
         public int Id { get; set; }
         public string SupplierName { get; set; }
-        public string Email { get; set; }
-        public int PhoneNumber { get; set; }
-        public string BillingAddress { get; set; }
-        public string SupplierType { get; set; }
         public int CreditLimit { get; set; }
-        public DateTime CreditPeriod { get; set; }
-        //public string? DocumentPath { get; set; }
+        public bool IsPaymentDone { get; set; }
     }
 }

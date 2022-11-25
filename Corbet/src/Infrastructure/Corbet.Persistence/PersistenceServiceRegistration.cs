@@ -23,7 +23,6 @@ namespace Corbet.Persistence
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
-            services.AddScoped<ISupplierDetailsRepository, SupplierDetailsRepository>();
             services.AddScoped<ITaxRepository, TaxRepository>();
             services.AddScoped<ITaxDetailsRepository, TaxDetailsRepository>();
             services.AddScoped<IUnitMeasurementRepository, UnitMeasurementRepository>();

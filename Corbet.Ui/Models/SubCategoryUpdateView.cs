@@ -9,7 +9,7 @@ namespace Corbet.Ui.Models
 
         public int CategoryId { get; set; }
         [Required(ErrorMessage = "SubCategory Name is required")]
-        [RegularExpression(@"^[A-Za-z0-9]+$", ErrorMessage = "SubCategory Name should not contain special characters")]
+        [RegularExpression(@"^[A-Za-z0-9\s]+$", ErrorMessage = "SubCategory Name should not contain special characters")]
 
     
         public string SubCategoryName { get; set; }

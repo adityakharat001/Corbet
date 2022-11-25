@@ -10,8 +10,10 @@ namespace Corbet.Ui.Models
         [Required(ErrorMessage = "Please Enter TaxType")]
         public int TaxId { get; set; }
         [DisplayName("Min Tax ")]
+        [RegularExpression(@"^([+]?\d*\.?\d{0,9})$", ErrorMessage = "Invalid Min Tax")]
         public double MinTax { get; set; }
         [DisplayName("Max Tax ")]
+        [RegularExpression(@"^([+]?\d*\.?\d{0,9})$", ErrorMessage = "Invalid Max Tax")]
         public double MaxTax { get; set; }
         [RegularExpression(@"^([+]?\d*\.?\d{0,9})$", ErrorMessage = "Invalid Percentage")]
         [Required(ErrorMessage = "Percentage is required")]

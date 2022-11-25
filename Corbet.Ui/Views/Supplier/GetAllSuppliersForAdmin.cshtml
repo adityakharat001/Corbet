@@ -1,10 +1,9 @@
-﻿@model Corbet.Ui.Models.SupplierViewModel
+﻿@model IEnumerable<Corbet.Ui.Models.SupplierViewModel>
 
 @{
-    ViewData["Title"] = "UpdateSupplier";
+    ViewData["Title"] = "GetAllSuppliersForAdmin";
+    int counter = 0;
 }
-@Html.Raw(ViewBag.supplierUpdateAlert);
-
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -16,7 +15,7 @@
         <!-- End Dashboard Nav -->
 
 
-        <li class="nav-item ">
+        <li class="nav-item">
             <a class="nav-link collapsed"
                asp-controller="Role"
                asp-action="GetAllRoles">
@@ -35,16 +34,16 @@
 
         <li class="nav-item">
 
-            <a class="nav-link collapsed"
+            <a class="nav-link "
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-               asp-controller="Product"
+            asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
             </a>
@@ -59,7 +58,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link"
+            <a class="nav-link collapsed"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">
@@ -95,14 +94,14 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+               <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#category-nav"
+                       data-bs-target="#tax-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
                     </a>
-                    <ul id="category-nav"
+                    <ul id="tax-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -145,48 +144,108 @@
         </li>
     </ul>
 </aside>
-<!-- End Sidebar -->
-
-<h1>Update Supplier</h1>
-
-
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="UpdateSupplier">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="SupplierName" class="control-label"></label><span class="text-danger">*</span>
-                <input asp-for="SupplierName" class="form-control" />
-                <span asp-validation-for="SupplierName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreaditLimit" class="control-label"></label><span class="text-danger">*</span>
-                <input asp-for="CreaditLimit" class="form-control" />
-                <span asp-validation-for="CreaditLimit" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PaymentStatus" /> @Html.DisplayNameFor(model => model.PaymentStatus)
-                </label>
-            </div>
-          
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-             
-                <a class="btn btn-warning" asp-controller="Supplier" asp-action="GetAllSuppliers">Back to List</a>
-            </div>
-        </form>
-    </div>
+<!-- End Sidebar-->
+<div class="pagetitle">
+    <h1>Suppliers</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Suppliers</li>
+        </ol>
+    </nav>
 </div>
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                Sr. No
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupplierName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreditLimit)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.IsPaymentDone)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th data-orderable="false">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{counter++;}
+                    @counter
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditLimit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                    @if (item.IsPaymentDone)
+                {
+                    <td>
+                        Paid
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        UnPaid
+                    </td>
+                }
+         
+                @if (item.IsActive)
+                {
+                    <td>
+                        Active
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        InActive
+                    </td>
+                }
+
+                <td class="text-center align-items-center ">
+                    <a class="btn btn-sm btn-primary my-1" asp-controller="Supplier" asp-action="UpdateSupplierForAdmin" asp-route-id="@item.SupplierId"><i class="ri-edit-box-fill "></i></a>
+                    <br/>
+                    @if (item.IsActive == true)
+                    {
+                        <a class="btn btn-sm btn-danger my-1" asp-controller="Supplier" asp-action="ToggleActiveStatus" asp-route-id="@item.SupplierId">Deactivate</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-sm btn-warning my-1" asp-controller="Supplier" asp-action="ToggleActiveStatus" asp-route-id="@item.SupplierId">Activate</a>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script>
+$(document).ready(function () {
+        $('#myTable').DataTable({
+ 
+        });
+});
+</script>
+

@@ -10,7 +10,7 @@ namespace Corbet.Ui.Models
         [Required(ErrorMessage ="Role Name is required")]
         [DisplayName("Role Name")]
         [Remote("IsRoleExist", "Role", HttpMethod = "GET", ErrorMessage = "Role Already Exist")]
-        [RegularExpression(@"^([a-zA-Z])*$", ErrorMessage = " Role Name must contain only alphabet")]
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = "Role Name must contain only alphabet")]
         public string RoleName { get; set; }
     }
 }

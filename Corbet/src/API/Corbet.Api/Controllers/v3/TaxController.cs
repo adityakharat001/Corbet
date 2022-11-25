@@ -156,7 +156,7 @@ namespace Corbet.Api.Controllers.v3
 
         [Route("DoesTaxExists/{tax}")]
         [HttpGet]
-        public async Task<IActionResult> DoesPhoneAlreadyExists(string tax)
+        public async Task<IActionResult> DoesTaxAlreadyExists(string tax)
         {
             var response = await _mediator.Send(new CheckTaxExistCommand(tax));
             return (response) ? Ok(true) : Ok(false);

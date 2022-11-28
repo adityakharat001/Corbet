@@ -56,6 +56,7 @@ namespace Corbet.Persistence.Repositories
                                    IsActive = p.IsActive
 
                                }).ToList();
+            _logger.LogInformation("Ge");
             
             return productData;
         }

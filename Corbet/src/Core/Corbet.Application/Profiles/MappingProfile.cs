@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using Corbet.Application.Features.AddCart.Command;
+using Corbet.Application.Features.AddCart.Queries;
 using Corbet.Application.Features.Categories.Commands.CreateCategory;
 using Corbet.Application.Features.Categories.Commands.StoredProcedure;
 using Corbet.Application.Features.Categories.Queries.GetCategoriesList;
@@ -213,6 +214,9 @@ namespace Corbet.Application.Profiles
             CreateMap<AddToCart,CreateCartCommand>().ReverseMap();
             CreateMap<AddToCart, CreateCartCommandDto>().ReverseMap();
 
+
+            CreateMap<AddToCart, GetCartListQuery>().ReverseMap();
+            CreateMap<AddToCart, GetCartListVm>().ReverseMap();
 
             //CreateMap<OrderManagement,CreateOrderCommand>().ReverseMap();
             //CreateMap<OrderManagement, CreateOrderDto>().ReverseMap();

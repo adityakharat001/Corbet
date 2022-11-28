@@ -73,14 +73,7 @@ namespace Corbet.Ui.Controllers
 
                 }
                 ViewBag.TaxNamelist = TaxNamelist;
-                int[] MinTax = Enumerable.Range(0, 10).ToArray();
-                var mintaxData = MinTax.Select((i) => new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                ViewBag.MinTaxList = mintaxData;
-
-
-                int[] MaxTax = Enumerable.Range(2, 10).ToArray();
-                var maxtaxData = MaxTax.Select((i) => new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                ViewBag.MaxTaxList = maxtaxData;
+              
                 return View();
 
             }
@@ -120,29 +113,7 @@ namespace Corbet.Ui.Controllers
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "Tax/GetAllTaxes").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
            List< TaxViewModel> taxlist = JsonConvert.DeserializeObject<List<TaxViewModel>>(data);
-            foreach(var i in taxlist)
-            {
-                string clearText = i.TaxId;
-                string EncryptionKey = Environment.GetEnvironmentVariable("EncryptionDeckryptionKey")?.ToString().Length > 0 ? Environment.GetEnvironmentVariable("EncryptionDeckryptionKey") : "";
-                byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
-                using (Aes encryptor = Aes.Create())
-                {
-                    var salt = Encoding.UTF8.GetBytes("0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76");
-                    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, salt);
-                    encryptor.Key = pdb.GetBytes(32);
-                    encryptor.IV = pdb.GetBytes(16);
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                        {
-                            cs.Write(clearBytes, 0, clearBytes.Length);
-                            cs.Close();
-                        }
-                     string withslash = Convert.ToBase64String(ms.ToArray());
-                        i.TaxId = withslash.Replace("/", "%2F");
-                    }
-                }
-            }
+            
             //string taxIdvalue;
             //foreach(var i in taxlist){
             //   // i.TaxId = i.TaxId;
@@ -174,7 +145,7 @@ namespace Corbet.Ui.Controllers
         #endregion
 
         [HttpGet]
-        public ActionResult UpdateTax(string id)
+        public ActionResult UpdateTax(int id)
         {
        
               
@@ -315,38 +286,11 @@ namespace Corbet.Ui.Controllers
 
 
 
-        [HttpGet]
-        public JsonResult EncrytToUrl(string clearText)
-        {
-            
-                string EncryptionKey = Environment.GetEnvironmentVariable("EncryptionDeckryptionKey")?.ToString().Length > 0 ? Environment.GetEnvironmentVariable("EncryptionDeckryptionKey") : "";
-                byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
-                using (Aes encryptor = Aes.Create())
-                {
-                    var salt = Encoding.UTF8.GetBytes("0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76");
-                    Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, salt);
-                    encryptor.Key = pdb.GetBytes(32);
-                    encryptor.IV = pdb.GetBytes(16);
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
-                        {
-                            cs.Write(clearBytes, 0, clearBytes.Length);
-                            cs.Close();
-                        }
-                        clearText = Convert.ToBase64String(ms.ToArray());
-                    }
-                }
        
-            
-
-            return Json(clearText, System.Web.Mvc.JsonRequestBehavior.AllowGet);
-        }
-
         [HttpGet]
-        public JsonResult IsTaxExist(string tax)
+        public JsonResult IsTaxExist(string Name)
         {
-            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/DoesTaxExists/{tax}").Result;
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/DoesTaxExists/{Name}").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
             bool taxExists = JsonConvert.DeserializeObject(data);
             if (taxExists == true)

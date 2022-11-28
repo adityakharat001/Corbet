@@ -15,5 +15,6 @@
         public string Tax { get; set; }
         public double TaxApplicable { get; set; }
         public bool IsActive { get; set; }
+        
     }
 }

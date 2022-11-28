@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Corbet.Application.Contracts.Persistence;
 using Corbet.Application.Features.AddCart.Command.DeleteCart;
+using Corbet.Application.Features.AddCart.Queries;
 using Corbet.Application.Features.Roles.Commands.DeleteRole;
 using Corbet.Domain.Entities;
 
@@ -55,14 +56,40 @@ namespace Corbet.Persistence.Repositories
            var check=  _dbContext.AddCarts.Where(x => x.ProductId == addToCart.ProductId && x.UserId == addToCart.UserId).FirstOrDefault();
             if (check != null)
             {
-                addToCart.Quantity = check.Quantity + 1;
+                check.Quantity = check.Quantity + 1;
                 
-              var newa=  _dbContext.AddCarts.Update(addToCart);
+            
                 _dbContext.SaveChangesAsync();
                 return true;
             }
             return false;
         }
+
+
+        public async Task<List<GetCartListVm>> GetAllCart(int userId)
+        {
+
+
+            var cart = (from c in _dbContext.AddCarts
+                        join p in _dbContext.Products
+                        on c.ProductId equals p.ProductId
+                        join subcategory in _dbContext.ProductSubCategories
+                        on p.SubCategoryId equals subcategory.SubCategoryId
+                        where (c.UserId == userId)
+                        select new GetCartListVm
+                        {
+                            CartId = c.CartId,
+                            image = p.ImagePath,
+                            Price = p.Price,
+                            ProductName = p.ProductName,
+                            Quantity = c.Quantity,
+                            Description = subcategory.Description
+                        }).ToList();
+
+            return cart;
+        }
+
+
 
     }
 }

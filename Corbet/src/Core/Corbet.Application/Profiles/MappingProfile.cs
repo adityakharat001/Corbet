@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+
+using Corbet.Application.Features.AddCart.Command;
+using Corbet.Application.Features.AddCart.Queries;
 using Corbet.Application.Features.Categories.Commands.CreateCategory;
 using Corbet.Application.Features.Categories.Commands.StoredProcedure;
 using Corbet.Application.Features.Categories.Queries.GetCategoriesList;
@@ -9,7 +12,6 @@ using Corbet.Application.Features.Events.Commands.UpdateEvent;
 using Corbet.Application.Features.Events.Queries.GetEventDetail;
 using Corbet.Application.Features.Events.Queries.GetEventsExport;
 using Corbet.Application.Features.Events.Queries.GetEventsList;
-using Corbet.Application.Features.OrderManagement.Command;
 using Corbet.Application.Features.Orders.GetOrdersForMonth;
 using Corbet.Application.Features.ProductCategory.Commands.CraeteProductCategory;
 using Corbet.Application.Features.ProductCategory.Commands.CreateProductCategory;
@@ -31,6 +33,16 @@ using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryList;
 using Corbet.Application.Features.Roles.Commands.CreateRole;
 using Corbet.Application.Features.Roles.Commands.UpdateRole;
 using Corbet.Application.Features.Roles.Queries.GetAllRoles;
+using Corbet.Application.Features.Stocks.Commands.AddStock;
+using Corbet.Application.Features.Stocks.Commands.DeleteStock;
+using Corbet.Application.Features.Stocks.Commands.UpdateStock;
+using Corbet.Application.Features.Stocks.Queries.GetAllStocks;
+using Corbet.Application.Features.Stocks.Queries.GetStockByStockId;
+using Corbet.Application.Features.StockTypes.Commands.AddStockType;
+using Corbet.Application.Features.StockTypes.Commands.DeleteStockType;
+using Corbet.Application.Features.StockTypes.Commands.UpdateStockType;
+using Corbet.Application.Features.StockTypes.Queries.GetAllStockTypes;
+using Corbet.Application.Features.StockTypes.Queries.GetStockTypeById;
 using Corbet.Application.Features.Suppliers.Commands.CreateSupplier;
 using Corbet.Application.Features.Suppliers.Commands.UpdateSupplier;
 using Corbet.Application.Features.Suppliers.Queries.GetAllSuppliers;
@@ -192,8 +204,38 @@ namespace Corbet.Application.Profiles
 
             CreateMap<ProductSubCategory, SubCategoryExistCommand>().ReverseMap();
 
-            CreateMap<OrderManagement,CreateOrderCommand>().ReverseMap();
-            CreateMap<OrderManagement, CreateOrderDto>().ReverseMap();
+
+            CreateMap<AddToCart,CreateCartCommand>().ReverseMap();
+            CreateMap<AddToCart, CreateCartCommandDto>().ReverseMap();
+
+
+            CreateMap<AddToCart, GetCartListQuery>().ReverseMap();
+            CreateMap<AddToCart, GetCartListVm>().ReverseMap();
+
+            //CreateMap<OrderManagement,CreateOrderCommand>().ReverseMap();
+            //CreateMap<OrderManagement, CreateOrderDto>().ReverseMap();
+
+            //StockTypes
+            CreateMap<GetAllStockTypesQuery, StockType>();
+            CreateMap<StockType, GetAllStockTypesVm>();
+            CreateMap<AddStockTypeCommand, StockType>();
+            CreateMap<StockType, AddStockTypeDto>();
+            CreateMap<StockType, GetStockTypeByIdVm>();
+            CreateMap<DeleteStockTypeCommand, StockType>();
+            CreateMap<StockType, DeleteStockTypeDto>();
+            CreateMap<UpdateStockTypeCommand, StockType>();
+            CreateMap<StockType, UpdateStockTypeDto>();
+            CreateMap<Stock, GetStockByStockIdVm>();
+
+            //Stocks
+            CreateMap<AddStockCommand, Stock>();
+            CreateMap<Stock, AddStockDto>();
+            CreateMap<Stock, GetAllStocksVm>();
+            CreateMap<GetAllStocksVm, GetAllStocksVmOut>();
+            CreateMap<DeleteStockCommand, Stock>();
+            CreateMap<Stock, DeleteStockDto>();
+            CreateMap<UpdateStockCommand, Stock>();
+            CreateMap<Stock, UpdateStockDto>();
 
         }
     }

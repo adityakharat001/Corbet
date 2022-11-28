@@ -46,7 +46,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliersForAdmin">
+               asp-action="GetAllSuppliers">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -58,6 +58,15 @@
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Stock"
+               asp-action="GetAllStocks">
+                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
+            </a>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link"
                data-bs-target="#generics-nav"
@@ -123,11 +132,30 @@
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
+                    </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="StockType" asp-action="GetAllStockTypes">
+                                <i class="bi bi-circle"></i><span>Stock Types</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </li>
     </ul>
 </aside>
 <!-- End Sidebar -->
+
 <div class="pagetitle">
     <h1>Tax Types</h1>
     <nav>
@@ -146,7 +174,6 @@
             <th>
                 Sr. No
             </th>
-
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -163,12 +190,20 @@
                     }
                     @counter
                 </td>
+<<<<<<< HEAD
+
+=======
+>>>>>>> 860a3fdaff6b93104a2a8c3d5e0bb70c1f9ed10f
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     <a class="btn btn-sm btn-primary" asp-controller="Tax" asp-action="UpdateTax" asp-route-id="@item.TaxId"><i class="ri-edit-box-fill "></i></a>
+<<<<<<< HEAD
+                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')" ><i class="ri-delete-bin-6-fill "></i></button>
+=======
                     <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')"><i class="ri-delete-bin-6-fill "></i></button>
+>>>>>>> 860a3fdaff6b93104a2a8c3d5e0bb70c1f9ed10f
                 </td>
             </tr>
         }
@@ -201,6 +236,33 @@
         })
     }
 
+<<<<<<< HEAD
+          
+    //  //  const encryptedId = CryptoJS.AES.encrypt(id, "THISISASECURITYKEY");
+    //  //  console.log(encryptedId);
+    //  //  encryptedId=encryptedId.replaceAll('//', '');
+    //  //console.log(encryptedId);
+    //    $.ajax({
+    //        url: '@Url.Action("EncrytToUrl", "Tax")',
+    //        type: 'GET',
+    //        dataType: 'json',
+    //        cache: false,
+    //        data: { 'id': id },
+    //        success: function (results) {
+    //            var newid=results;
+    //        },
+    //        error: function () {
+    //            alert('Error occured');
+    //        }
+    //    });
+    //    console.log("end");
+    //}
+        //window.location.assign(`/Tax/UpdateTax/${encryptedId}`);
+      
+           
+        </script>
+=======
     
 
 </script>
+>>>>>>> 860a3fdaff6b93104a2a8c3d5e0bb70c1f9ed10f

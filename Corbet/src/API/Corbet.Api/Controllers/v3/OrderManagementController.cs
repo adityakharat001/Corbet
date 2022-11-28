@@ -1,6 +1,10 @@
-﻿using Corbet.Application.Features.OrderManagement.Command;
-using Corbet.Application.Features.OrderManagement.Queries;
+﻿
+using Corbet.Application.Features.AddCart.Command;
+using Corbet.Application.Features.AddCart.Command.DeleteCart;
+using Corbet.Application.Features.AddCart.Queries;
+using Corbet.Application.Features.ProductCategory.Commands.DeleteProductCategory;
 using Corbet.Application.Features.ProductSubCategory.Command.CreateSubCategory;
+using Corbet.Application.Features.Roles.Commands.DeleteRole;
 using Corbet.Application.Features.Taxes.Queries.GetAllTaxDetails;
 
 using MediatR;
@@ -25,16 +29,16 @@ namespace Corbet.Api.Controllers.v3
         }
 
         [HttpPost]
-        [Route("AddOrder")]
-        public async Task<ActionResult> CreateOrder(CreateOrderCommand createorderCommand)
+        [Route("AddCart")]
+        public async Task<ActionResult> Createcart(CreateCartCommand createcartCommand)
         {
-            _logger.LogInformation("Adding Order initiated");
-            var response = await _mediator.Send(createorderCommand);
+            _logger.LogInformation("Adding Cart initiated");
+            var response = await _mediator.Send(createcartCommand);
             if (response == null)
             {
                 return BadRequest();
             }
-            _logger.LogInformation("Adding Order completed");
+            _logger.LogInformation("Adding Cart completed");
             return Ok(response);
         }
 
@@ -42,15 +46,31 @@ namespace Corbet.Api.Controllers.v3
         #region Getting All OrderDetail
 
         [HttpGet]
-        [Route("GetAllOrderDetails")]
-        public async Task<IActionResult> GetAllOrderDetails()
+        [Route("GetAllCartDetails")]
+        public async Task<IActionResult> GetAllCartDetails(int UserId)
         {
-            _logger.LogInformation("Order Details Initiated");
-            var orderData = await _mediator.Send(new GetOrderListQuery());
+            _logger.LogInformation("Cart Details Initiated");
+            var CartData = await _mediator.Send(new GetCartListQuery() { userId=UserId});
             _logger.LogInformation("Successfull");
-            return Ok(orderData);
+            return Ok(CartData);
         }
         #endregion
+
+
+
+        #region DeleteCart
+        [HttpDelete]
+        [Route("DeleteCart")]
+        public async Task<IActionResult> DeleteCart(int id)
+        {
+            _logger.LogInformation("cart delete initiated");
+            await _mediator.Send(new DeleteCartCommand(){ CartId = id});
+            _logger.LogInformation("Category delete completed");
+            return NoContent();
+        }
+        #endregion
+
+
 
     }
 }

@@ -48,6 +48,7 @@ namespace Corbet.Ui.Controllers
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "UserName", AuthData.UserName);
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "user", AuthData);
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "RoleName", AuthData.RoleName);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "UserId", AuthData.Id);
                     string Username = HttpContext.Session.GetString("UserName");
                     TempData["UserName"] = Username.Replace("\"", "");
                     string RoleName = HttpContext.Session.GetString("RoleName");

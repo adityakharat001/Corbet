@@ -52,15 +52,19 @@ namespace Corbet.Ui.Controllers
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "RoleId", AuthData.RoleId);
                     string RoleId = HttpContext.Session.GetString("RoleId");
                     string roleId=RoleId.Replace("\"","");
-                    if (roleId == "1")
-                    {
-                        return RedirectToRoute(new { controller = "Home", action = "Index" });
-                    }
+                    //if (roleId == "1")
+                    //{
+                    //    return RedirectToRoute(new { controller = "Home", action = "Index" });
+                    //}
                     //if (roleId == "2")
                     //{
-                    //    return RedirectToRoute(new { controller = "Home", action = "SupplierLayout" });
+                    //    return RedirectToRoute(new { controller = "Home", action = "PurchaseUserLayout" });
 
-                    //}                 
+                    //}
+                    //else if (roleId == "3")
+                    //{
+                    //    return RedirectToRoute(new { controller = "Home", action = "StaffUserLayout" });
+                    //}
                 }
                 TempData["Error"] = "Failed To Login User. Please Enter Valid Credentials";
                 return View();

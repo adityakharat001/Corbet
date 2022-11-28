@@ -98,7 +98,7 @@ namespace Corbet.Ui.Controllers
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"ProductCategoryDetails/GetcategoryDetailsById?id={id}").Result;
             dynamic categoryDetailsData = response.Content.ReadAsStringAsync().Result;
-            CategoryDetailsViewModel categoryDetails = JsonConvert.DeserializeObject<Response<CategoryDetailsViewModel>>(categoryDetailsData).Data;
+            CategoryDetailsUpdateModel categoryDetails = JsonConvert.DeserializeObject<Response<CategoryDetailsUpdateModel>>(categoryDetailsData).Data;
 
             HttpResponseMessage msg = _httpClient.GetAsync(_httpClient.BaseAddress + "ProductCategory/GetAllCategories").Result;
             if (msg.IsSuccessStatusCode)
@@ -106,7 +106,6 @@ namespace Corbet.Ui.Controllers
                 var responseDataRead = msg.Content.ReadAsStringAsync().Result;
 
                 dynamic CategoryList = JsonConvert.DeserializeObject(responseDataRead);
-
 
                 var CategoryNamelist = new List<SelectListItem>();
                 foreach (var item in CategoryList)
@@ -123,7 +122,7 @@ namespace Corbet.Ui.Controllers
 
 
         [HttpPost]
-        public ActionResult UpdateCategoryDetails(CategoryDetailsViewModel categoryDetails)
+        public ActionResult UpdateCategoryDetails(CategoryDetailsUpdateModel categoryDetails)
         {
             string data = JsonConvert.SerializeObject(categoryDetails);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
@@ -131,13 +130,13 @@ namespace Corbet.Ui.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                ViewBag.categoryDetailUpdateAlert = "<script type='text/javascript'>Swal.fire('Product Category Details Update','Product Category Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/Tax/GetAllTaxDetails');</script>";
-                return View();
+                ViewBag.categoryDetailUpdateAlert = "<script type='text/javascript'>Swal.fire('Product Category Details Update','Product Category Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/CategoryDetails/GetAllCategoryDetails');</script>";
+                return View(categoryDetails);
             }
             else
             {
                 ViewBag.categoryDetailUpdateAlert = "<script type='text/javascript'>Swal.fire('Product Category Details Update','Failed To Update Product Category Details !','error');</script>";
-                return View();
+                return View(categoryDetails);
 
             }
             return RedirectToAction("GetAllCategoryDetails");

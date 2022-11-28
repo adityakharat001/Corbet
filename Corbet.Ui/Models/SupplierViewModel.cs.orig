@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace Corbet.Ui.Models
 {
@@ -8,8 +7,11 @@ namespace Corbet.Ui.Models
         [DisplayName("Supplier Id")]
         public int SupplierId { get; set; }
         [DisplayName("Supplier Name")]
+<<<<<<< HEAD
         [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " Supplier Name must contain only alphabet")]
         [MaxLength(100)]
+=======
+>>>>>>> 3e4c3af219f7d1e019fc55972200f403765aeb77
         public string SupplierName { get; set; }
         [DisplayName("Email")]
         public string Email { get; set; }

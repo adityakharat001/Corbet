@@ -181,6 +181,7 @@
             <th data-orderable="false">Actions</th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var item in Model)
         {
@@ -196,7 +197,6 @@
                 </td>
                 <td>
                     <a class="btn btn-sm btn-primary" asp-controller="Tax" asp-action="UpdateTax" asp-route-id="@item.TaxId"><i class="ri-edit-box-fill "></i></a>
-
                     <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')" ><i class="ri-delete-bin-6-fill "></i></button>
                 </td>
             </tr>

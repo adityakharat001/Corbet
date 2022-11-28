@@ -4,12 +4,12 @@
     ViewData["Title"] = "CreateSubCategory";
 }
 @*@if (TempData["Message"]!=null){
-   
-    
+
+
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
-        
+
        @* $.notify("@TempData["Message"]", { position: "top right" }, "erro
 
             <div class="alert alert-warning alert-dismissible fade show" style="background-color:deepskyblue;color:white;" role = "alert" >
@@ -18,36 +18,36 @@
                         <span aria - hidden="true">& times </span>
                             </button>
                             </div>
-       
+
     }
 *@
 <script src="~/lib/package/dist/sweetalert2.all.min.js"></script>
 <script src="~/lib/package/dist/sweetalert2.all.js"></script>
 <script src="~/lib/package/dist/sweetalert2.min.js"></script>
 
-     
+
 @if (TempData["Message"] != null)
 {
-  
+
 
     <script>
-                             
-        const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 4000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
 
-Toast.fire({
-  icon: 'error',
-  title: 'Oops ! SubCategory Alreay Exist'
-})
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'error',
+            title: 'Oops ! SubCategory Alreay Exist'
+        })
     </script>
 }
 
@@ -132,7 +132,7 @@ Toast.fire({
                         </li>
                     </ul>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link collapsed"
                        data-bs-target="#category-nav"
                        data-bs-toggle="collapse"
@@ -156,7 +156,7 @@ Toast.fire({
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a class="nav-link" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -181,16 +181,14 @@ Toast.fire({
         <form asp-action="CreateSubCategory">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <label asp-for="CategoryId" class="control-label"></label>
+            <input asp-for="CategoryId" class="form-control" />
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label">Category</label>
+                <label asp-for="CategoryId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="CategoryId" id="CategoryId" class="form-control" asp-items="ViewBag.SubCategorylistData">
-                    <option value="">---select Category Name---</option>
-                </select>
+                <select asp-for="CategoryId" class="form-control" id="ddlCategory"></select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
 
@@ -206,17 +204,15 @@ Toast.fire({
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TaxId" class="control-label">Tax Type</label>
+                <label asp-for="TaxId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="TaxId" id="TaxId" class="form-control" asp-items="ViewBag.TaxNamelist">
-                    <option value="">---select Tax Type---</option>
-                </select>
+                <select asp-for="TaxId" class="form-control" id="ddlTax"></select>
                 <span asp-validation-for="TaxId" class="text-danger"></span>
             </div>
-@*            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
-                </label>
+            @*            <div class="form-group form-check">
+            <label class="form-check-label">
+            <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
+            </label>
             </div>*@
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
@@ -224,7 +220,7 @@ Toast.fire({
                 @* <input asp-for="UserStatus" class="form-control" />
                 <span asp-validation-for="UserStatus" class="text-danger"></span>*@
                 <select asp-for="Status" class="form-control" required>
-                    <option value="">--Select type--</option>
+                    <option value="">Select Status</option>
                     <option asp-for="Status" value=true>Active</option>
                     <option asp-for="Status" value=false>InActive</option>
 
@@ -233,7 +229,7 @@ Toast.fire({
 
             </div>
             <br />
-        
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 <a class="btn btn-warning" asp-action="GetAllSubCategory">Back to List</a>
@@ -245,5 +241,9 @@ Toast.fire({
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/assets/js/productDropdown.js" defer></script>

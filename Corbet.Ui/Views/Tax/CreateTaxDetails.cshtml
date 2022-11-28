@@ -109,7 +109,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -139,11 +139,9 @@
             <span asp-validation-for="TaxId" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="TaxId" class="control-label">Tax Type</label>
-                <sup class="text-danger">*</sup>
-                <select asp-for="TaxId" id="TaxId" class="form-control" asp-items="ViewBag.TaxNamelist">
-                    <option value="">---Select Tax Type---</option>
-                </select>
+                <label asp-for="TaxId" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="TaxId" class="form-control" id="ddlTax"></select>
                 <span asp-validation-for="TaxId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -176,7 +174,7 @@
                 @* <input asp-for="UserStatus" class="form-control" />
                 <span asp-validation-for="UserStatus" class="text-danger"></span>*@
                 <select asp-for="Status" class="form-control" required>
-                    <option value="">--Select type--</option>
+                    <option value="">Select Type</option>
                     <option asp-for="Status" value=true>Active</option>
                     <option asp-for="Status" value=false>InActive</option>
 
@@ -201,3 +199,6 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     }
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="~/assets/js/productDropdown.js" defer></script>

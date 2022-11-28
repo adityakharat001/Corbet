@@ -1,6 +1,8 @@
 ﻿using Corbet.Ui.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 using Newtonsoft.Json;
 
 namespace Corbet.Ui.Controllers
@@ -25,28 +27,7 @@ namespace Corbet.Ui.Controllers
         [HttpGet]
         public ActionResult AddUser()
         {
-            HttpResponseMessage msg = client.GetAsync(client.BaseAddress + "User/GetAllRolesOfUser").Result;
-            if (msg.IsSuccessStatusCode)
-            {
-                var responseData = msg.Content.ReadAsStringAsync().Result;
-                dynamic rolelList = JsonConvert.DeserializeObject(responseData);
-
-
-                List<SelectListItem> UserRolelist = new List<SelectListItem>();
-                foreach (var item in rolelList)
-                {
-
-                    UserRolelist.Add(new SelectListItem { Text = item.roleName.ToString(), Value = item.roleId.ToString() });
-
-                }
-                ViewBag.UserRolelist = UserRolelist;
-
-                return View();
-            }
-            else
-            {
-                return View();
-            }
+            return View();
         }
 
 
@@ -149,6 +130,16 @@ namespace Corbet.Ui.Controllers
         //    }
         //}
 
+
+
+        [HttpGet]
+        public JsonResult RoleDdl()
+        {
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "User/GetAllRolesOfUser").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            var roles = JsonConvert.DeserializeObject<List<Role>>(data);
+            return Json(roles);
+        }
 
         public IActionResult Index()
         {

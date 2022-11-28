@@ -98,46 +98,27 @@ namespace Corbet.Ui.Controllers
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"ProductCategoryDetails/GetcategoryDetailsById?id={id}").Result;
             dynamic categoryDetailsData = response.Content.ReadAsStringAsync().Result;
-            CategoryDetailsViewModel categoryDetails = JsonConvert.DeserializeObject<Response<CategoryDetailsViewModel>>(categoryDetailsData).Data;
-
-            HttpResponseMessage msg = _httpClient.GetAsync(_httpClient.BaseAddress + "ProductCategory/GetAllCategories").Result;
-            if (msg.IsSuccessStatusCode)
-            {
-                var responseDataRead = msg.Content.ReadAsStringAsync().Result;
-
-                dynamic CategoryList = JsonConvert.DeserializeObject(responseDataRead);
-
-
-                var CategoryNamelist = new List<SelectListItem>();
-                foreach (var item in CategoryList)
-                {
-                    CategoryNamelist.Add(new SelectListItem { Text = item.categoryName.ToString(), Value = item.categoryId.ToString() });
-                    // TaxNamelist.Add(new SelectListItem { Text = item.TaxId, Value = item.Name.ToString() });
-
-                }
-                ViewBag.CategoryNameList = CategoryNamelist;
-
-            }
+            CategoryDetailsUpdateModel categoryDetails = JsonConvert.DeserializeObject<Response<CategoryDetailsUpdateModel>>(categoryDetailsData).Data;
             return View(categoryDetails);
         }
 
 
         [HttpPost]
-        public ActionResult UpdateCategoryDetails(CategoryDetailsUpdateModel taxDetails)
+        public ActionResult UpdateCategoryDetails(CategoryDetailsUpdateModel categoryDetails)
         {
-            string data = JsonConvert.SerializeObject(taxDetails);
+            string data = JsonConvert.SerializeObject(categoryDetails);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategoryDetails/UpdateCategoryDetail", content).Result;
+            HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategoryDetails/UpdateCategoryDetails", content).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                ViewBag.categoryDetailUpdateAlert = "<script type='text/javascript'>Swal.fire('Product Category Details Update','Product Category Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/Tax/GetAllTaxDetails');</script>";
-                return View();
+                ViewBag.categoryDetailUpdateAlert = "<script type='text/javascript'>Swal.fire('Product Category Details Update','Product Category Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/CategoryDetails/GetAllCategoryDetails');</script>";
+                return View(categoryDetails);
             }
             else
             {
                 ViewBag.categoryDetailUpdateAlert = "<script type='text/javascript'>Swal.fire('Product Category Details Update','Failed To Update Product Category Details !','error');</script>";
-                return View();
+                return View(categoryDetails);
 
             }
             return RedirectToAction("GetAllCategoryDetails");

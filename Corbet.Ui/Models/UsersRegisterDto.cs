@@ -11,15 +11,15 @@ namespace Corbet.Ui.Models
         public int UserId { get; set; }
         [Required(ErrorMessage = "First Name is required")]
         [MinLength(3, ErrorMessage ="First Name must at least 3 characters")]
-        [MaxLength(20, ErrorMessage ="First Name must less than 20 characters")]
-        [RegularExpression(@"^([a-zA-Z])*$", ErrorMessage = " First Name must contain only alphabet")]
+        [MaxLength(150, ErrorMessage ="First Name must less than 150 characters")]
+        [RegularExpression(@"^([a-zA-Z])*$", ErrorMessage = "First Name must contain only alphabet")]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last Name is required")]
         [MinLength(3, ErrorMessage ="Last Name must at least 3 characters")]
-        [MaxLength(20, ErrorMessage ="Last Name must less than 20 characters")]
-        [RegularExpression(@"^([a-zA-Z])*$", ErrorMessage = " Last Name must contain only alphabet ")]
+        [MaxLength(150, ErrorMessage ="Last Name must less than 150 characters")]
+        [RegularExpression(@"^([a-zA-Z])*$", ErrorMessage = "Last Name must contain only alphabet ")]
         [DisplayName("Last Name")]
         public string LastName { get; set; }
 
@@ -49,7 +49,7 @@ namespace Corbet.Ui.Models
         public bool IsLocked { get; set; } = false;
         public bool IsTwoFactorEnabled { get; set; } = false;
 
-        [Required(ErrorMessage = "Choose A Role")]
+        [Required(ErrorMessage = "Select Role")]
         [DisplayName("Role")]
         public int RoleId { get; set; }
         [DisplayName("Active Status")]

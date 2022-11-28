@@ -109,7 +109,7 @@
                 </li>
 
                 <li>
-                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -231,22 +231,22 @@
 {
     <div class="card mb-3">
         <div class="row g-0 ">
-            <div class="col-md-4 d-flex">
+            <div class="col-md-3 d-flex">
                 <img src="~/Images/ProductImages/@item.ImagePath" class="img-fluid rounded-start align-middle" alt="...">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div class="card-body">
-                    <h1 class="card-title">
+                    <h3 class="mt-3">
                         @{
                             counter++;
                         } @counter &nbsp; @Html.DisplayFor(modelItem => item.ProductName)
-                    </h1>
+                    </h3>
                     <div class="container">
-                        <table class="productTable">
+                        <table class="productTable" style="font-size: 0.96rem;">
                             <tr>
                                 <th class="p-1">@Html.DisplayNameFor(model => model.ProductCategory):</th>
                                 <td class="p-1">@Html.DisplayFor(modelItem => item.ProductCategory)</td>
-                                <th class="p-1">@Html.DisplayNameFor(model => model.ProductSubCategory):</th>
+                                <th class="p-1 ml-2">@Html.DisplayNameFor(model => model.ProductSubCategory):</th>
                                 <td class="p-1">@Html.DisplayFor(modelItem => item.ProductSubCategory)</td>
                             </tr>
                             <tr>

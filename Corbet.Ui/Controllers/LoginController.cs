@@ -47,18 +47,29 @@ namespace Corbet.Ui.Controllers
                     LoginResponseDto AuthData = JsonConvert.DeserializeObject<LoginResponseDto>(responseData);
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "UserName", AuthData.UserName);
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "user", AuthData);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "RoleName", AuthData.RoleName);
                     string Username = HttpContext.Session.GetString("UserName");
                     TempData["UserName"] = Username.Replace("\"", "");
-                    SessionHelper.SetObjectAsJson(HttpContext.Session, "RoleId", AuthData.RoleId);
-                    string RoleId = HttpContext.Session.GetString("RoleId");
-                    string roleId=RoleId.Replace("\"","");
-                    if (roleId == "1")
+                    string RoleName = HttpContext.Session.GetString("RoleName");
+                    string roleName=RoleName.Replace("\"","");
+                    string trimmedRoleName = String.Concat(roleName.Where(r => !Char.IsWhiteSpace(r)));
+                    if (trimmedRoleName.ToLower() == "admin")
                     {
                         return RedirectToRoute(new { controller = "Home", action = "Index" });
                     }
-                    if (roleId == "2")
+                    else if (trimmedRoleName.ToLower() == "cspurchaseuser")
                     {
-                        return RedirectToRoute(new { controller = "Home", action = "SupplierLayout" });
+                        return RedirectToRoute(new { controller = "PurchaseUser", action = "Index" });
+
+                    }
+                    else if (trimmedRoleName.ToLower() == "cssalesuser")
+                    {
+                        return RedirectToRoute(new { controller = "SalesUser", action = "Index" });
+
+                    }
+                    else if (trimmedRoleName.ToLower() == "backofficeuser")
+                    {
+                        return RedirectToRoute(new { controller = "BackOffice", action = "Index" });
 
                     }
                     

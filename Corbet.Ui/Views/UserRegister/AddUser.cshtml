@@ -37,7 +37,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -110,7 +110,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -182,21 +182,18 @@
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="RoleId" class="form-label">Role</label>
+                                <label asp-for="RoleId" class="control-label"></label>
                                 <span class="text-danger">*</span>
-                                <select asp-for="RoleId" class="form-control" asp-items="@ViewBag.UserRoleList" required>
-                                    <option value="">---Select Role---</option>
-                                </select>
+                                <select asp-for="RoleId" class="form-control" id="ddlRole"></select>
                                 <span asp-validation-for="RoleId" class="text-danger"></span>
                             </div>
-
 
                             <div class="form-group">
                                 <button class="btn btn-primary w-100" asp-action="AddUser" type="submit">Create Account</button>
                             </div>
-                            
+
                         </form>
-                        <br/>
+                        <br />
                         <a class="btn btn-warning" asp-action="GetAllUsers">Back to List</a>
 
 
@@ -227,3 +224,26 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     }
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var ddlRole = $('#ddlRole');
+            ddlRole.append($("<option></option>").val('').html('Select Role'));
+            $.ajax({
+                url: 'https://localhost:7221/UserRegister/RoleDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, role) {
+                        ddlRole.append($("<option></option>").val(role.roleId).html(role.roleName));
+                    });
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+        });
+    </script>

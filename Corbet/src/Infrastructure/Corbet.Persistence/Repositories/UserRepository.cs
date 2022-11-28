@@ -101,10 +101,6 @@ namespace Corbet.Persistence.Repositories
         public async Task<User> FindUserByEmail(string email, string password)
         {
             string encPassword = EncryptionDecryption.EncryptString(password);
-            //string passwordData = password + Crypto.GenerateSalt();
-            ////add hash password to above string 
-            //string hashPassword = Crypto.HashPassword(passwordData);
-            //string hashPasswordString = hashPassword.ToString();
             User user = await _dbContext.Users.Where(u => u.Email == email && u.Password == encPassword).FirstOrDefaultAsync();
             if (user == null)
             {

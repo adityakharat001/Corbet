@@ -11,7 +11,7 @@ namespace Corbet.Application.Models.Authentication
         public string Email { get; set; }
         public string Token { get; set; }
         public string RefreshToken { get; set; }
-        public int RoleId { get; set; }
+        public string RoleName { get; set; }
         public DateTime? RefreshTokenExpiration { get; set; }
     }
 }

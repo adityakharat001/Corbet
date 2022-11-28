@@ -254,12 +254,12 @@ namespace Corbet.Ui.Controllers
             if (response.IsSuccessStatusCode)
             {
                 ViewBag.taxDetailUpdateAlert = "<script type='text/javascript'>Swal.fire('Tax Details Update','Tax Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/Tax/GetAllTaxDetails');</script>";
-                return View();
+                return View(taxDetails);
             }
             else
             {
                 ViewBag.taxDetailUpdateAlert = "<script type='text/javascript'>Swal.fire('Tax Details Update','Failed To Update Tax Details!','error');</script>";
-                return View();
+                return View(taxDetails);
 
             }
 

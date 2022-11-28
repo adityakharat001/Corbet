@@ -85,7 +85,7 @@
                         </li>
                     </ul>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link collapsed"
                        data-bs-target="#category-nav"
                        data-bs-toggle="collapse"
@@ -109,7 +109,7 @@
                 </li>
 
                 <li>
-                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -121,7 +121,7 @@
 <div class="pagetitle">
     <h1>Products</h1>
     <nav>
-        <ol class="breadcrumb" >
+        <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="GetAllProducts">Products</a></li>
             <li class="breadcrumb-item active">Update Product</li>
         </ol>
@@ -142,19 +142,19 @@
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="CategoryId" class="form-control" id="ddlCategory"></select>
+                <select asp-for="CategoryId" class="form-control" data-category="@Model.CategoryId" id="ddlCategory"></select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SubCategoryId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="SubCategoryId" class="form-control" id="ddlSubcategory"></select>
+                <select asp-for="SubCategoryId" class="form-control" data-subcategory="@Model.SubCategoryId" id="ddlSubcategory"></select>
                 <span asp-validation-for="SubCategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UnitId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="UnitId" class="form-control" id="ddlUnit"></select>
+                <select asp-for="UnitId" class="form-control" data-unit="@Model.UnitId" id="ddlUnit"></select>
                 <span asp-validation-for="UnitId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -166,13 +166,13 @@
             <div class="form-group">
                 <label asp-for="PrimarySupplierId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="PrimarySupplierId" class="form-control" id="ddlPrimarySupplier"></select>
+                <select asp-for="PrimarySupplierId" class="form-control" data-primarysupplier="@Model.PrimarySupplierId" id="ddlPrimarySupplier"></select>
                 <span asp-validation-for="PrimarySupplierId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SecondarySupplierId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="SecondarySupplierId" class="form-control" id="ddlSecondarySupplier"></select>
+                <select asp-for="SecondarySupplierId" class="form-control" data-secondarysupplier="@Model.SecondarySupplierId" id="ddlSecondarySupplier"></select>
                 <span asp-validation-for="SecondarySupplierId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -183,7 +183,7 @@
             <div class="form-group">
                 <label asp-for="TaxId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="TaxId" class="form-control" id="ddlTax"></select>
+                <select asp-for="TaxId" class="form-control" data-tax="@Model.TaxId" id="ddlTax"></select>
                 <span asp-validation-for="TaxId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -212,4 +212,187 @@
     }
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="~/assets/js/productDropdown.js" defer></script>
+    <script>
+        $(document).ready(function() {
+            var ddlCategory = $('#ddlCategory');
+            ddlCategory.append($("<option></option>").val('').html('Select Category'));
+            $.ajax({
+                url: 'https://localhost:7221/Product/CategoryDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, category) {
+                        ddlCategory.append($("<option></option>").val(category.categoryId).html(category.categoryName));
+                    });
+                    ddlCategory.val(ddlCategory.data("category"));
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+            const ddlSubcategory = $('#ddlSubcategory');
+            ddlSubcategory.append($("<option></option>").val('').html('Please wait ...'));
+
+            $.ajax({
+                url: 'https://localhost:7221/Product/SubcategoryDdl/' + ddlCategory.data("category"),
+                type: 'GET',
+                dataType: 'json',
+                //data: { CategoryId: CategoryId },
+                success: function(d) {
+                    console.table(d);
+                    ddlSubcategory.empty(); // Clear the please wait
+                    ddlSubcategory.append($("<option></option>").val('').html('Select Sub Category'));
+                    $.each(d, function(i, subcategory) {
+                        ddlSubcategory.append($("<option></option>").val(subcategory.subCategoryId).html(subcategory.subCategoryName));
+                    });
+                    ddlSubcategory.val(ddlSubcategory.data("subcategory"));
+
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+            $("#ddlCategory").change(function() {
+
+                const CategoryId = parseInt($(this).val());
+                console.log(CategoryId);
+
+                if (!isNaN(CategoryId)) {
+                    const ddlSubcategory = $('#ddlSubcategory');
+                    ddlSubcategory.empty();
+                    ddlSubcategory.append($("<option></option>").val('').html('Please wait ...'));
+
+                    $.ajax({
+                        url: 'https://localhost:7221/Product/SubcategoryDdl/' + CategoryId,
+                        type: 'GET',
+                        dataType: 'json',
+                        //data: { CategoryId: CategoryId },
+                        success: function(d) {
+                            console.table(d);
+                            ddlSubcategory.empty(); // Clear the please wait
+                            ddlSubcategory.append($("<option></option>").val('').html('Select Sub Category'));
+                            $.each(d, function(i, subcategory) {
+                                ddlSubcategory.append($("<option></option>").val(subcategory.subCategoryId).html(subcategory.subCategoryName));
+                            });
+
+                        },
+                        error: function() {
+                            alert('Error!');
+                        }
+                    });
+                }
+
+            });
+
+
+            var ddlUnit = $('#ddlUnit');
+            ddlUnit.append($("<option></option>").val('').html('Select Unit'));
+            $.ajax({
+                url: 'https://localhost:7221/Product/UnitDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, unit) {
+                        ddlUnit.append($("<option></option>").val(unit.id).html(unit.type));
+                    });
+                    ddlUnit.val(ddlUnit.data("unit"));
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+            var ddlPrimarySupplier = $('#ddlPrimarySupplier');
+            ddlPrimarySupplier.append($("<option></option>").val('').html('Select Primary Supplier'));
+            $.ajax({
+                url: 'https://localhost:7221/Product/SupplierDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, primarysupplier) {
+                        ddlPrimarySupplier.append($("<option></option>").val(primarysupplier.supplierId).html(primarysupplier.supplierName));
+                    });
+                    ddlPrimarySupplier.val(ddlPrimarySupplier.data("primarysupplier"));
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+            const ddlSecondarySupplier = $('#ddlSecondarySupplier');
+            ddlSecondarySupplier.append($("<option></option>").val('').html('Please wait ...'));
+            $.ajax({
+                url: 'https://localhost:7221/Product/SupplierDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    ddlSecondarySupplier.empty();
+                    ddlSecondarySupplier.append($("<option></option>").val('').html('Select Secondary Supplier'));
+                    $.each(d, function(i, secondarysupplier) {
+                        ddlSecondarySupplier.append($("<option></option>").val(secondarysupplier.supplierId).html(secondarysupplier.supplierName));
+                    });
+                    ddlSecondarySupplier.val(ddlSecondarySupplier.data("secondarysupplier"));
+
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+            $("#ddlPrimarySupplier").change(function() {
+                $('#ddlSecondarySupplier').empty();
+
+                const SelectedSupplier = parseInt($(this).val());
+                console.log(SelectedSupplier);
+
+                if (!isNaN(SelectedSupplier)) {
+                    const ddlSecondarySupplier = $('#ddlSecondarySupplier');
+                    ddlSecondarySupplier.append($("<option></option>").val('').html('Please wait ...'));
+                    $.ajax({
+                        url: 'https://localhost:7221/Product/SupplierDdl',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(d) {
+                            let newD = d.filter(item => item.supplierId != SelectedSupplier);
+                            console.table(newD);
+                            ddlSecondarySupplier.empty();
+                            ddlSecondarySupplier.append($("<option></option>").val('').html('Select Secondary Supplier'));
+                            $.each(newD, function(i, secondarysupplier) {
+                                ddlSecondarySupplier.append($("<option></option>").val(secondarysupplier.supplierId).html(secondarysupplier.supplierName));
+                            });
+                            $(`#ddlSecondarySupplier option[value='${SelectedSupplier}']`).remove();
+
+                        },
+                        error: function() {
+                            alert('Error!');
+                        }
+                    });
+                }
+            });
+
+
+            var ddlTax = $('#ddlTax');
+            ddlTax.append($("<option></option>").val('').html('Select Tax Type'));
+            $.ajax({
+                url: 'https://localhost:7221/Product/TaxDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, tax) {
+                        ddlTax.append($("<option></option>").val(tax.taxId).html(tax.name));
+                    });
+                    ddlTax.val(ddlTax.data("tax"));
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+        });
+    </script>

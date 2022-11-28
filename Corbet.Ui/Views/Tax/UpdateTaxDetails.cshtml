@@ -114,7 +114,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -139,14 +139,12 @@
         <form asp-action="UpdateTaxDetails">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="TaxId" class="control-label">Tax Type</label>
+                <label asp-for="TaxId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="TaxId" id="TaxId" class="form-control" asp-items="ViewBag.TaxNamelist">
-                    <option value="">---Select Tax Type---</option>
-                </select>
+                <select asp-for="TaxId" class="form-control" data-tax="@Model.TaxId" id="ddlTax"></select>
                 <span asp-validation-for="TaxId" class="text-danger"></span>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label asp-for="MinTax" class="control-label"></label>
                 <sup class="text-danger">*</sup>
                 <input asp-for="MinTax" class="form-control" required />
@@ -188,3 +186,28 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     }
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var ddlTax = $('#ddlTax');
+            ddlTax.append($("<option></option>").val('').html('Select Tax Type'));
+            $.ajax({
+                url: 'https://localhost:7221/Product/TaxDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, tax) {
+                        ddlTax.append($("<option></option>").val(tax.taxId).html(tax.name));
+                    });
+                    console.log(ddlTax.data("tax"));
+                    ddlTax.val(ddlTax.data("tax"));
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+        });
+    </script>

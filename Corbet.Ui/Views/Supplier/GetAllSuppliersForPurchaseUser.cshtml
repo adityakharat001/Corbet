@@ -40,9 +40,6 @@
             <th data-orderable="false">
                 @Html.DisplayNameFor(model => model.DocumentPath)
             </th>
-            <th data-orderable="false">
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
             <th data-orderable="false">Actions</th>
         </tr>
     </thead>
@@ -79,9 +76,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DocumentPath)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsDeleted)
                 </td>
                 <td>
                     <a class="btn btn-sm btn-primary" asp-controller="Supplier" asp-action="UpdateSupplierForPurchaseUser" asp-route-id="@item.SupplierId"><i class="ri-edit-box-fill "></i></a>

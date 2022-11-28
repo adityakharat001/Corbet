@@ -47,7 +47,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -120,7 +120,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -144,17 +144,17 @@
 <table class="table" id="myTable">
     <thead>
         <tr>
-            <th>Sr. No</th>
+            <th data-orderable="false">Sr. No</th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
-            <th>
+            <th data-orderable="false">
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            <th>
+            <th data-orderable="false">
                 @Html.DisplayNameFor(model => model.Role)
             </th>
             <th data-orderable="false">

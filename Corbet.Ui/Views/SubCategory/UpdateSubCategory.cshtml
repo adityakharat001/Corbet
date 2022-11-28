@@ -1,27 +1,27 @@
 ﻿@model Corbet.Ui.Models.SubCategoryUpdateView
-     
+
 @if (TempData["NotUpdate"] != null)
 {
-  
+
 
     <script>
-                             
-        const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 4000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
 
-Toast.fire({
-  icon: 'error',
-  title: 'Oops ! SubCategory Not Updated'
-})
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'error',
+            title: 'Oops ! SubCategory Not Updated'
+        })
     </script>
 }
 <aside id="sidebar" class="sidebar">
@@ -129,7 +129,7 @@ Toast.fire({
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Product" asp-action="GetAllProductSubCategories">
+                    <a class="nav-link" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -157,19 +157,16 @@ Toast.fire({
         <form asp-action="UpdateSubCategory">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <label asp-for="CategoryId" class="control-label"></label>
+            <input asp-for="CategoryId" class="form-control" />
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>*@
-    <div class="form-group">
-                <label asp-for="CategoryId" class="control-label">Category</label>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="CategoryId" id="CategoryId" class="form-control" asp-items="ViewBag.SubCategorylistData">
-                    <option value="">---select Category Name---</option>
-                </select>
+                <select asp-for="CategoryId" class="form-control" data-category="@Model.CategoryId" id="ddlCategory"></select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
-            <br />
             <div class="form-group">
                 <label asp-for="SubCategoryName" class="control-label">SubCategory</label>
                 <span class="text-danger">*</span>
@@ -182,11 +179,9 @@ Toast.fire({
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TaxId" class="control-label">Tax Type</label>
+                <label asp-for="TaxId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="TaxId" id="TaxId" class="form-control" asp-items="ViewBag.TaxNameList">
-                    <option value="">---select Tax Type---</option>
-                </select>
+                <select asp-for="TaxId" class="form-control" data-tax="@Model.TaxId" id="ddlTax"></select>
                 <span asp-validation-for="TaxId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -195,27 +190,68 @@ Toast.fire({
                 @* <input asp-for="UserStatus" class="form-control" />
                 <span asp-validation-for="UserStatus" class="text-danger"></span>*@
                 <select asp-for="Status" class="form-control" required>
-                    <option value="">--Select type--</option>
+                    <option value="">Select Status</option>
                     <option asp-for="Status" value=true>Active</option>
                     <option asp-for="Status" value=false>InActive</option>
-
                 </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
 
             </div>
+            <br/>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 <a class="btn btn-warning" asp-action="GetAllSubCategory">Back to List</a>
-
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var ddlCategory = $('#ddlCategory');
+            ddlCategory.append($("<option></option>").val('').html('Select Category'));
+            $.ajax({
+                url: 'https://localhost:7221/Product/CategoryDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, category) {
+                        ddlCategory.append($("<option></option>").val(category.categoryId).html(category.categoryName));
+                    });
+                    ddlCategory.val(ddlCategory.data("category"));
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+            var ddlTax = $('#ddlTax');
+            ddlTax.append($("<option></option>").val('').html('Select Tax Type'));
+            $.ajax({
+                url: 'https://localhost:7221/Product/TaxDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, tax) {
+                        ddlTax.append($("<option></option>").val(tax.taxId).html(tax.name));
+                    });
+                    ddlTax.val(ddlTax.data("tax"));
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+
+        });
+    </script>    

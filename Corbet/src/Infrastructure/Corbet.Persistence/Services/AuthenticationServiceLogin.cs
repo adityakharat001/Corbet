@@ -19,14 +19,16 @@ namespace Corbet.Persistence.Services
     {
 
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthenticationServiceLogin> _logger;
 
-        public AuthenticationServiceLogin(IConfiguration configuration, IUserRepository userRepository, ILogger<AuthenticationServiceLogin> logger)
+        public AuthenticationServiceLogin(IConfiguration configuration, IUserRepository userRepository, ILogger<AuthenticationServiceLogin> logger, IRoleRepository roleRepository)
         {
             _configuration = configuration;
             _logger = logger;
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
         }
         public async Task<AuthenticationResponse> Login(string email, string password)
         {
@@ -37,11 +39,12 @@ namespace Corbet.Persistence.Services
             }
             else
             {
-                int RoleId=user.RoleId; 
+                Role roleOfUser = await _roleRepository.GetById(user.RoleId);
+                string roleName = roleOfUser.RoleName;
                 int userId = user.UserId;
                 string name = $"{user.FirstName} {user.LastName}";
                 string token = GenerateToken(user.UserId, user.Email, name);
-                return new AuthenticationResponse() { IsAuthenticated = true, Token = token, Message = "Login Successful", UserName = name, Id = userId ,RoleId=RoleId};
+                return new AuthenticationResponse() { IsAuthenticated = true, Token = token, Message = "Login Successful", UserName = name, Id = userId ,RoleName = roleName};
 
             }
         }

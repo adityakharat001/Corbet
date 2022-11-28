@@ -13,5 +13,6 @@ namespace Corbet.Application.Contracts.Persistence
     {
         public Task<List<GetAllProductsVm>> GetAllProducts();
         Task<DeleteProductCommandDto> RemoveProductAsync(int id);
+        Task<Product> GetByIdAsync(int productId);
     }
 }

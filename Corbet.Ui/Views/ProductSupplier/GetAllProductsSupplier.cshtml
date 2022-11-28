@@ -1,0 +1,263 @@
+﻿@model IEnumerable<Corbet.Ui.Models.Product>
+
+@{
+    ViewData["Title"] = "GetAllProductsSupplier";
+}
+
+@{
+    ViewData["Title"] = "GetAllProducts";
+    int counter = 0;
+}
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
+
+        <li class="nav-item ">
+            <a class="nav-link collapsed"
+               asp-controller="Role"
+               asp-action="GetAllRoles">
+                <i class="bi bi-menu-button-wide"></i><span>Roles</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a href="c:\users\user\desktop\corbet_project\corbet\corbet.ui\views\product\getallproducts.cshtml"></a>
+            <a class="nav-link collapsed"
+               asp-controller="UserRegister"
+               asp-action="GetAllUsers">
+                <i class="bi bi-menu-button-wide"></i><span>All Users</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link collapsed"
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliersForAdmin">
+                <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="Product"
+               asp-action="GetAllProducts">
+                <i class="bi bi-menu-button-wide"></i><span>Products</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               data-bs-target="#generics-nav"
+               data-bs-toggle="collapse"
+               href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>Generics</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="generics-nav"
+                class="nav-content collapse"
+                data-bs-parent="#sidebar-nav">
+                <li>
+                    <a asp-controller="UnitMeasurement" asp-action="GetAllUnitMeasurements">
+                        <i class="bi bi-circle"></i><span>Unit Data</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Tax Management</span>
+                    </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="Tax" asp-action="GetAllTaxes">
+                                <i class="bi bi-circle"></i><span>Tax Types</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Tax" asp-action="GetAllTaxDetails">
+                                <i class="bi bi-circle"></i><span>Tax Details</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#category-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
+                    </a>
+                    <ul id="category-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="ProductCategory" asp-action="GetAllCategories">
+                                <i class="bi bi-circle"></i><span>Product Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="CategoryDetails" asp-action="GetAllCategoryDetails">
+                                <i class="bi bi-circle"></i><span>Product Category Details</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+                        <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</aside>
+<!-- End Sidebar -->
+<div class="pagetitle">
+    <h1>Products</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Products</li>
+        </ol>
+    </nav>
+</div>
+
+
+<!-- Card with an image on left -->
+@foreach (var item in Model)
+{
+
+    <div class="card mb-3">
+        <div class="row g-0 ">
+            <div class="col-md-4 d-flex">
+                <img src="~/Images/ProductImages/@item.ImagePath" class="img-fluid rounded-start align-middle" alt="...">
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h1 class="card-title">
+                        @{
+                            counter++;
+                        } @counter &nbsp; @Html.DisplayFor(modelItem => item.ProductName)
+                    </h1>
+                    <div class="container">
+                        <table class="productTable">
+                            <tr>
+                                <th class="p-1">@Html.DisplayNameFor(model => model.ProductCategory):</th>
+                                <td class="p-1">@Html.DisplayFor(modelItem => item.ProductCategory)</td>
+                                <th class="p-1">@Html.DisplayNameFor(model => model.ProductSubCategory):</th>
+                                <td class="p-1">@Html.DisplayFor(modelItem => item.ProductSubCategory)</td>
+                            </tr>
+                            <tr>
+                                <th class="p-1">@Html.DisplayNameFor(model => model.PrimarySupplier):</th>
+                                <td class="p-1">@Html.DisplayFor(modelItem => item.PrimarySupplier)</td>
+                                <th class="p-1">@Html.DisplayNameFor(model => model.SecondarySupplier):</th>
+                                <td class="p-1">@Html.DisplayFor(modelItem => item.SecondarySupplier)</td>
+                            </tr>
+                            <tr>
+                                <th class="p-1">@Html.DisplayNameFor(model => model.Tax):</th>
+                                <td class="p-1">@Html.DisplayFor(modelItem => item.Tax)</td>
+                                <th class="p-1">@Html.DisplayNameFor(model => model.TaxApplicable):</th>
+                                <td class="p-1">@Html.DisplayFor(modelItem => item.TaxApplicable)</td>
+                            </tr>
+                            <tr>
+                                <th class="p-1">@Html.DisplayNameFor(model => model.Unit):</th>
+                                <td class="p-1">@Html.DisplayFor(modelItem => item.Unit)</td>
+                                <th class="p-1">@Html.DisplayNameFor(model => model.Price):</th>
+                                <td class="p-1">@Html.DisplayFor(modelItem => item.Price)</td>
+                            </tr>
+                            <tr>
+                                <th class="p-1">@Html.DisplayNameFor(model => model.IsActive):</th>
+                                <td class="p-1">
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="text-success"><b>Active</b></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger"><b>InActive</b></span>
+
+                                    }
+
+
+                                </td>
+                                <th></th>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 mt-5 text-center">
+                <button class="btn btn-sm btn-primary mt-4" itemid='@item.Id' asp-route-id="@item.Id" onclick="AddToCart('@item.Id','@item.Price')"><i class="bag-plus-fill"></i>Add to cart</button><br />
+@*                <button class="btn btn-sm btn-danger mt-2 " onclick="DeleteAlert('@item.Id')"><i class="ri-delete-bin-6-fill ri-2x"></i></button>
+*@         
+
+</div>
+        </div>
+    </div>
+}
+<!-- End Card with an image on left -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+
+        });
+    });
+
+    function AddToCart(item,price){
+        console.log("hello");
+        console.log(item);
+        var form=new FormData();
+        form.append("ItemId",item);
+        console.log(form);
+        $.ajax({
+            async:true,
+            type:'POST',
+            dataType: 'JSON',
+            data: { item: item,price:price },
+            url:'/ProductSupplier/AddToCart',
+            success:function(response){
+
+            },
+            error:function(){
+                alert("There is something Problem");
+
+            }
+
+
+
+
+        });
+    }
+    function DeleteAlert(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.assign(`/Product/DeleteProduct/${id}`);
+
+            }
+        })
+    }
+</script>

@@ -1,0 +1,307 @@
+﻿@model Corbet.Ui.Models.UpdateStockModel
+
+@{
+    ViewData["Title"] = "UpdateStock";
+}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
+
+        <li class="nav-item ">
+            <a class="nav-link collapsed"
+               asp-controller="Role"
+               asp-action="GetAllRoles">
+                <i class="bi bi-menu-button-wide"></i><span>Roles</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="UserRegister"
+               asp-action="GetAllUsers">
+                <i class="bi bi-menu-button-wide"></i><span>All Users</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link collapsed"
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliers">
+                <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Product"
+               asp-action="GetAllProducts">
+                <i class="bi bi-menu-button-wide"></i><span>Products</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Stock"
+               asp-action="GetAllStocks">
+                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               data-bs-target="#generics-nav"
+               data-bs-toggle="collapse"
+               href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>Generics</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="generics-nav"
+                class="nav-content collapse"
+                data-bs-parent="#sidebar-nav">
+                <li>
+                    <a asp-controller="UnitMeasurement" asp-action="GetAllUnitMeasurements">
+                        <i class="bi bi-circle"></i><span>Unit Data</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Tax Management</span>
+                    </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="Tax" asp-action="GetAllTaxes">
+                                <i class="bi bi-circle"></i><span>Tax Types</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Tax" asp-action="GetAllTaxDetails">
+                                <i class="bi bi-circle"></i><span>Tax Details</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#category-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
+                    </a>
+                    <ul id="category-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="ProductCategory" asp-action="GetAllCategories">
+                                <i class="bi bi-circle"></i><span>Product Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="CategoryDetails" asp-action="GetAllCategoryDetails">
+                                <i class="bi bi-circle"></i><span>Product Category Details</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
+                        <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
+                    </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="StockType" asp-action="GetAllStockTypes">
+                                <i class="bi bi-circle"></i><span>Stock Types</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</aside>
+<!-- End Sidebar -->
+
+<div class="pagetitle">
+    <h1>Update Stock</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="GetAllStocks">Stocks</a></li>
+            <li class="breadcrumb-item active">Update Stock</li>
+        </ol>
+    </nav>
+</div>
+
+<h4>Update Stock</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @Html.Raw(ViewBag.stockUpdateAlert)
+        <form asp-action="UpdateStock">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <select asp-for="ProductId">
+                    @*<option value="0">-Select Product-</option>
+                    @foreach (var product in Model.ProductList)
+                    {
+                    <option value="@product.ProductId">@product.ProductTitle</option>
+                    }*@
+                </select><br />
+                <span asp-validation-for="ProductId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Enter Quantity</label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div><br/>
+            <div class="form-group">
+                <select asp-for="StockTypeId"></select><br />
+                <span asp-validation-for="StockTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Time In</label>
+                <input asp-for="TimeIn" class="form-control" />
+                <span asp-validation-for="TimeIn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Time Out</label>
+                <input asp-for="TimeOut" class="form-control" onchange="TimeOutChange(this.value)" />
+                <span asp-validation-for="TimeOut" class="text-danger timeOutError"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-warning" asp-controller="Stock" asp-action="GetAllStocks">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script>
+    window.onload = function () {
+        //ProductList
+        var productNode = $("#ProductId");
+        productNode.append($("<option></option>").val("0").html("-Select Product-"));
+        var url = "/Stock/GetProductList";
+        $.get(url, null, function (data) {
+            console.log(data);
+            $.each(data, function (i, product) {
+                productNode.append($("<option disabled></option>").val(product.id).html(product.productName));
+            });
+            $("select#ProductId").val("@Model.ProductId");//Select the Default Value
+            $("select#ProductId option[value='@Model.ProductId']").removeAttr("disabled");
+        });
+        //StockTypeList
+        var stockTypeIdNode = $("#StockTypeId");
+        stockTypeIdNode.append($("<option></option>").val("0").html("-Select Type-"));
+        var url = "/Stock/GetStockTypeList";
+        $.get(url, null, function (data) {
+            console.log(data);
+
+            $.each(data, function (i, type) {
+                stockTypeIdNode.append($("<option></option>").val(type.stockTypeId).html(type.stockTypeName));
+            });
+            $("select#StockTypeId").val('@Model.StockTypeId');//Select the Default Value
+        });
+
+        //DateTime Validations
+        var timeInVal = $("#TimeIn").val();
+        var timeIn = new Date(timeInVal);
+        console.log(timeInVal);
+        console.log(timeIn);
+        var mTimeIn = moment(timeIn).format('YYYY-MM-DDThh:mm:ss');
+        console.log(mTimeIn);
+        var timeIn_day = timeIn.getDate();
+        var timeIn_month = timeIn.getMonth() + 1;
+        var timeIn_year = timeIn.getFullYear();
+        var timeIn_hours = timeIn.getHours();
+        var timeIn_minutes = timeIn.getMinutes();
+        //var timeIn_seconds = timeIn.getSeconds();
+        //console.log(timeIn.getSeconds());
+        var minDateTimeIn = `${timeIn_year}-${timeIn_month}-${timeIn_day}`;//2022-11-21T16:11
+        $('#TimeIn').attr('min', minDateTimeIn);
+
+        console.log()
+    };
+
+    function TimeOutChange(timeOutVal) {
+        var timeInVal = $("#TimeIn").val();
+        var timeIn = new Date(timeInVal);
+        console.log(timeInVal);
+        console.log(timeIn);
+        var mTimeIn = moment(timeIn).format('YYYY-MM-DDThh:mm');
+        console.log(mTimeIn);
+        var timeIn_day = timeIn.getDate();
+        var timeIn_month = timeIn.getMonth() + 1;
+        var timeIn_year = timeIn.getFullYear();
+        var timeIn_hours = timeIn.getHours();
+        var timeIn_minutes = timeIn.getMinutes();
+        var minDateTimeIn = `${timeIn_year}-${timeIn_month}-${timeIn_day}`;//2022-11-21T16:11
+        $('#TimeIn').attr('min', minDateTimeIn);
+
+        //TimeOut
+        console.log(timeOutVal);
+        var timeOut = new Date(timeOutVal);
+        var timeOut_day = timeOut.getDate();
+        var timeOut_month = timeOut.getMonth() + 1;
+        var timeOut_year = timeOut.getFullYear();
+        var timeOut_hours = timeOut.getHours();
+        var timeOut_minutes = timeOut.getMinutes();
+        var g1 = new Date(timeIn_year, timeIn_month, timeIn_day, timeIn_hours, timeIn_minutes, 0);
+        // (YYYY, MM, DD, Hr, Min, Sec)
+        var g2 = new Date(timeOut_year, timeOut_month, timeOut_day, timeOut_hours, timeOut_minutes, 0);
+        console.log("g1,g2=" + g1 + "," + g2);
+        if (g1 < g2) {
+            console.log("g2=timeOut is greater than g1=timeIn.");
+            $("span.timeOutError").html("");
+            $(".btn").prop('disabled', false);
+        }
+        else if (g1 > g2) {
+            console.log("g2=timeOut is lesser than g1=timeIn.");
+            $("span.timeOutError").html("TimeOut is lesser than TimeIn.");
+            $(".btn").prop('disabled', true);
+        }
+
+        else if (g1.toString() == g2.toString()) {
+            console.log("g1=timeIn & g2=timeOut, both are equal.");
+            $("span.timeOutError").html("TimeIn is equal to TimeOut.");
+            $(".btn").prop('disabled', true);
+        }
+        else {
+            console.log("Go Ahead..");
+        }
+        return timeOutVal;
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

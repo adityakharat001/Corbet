@@ -79,7 +79,7 @@ namespace Corbet.Api.Controllers.v3
                 }
                 else
                 {
-                    return BadRequest(new Response<string>() { Data = email, Succeeded = false, Errors = new List<string>() { "Multiple Requests to Email Address", "Multiple emails cannot be sent!" } });
+                    return BadRequest(new Response<string>() { Data = email, Succeeded = false, Errors = new List<string>() { "Email Already Sent!", "Multiple emails cannot be sent." } });
                 }
             }
             else

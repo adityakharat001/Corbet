@@ -17,19 +17,21 @@ namespace Corbet.Domain.Entities
         public int OrderId { get; set; }
         public string OrderCode { get; set; }
         public   int SupplierId { get; set; }
-        public virtual  int OrderProductId { get; set; }
-        public int Quantity { get; set; }
+      //  public virtual  int OrderProductId { get; set; }
+
+        public string Address { get; set; }
+      //  public int Quantity { get; set; }
         public string MailThumb { get; set; }
         public string POThumb { get; set; }
-
-
         public string Description { get; set; }
-
-
+        public string PaymentType { get; set; }
+        public string PaymentStatus { get; set; }
+        public DateTime OrderDate { get; set; }
+        public DateTime ExceptedOrderDate { get; set; }
         public bool IsDeleted { get; set; } = false;
  
-        [ForeignKey("OrderProductId")]
-        public virtual Product Products { get; set; }
+        //[ForeignKey("OrderProductId")]
+        //public virtual Product Products { get; set; }
 
 
 

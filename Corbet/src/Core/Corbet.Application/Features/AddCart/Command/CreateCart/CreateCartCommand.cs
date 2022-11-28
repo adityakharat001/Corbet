@@ -8,11 +8,11 @@ using Corbet.Application.Responses;
 
 using MediatR;
 
-namespace Corbet.Application.Features.AddCart.Command
+namespace Corbet.Application.Features.AddCart.Command.CreateCart
 {
-    public class CreateCartCommand:IRequest<Response<CreateCartCommandDto>>
+    public class CreateCartCommand : IRequest<Response<CreateCartCommandDto>>
     {
-       // public int CartId { get; set; }
+        // public int CartId { get; set; }
         public int UserId { get; set; }
         public virtual int ProductId { get; set; }
         public int Price { get; set; }

@@ -5,14 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AutoMapper;
+
 using Corbet.Application.Contracts.Persistence;
 using Corbet.Application.Features.ProductCategory.Commands.CraeteProductCategory;
 using Corbet.Application.Features.ProductCategory.Commands.CreateProductCategory;
 using Corbet.Application.Responses;
+
 using MediatR;
+
 using Microsoft.Extensions.Logging;
 
-namespace Corbet.Application.Features.AddCart.Command
+namespace Corbet.Application.Features.AddCart.Command.CreateCart
 {
 
     public class CreateCartCommandHandler : IRequestHandler<CreateCartCommand, Response<CreateCartCommandDto>>
@@ -46,4 +49,3 @@ namespace Corbet.Application.Features.AddCart.Command
         }
     }
 }
-  

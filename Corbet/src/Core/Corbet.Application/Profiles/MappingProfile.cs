@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-using Corbet.Application.Features.AddCart.Command;
+using Corbet.Application.Features.AddCart.Command.CreateCart;
 using Corbet.Application.Features.AddCart.Queries;
 using Corbet.Application.Features.Categories.Commands.CreateCategory;
 using Corbet.Application.Features.Categories.Commands.StoredProcedure;

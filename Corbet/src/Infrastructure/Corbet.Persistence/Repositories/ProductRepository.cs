@@ -29,9 +29,9 @@ namespace Corbet.Persistence.Repositories
                                on u.Id equals p.UnitId
                                join s in _dbContext.Suppliers
                                on p.PrimarySupplierId equals s.SupplierId
-                               join sf in _dbContext.Suppliers
+                                join sf in _dbContext.Suppliers
                                on p.SecondarySupplierId equals sf.SupplierId
-                               join td in _dbContext.TaxDetails
+                                join td in _dbContext.TaxDetails
                                on p.TaxId equals td.TaxId
                                join t in _dbContext.Taxes
                                on p.TaxId equals t.TaxId

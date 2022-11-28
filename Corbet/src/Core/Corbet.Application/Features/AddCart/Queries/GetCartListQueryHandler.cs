@@ -15,18 +15,18 @@ namespace Corbet.Application.Features.AddCart.Queries
     {
         private readonly IMapper _mapper;
         private readonly ILogger<GetCartListQueryHandler> _logger;
-        private readonly IOrderManagementRepo _orderManagementRepo;
-        public GetCartListQueryHandler(IMapper mapper, ILogger<GetCartListQueryHandler> logger, IOrderManagementRepo orderManagementRepo)
+        private readonly ICartRepo _cartRepo;
+        public GetCartListQueryHandler(IMapper mapper, ILogger<GetCartListQueryHandler> logger, ICartRepo cartRepo)
         {
             _mapper = mapper;
             _logger = logger;
-            _orderManagementRepo = orderManagementRepo;
+            _cartRepo = cartRepo;
         }
         public async Task<List<GetCartListVm>> Handle(GetCartListQuery request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("All Cart List inintiated");
 
-            var allcart = await _orderManagementRepo.GetAllCart(request.userId);
+            var allcart = await _cartRepo.GetAllCart(request.userId);
 
             //var cartData = _mapper.Map<List<GetCartListVm>>(allcart);
 

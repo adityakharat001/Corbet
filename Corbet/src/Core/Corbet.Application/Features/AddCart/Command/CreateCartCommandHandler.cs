@@ -39,6 +39,7 @@ namespace Corbet.Application.Features.AddCart.Command
             }
             else
             {
+                cart.Quantity = 1;
                 var cartData = await _cartRepo.AddAsync(cart);
                 var cartDto = _mapper.Map<CreateCartCommandDto>(cartData);
                 return new Response<CreateCartCommandDto>(cartDto);

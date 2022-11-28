@@ -23,7 +23,6 @@ namespace Corbet.Persistence
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
-            services.AddScoped<ISupplierDetailsRepository, SupplierDetailsRepository>();
             services.AddScoped<ITaxRepository, TaxRepository>();
             services.AddScoped<ITaxDetailsRepository, TaxDetailsRepository>();
             services.AddScoped<IUnitMeasurementRepository, UnitMeasurementRepository>();
@@ -32,8 +31,9 @@ namespace Corbet.Persistence
             services.AddScoped<IProductCategoryRepo, ProductCategoryRepository>();
             services.AddScoped<ICategoryDetailsRepo, CategoryDetailsRepository>();
             services.AddScoped<IProductSubCategoryRepo, ProductSubCategoryRepo>();
-            services.AddScoped<ICartRepo, CartRepo>();
-            services.AddScoped<IOrderManagementRepo, OrderManagementRepo>();    
+            services.AddScoped<IOrderManagementRepo, OrderManagementRepo>();
+            services.AddScoped<IStockRepository, StockRepository>();
+            services.AddScoped<IStockTypeRepository, StockTypeRepository>();
 
             return services;
         }

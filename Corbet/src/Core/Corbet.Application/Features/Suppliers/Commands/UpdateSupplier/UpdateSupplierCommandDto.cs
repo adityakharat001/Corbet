@@ -8,8 +8,13 @@ namespace Corbet.Application.Features.Suppliers.Commands.UpdateSupplier
 {
     public class UpdateSupplierCommandDto
     {
-        public int Id { get; set; }
+        public int SupplierId { get; set; }
         public string SupplierName { get; set; }
-        public long CreaditLimit { get; set; }
+        public string Email { get; set; }
+        public int PhoneNumber { get; set; }
+        public string BillingAddress { get; set; }
+        public string SupplierType { get; set; }
+        public int CreditLimit { get; set; }
+        public DateTime CreditPeriod { get; set; }
     }
 }

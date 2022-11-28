@@ -48,7 +48,7 @@ namespace Corbet.Ui.Controllers
                 string data = JsonConvert.SerializeObject(tax);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "Tax/AddTax", content).Result;
-                TempData["AlertMessage"] = "Tax Type Added Suucessfully";
+                TempData["AlertMessage"] = "Tax Type Added Sucessfully";
                 return RedirectToRoute(new { controller = "Tax", action = "GetAllTaxes" });
             }
             return View();
@@ -113,7 +113,7 @@ namespace Corbet.Ui.Controllers
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "Tax/GetAllTaxes").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
            List< TaxViewModel> taxlist = JsonConvert.DeserializeObject<List<TaxViewModel>>(data);
-            
+          
             //string taxIdvalue;
             //foreach(var i in taxlist){
             //   // i.TaxId = i.TaxId;
@@ -147,9 +147,6 @@ namespace Corbet.Ui.Controllers
         [HttpGet]
         public ActionResult UpdateTax(int id)
         {
-       
-              
-
                 string data = JsonConvert.SerializeObject(id);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/GetTaxById?id={id}").Result;

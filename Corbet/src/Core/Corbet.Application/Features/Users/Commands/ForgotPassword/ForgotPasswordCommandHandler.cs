@@ -25,7 +25,7 @@ namespace Corbet.Application.Features.Users.Commands.ForgotPassword
         {
             var checkEmailAvailabilityStatus = await _userRepository.CheckEmailExists(request.Email);
             return (checkEmailAvailabilityStatus) ? new Response<string>() { Data = request.Email, Succeeded = checkEmailAvailabilityStatus, Message = $"Email Available - send email to {request.Email}" } :
-                new Response<string>() { Data = request.Email, Succeeded = checkEmailAvailabilityStatus, Errors = new List<string>() { "Email Not Available", "Cannot send the email because no user exists with this email address!" } };
+                new Response<string>() { Data = request.Email, Succeeded = checkEmailAvailabilityStatus, Errors = new List<string>() { "Email Not Available!", "Cannot send the email because no user exists with this email address." } };
         }
     }
 }

@@ -35,29 +35,20 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
             </a>
         </li>
-
         <li class="nav-item">
             <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">
@@ -116,35 +107,16 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
+                <li>
+                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
-                       data-bs-toggle="collapse"
-                       href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
-                    </a>
-                    <ul id="tax-nav"
-                        class="nav-content collapse"
-                        data-bs-parent="#generics-nav">
-                        <li>
-                            <a asp-controller="StockType" asp-action="GetAllStockTypes">
-                                <i class="bi bi-circle"></i><span>Stock Types</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
             </ul>
         </li>
     </ul>
 </aside>
 <!-- End Sidebar -->
-
 <div class="pagetitle">
     <h1>Products</h1>
     <nav>
@@ -233,7 +205,7 @@
     }
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="~/assets/js/productDropdown.js" defer></script>
+    <script src="~/assets/js/productDropdown.js"></script>
     <script>
-        
+
     </script>

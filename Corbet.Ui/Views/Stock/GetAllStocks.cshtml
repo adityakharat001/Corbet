@@ -258,21 +258,16 @@
 
         });
 
-        //ProductList -> Extract ProductTitle
+        //ProductList -> Extract ProductName
         var productNode = $("#ddlProduct");
         productNode.append($("<option></option>").val("all").html("Select Product"));
-        productNode.append($("<option></option>").val("Tomato").html("Tomato"));
-        productNode.append($("<option></option>").val("Watermelon").html("Watermelon"));
-        productNode.append($("<option></option>").val("Alika").html("Alika"));
-        console.log(productNode);
-        //var url = "/Stock/GetProductList";
-        //$.get(url, null, function (data) {
-        //    console.log(data);
-
-        //    $.each(data, function (i, product) {
-        //        productNode.append($("<option></option>").val(product.productName).html(product.productName));
-        //    });
-        //});
+        var url = "/Stock/GetProductList";
+        $.get(url, null, function (data) {
+            console.log(data);
+            $.each(data, function (i, product) {
+                productNode.append($("<option></option>").val(product.productName).html(product.productName));
+            });
+        });
         //StockTypeList -> Extract StockTypeName
         var stockTypeNode = $("#ddlType");
         stockTypeNode.append($("<option></option>").val("all").html("Select Type"));

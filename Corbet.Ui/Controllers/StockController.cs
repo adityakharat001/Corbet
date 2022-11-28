@@ -41,10 +41,6 @@ namespace Corbet.Ui.Controllers
             }
         }
 
-
-
-        
-
         [HttpGet]
         public IActionResult AddStock()
         {
@@ -182,23 +178,26 @@ namespace Corbet.Ui.Controllers
             }
         }
 
-        //[HttpGet]
-        //public List<Product> GetProductList()
-        //{
-        //    using (var httpClient = new HttpClient())
-        //    {
-        //        httpClient.BaseAddress = baseAddress;
-        //        HttpResponseMessage response = httpClient.GetAsync($"{httpClient.BaseAddress}/Product/GetAllProducts").Result;
-        //        string apiResponse = response.Content.ReadAsStringAsync().Result;
-        //        var jsonArrayResponse = JObject.Parse(apiResponse);
+        [HttpGet]
+        public List<Product> GetProductList()
+        {
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = baseAddress;
+                //HttpResponseMessage response = httpClient.GetAsync($"{httpClient.BaseAddress}/Product/GetAllProducts").Result;
+                //string apiResponse = response.Content.ReadAsStringAsync().Result;
+                ////var jsonArrayResponse = JObject.Parse(apiResponse);
 
-        //        var resultData = jsonArrayResponse["data"].ToString();
+                ////var resultData = jsonArrayResponse["data"].ToString();
 
-        //        JavaScriptSerializer js = new JavaScriptSerializer();
-        //        var productList = js.Deserialize<List<Product>>(resultData);
-        //        return productList;
-        //    }
-        //}
+                //JavaScriptSerializer js = new JavaScriptSerializer();
+                //var productList = js.Deserialize<List<Product>>(resultData);
+                HttpResponseMessage response = httpClient.GetAsync(httpClient.BaseAddress + "/Product/GetAllProducts").Result;
+                dynamic data = response.Content.ReadAsStringAsync().Result;
+                var productList = JsonConvert.DeserializeObject<List<Product>>(data);
+                return productList;
+            }
+        }
 
         [HttpGet]
         public List<StockType> GetStockTypeList()

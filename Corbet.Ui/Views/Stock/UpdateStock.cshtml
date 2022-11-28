@@ -208,19 +208,15 @@
         //ProductList
         var productNode = $("#ProductId");
         productNode.append($("<option></option>").val("0").html("-Select Product-"));
-        productNode.append($("<option></option>").val("1").html("Tomato"));
-        productNode.append($("<option></option>").val("2").html("Watermelon"));
-        productNode.append($("<option></option>").val("5").html("Alika"));
-        //var url = "/Stock/GetProductList";
-        //$.get(url, null, function (data) {
-        //    console.log(data);
-
-        //    $.each(data, function (i, product) {
-        //        productIdNode.append($("<option disabled></option>").val(product.productId).html(product.productTitle));
-        //    });
-        //    $("select#ProductId").val("@Model.ProductId");//Select the Default Value
-        //    $("select#ProductId option[value='@Model.ProductId']").removeAttr("disabled");
-        //});
+        var url = "/Stock/GetProductList";
+        $.get(url, null, function (data) {
+            console.log(data);
+            $.each(data, function (i, product) {
+                productNode.append($("<option disabled></option>").val(product.id).html(product.productName));
+            });
+            $("select#ProductId").val("@Model.ProductId");//Select the Default Value
+            $("select#ProductId option[value='@Model.ProductId']").removeAttr("disabled");
+        });
         //StockTypeList
         var stockTypeIdNode = $("#StockTypeId");
         stockTypeIdNode.append($("<option></option>").val("0").html("-Select Type-"));

@@ -10,7 +10,7 @@ namespace Corbet.Application.Features.AddCart.Command.CreateCart
     {
         public int CartId { get; set; }
         public int UserId { get; set; }
-        public virtual int ProductId { get; set; }
+        public  int ProductId { get; set; }
         public int Price { get; set; }
         public int Quantity { get; set; }
     }

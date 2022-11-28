@@ -56,9 +56,9 @@ namespace Corbet.Persistence.Repositories
            var check=  _dbContext.AddCarts.Where(x => x.ProductId == addToCart.ProductId && x.UserId == addToCart.UserId).FirstOrDefault();
             if (check != null)
             {
-                addToCart.Quantity = check.Quantity + 1;
+                check.Quantity = check.Quantity + 1;
                 
-              var newa=  _dbContext.AddCarts.Update(addToCart);
+            
                 _dbContext.SaveChangesAsync();
                 return true;
             }

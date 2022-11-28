@@ -13,13 +13,11 @@ namespace Corbet.Application.Features.AddCart.Queries
         private readonly IMapper _mapper;
         private readonly ILogger<GetCartListQueryHandler> _logger;
         private readonly ICartRepo _cartRepo;
-        //private readonly IOrderManagementRepo _orderManagementRepo;
         public GetCartListQueryHandler(IMapper mapper, ILogger<GetCartListQueryHandler> logger, ICartRepo cartRepo)
         {
             _mapper = mapper;
             _logger = logger;
             _cartRepo = cartRepo;
-            //_orderManagementRepo = orderManagementRepo;
         }
         public async Task<List<GetCartListVm>> Handle(GetCartListQuery request, CancellationToken cancellationToken)
         {

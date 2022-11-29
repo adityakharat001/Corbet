@@ -28,6 +28,23 @@ namespace Corbet.Api.Controllers.v3
             _mediator = mediator;
         }
 
+
+        #region AddOrder
+        [HttpPost]
+        [Route("AddOrder")]
+        public async Task<ActionResult> CreateOrder(CreateOrderCommand createorderCommand)
+        {
+            _logger.LogInformation("Adding Order initiated");
+            var response = await _mediator.Send(createorderCommand);
+            if (response == null)
+            {
+                return BadRequest();
+            }
+            _logger.LogInformation("Adding order completed");
+            return Ok(response);
+        }
+        #endregion
+
         [HttpPost]
         [Route("AddCart")]
         public async Task<ActionResult> Createcart(CreateCartCommand createcartCommand)
@@ -43,14 +60,14 @@ namespace Corbet.Api.Controllers.v3
         }
 
 
-        #region Getting All OrderDetail
+        #region Getting All cartDetail
 
         [HttpGet]
         [Route("GetAllCartDetails")]
         public async Task<IActionResult> GetAllCartDetails(int UserId)
         {
             _logger.LogInformation("Cart Details Initiated");
-            var CartData = await _mediator.Send(new GetCartListQuery() { userId=UserId});
+            var CartData = await _mediator.Send(new GetCartListQuery() { userId = UserId });
             _logger.LogInformation("Successfull");
             return Ok(CartData);
         }
@@ -64,7 +81,7 @@ namespace Corbet.Api.Controllers.v3
         public async Task<IActionResult> DeleteCart(int id)
         {
             _logger.LogInformation("cart delete initiated");
-            await _mediator.Send(new DeleteCartCommand(){ CartId = id});
+            await _mediator.Send(new DeleteCartCommand() { CartId = id });
             _logger.LogInformation("Category delete completed");
             return NoContent();
         }
@@ -73,4 +90,5 @@ namespace Corbet.Api.Controllers.v3
 
 
     }
+}
 }

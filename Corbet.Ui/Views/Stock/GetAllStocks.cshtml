@@ -190,23 +190,27 @@
 <table class="table" id="myTable">
     <thead>
         <tr>
-            <th>
+            <th data-orderable="false">
                 Sr. No
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                Product Name
+               @* @Html.DisplayNameFor(model => model.ProductName)*@
+            </th>
+            <th data-orderable="false">
+                Quantity
+               @* @Html.DisplayNameFor(model => model.Quantity)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                Stock Type
+            </th>
+            <th data-orderable="false">
+                Time In
+                @*@Html.DisplayNameFor(model => model.TimeIn)*@
             </th>
             <th>
-                Type
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TimeIn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TimeOut)
+                Time Out
+               @* @Html.DisplayNameFor(model => model.TimeOut)*@
             </th>
             <th data-orderable="false">Actions</th>
         </tr>

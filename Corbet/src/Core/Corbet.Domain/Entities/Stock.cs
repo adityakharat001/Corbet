@@ -23,7 +23,6 @@ namespace Corbet.Domain.Entities
 
         public DateTime? TimeOut { get; set; }
 
-
         [ForeignKey("ProductId")]
         public virtual Product Products { get; set; }
 

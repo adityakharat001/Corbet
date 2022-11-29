@@ -147,22 +147,23 @@
 <!-- End Sidebar -->
 
 <div class="pagetitle">
-    <h1>Create Stock</h1>
+    <h1>Add Stock</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="GetAllStocks">Stocks</a></li>
-            <li class="breadcrumb-item active">Create Stock</li>
+            <li class="breadcrumb-item active">Add Stock</li>
         </ol>
     </nav>
 </div>
 
-<h4>Stock</h4>
+@*<h4>Stock</h4>*@
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddStock">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label class="control-label">Enter Product Name</label><br />
                 <select asp-for="ProductId">
                     @*<option value="0">-Select Product-</option>
                     @foreach (var product in Model.ProductList)
@@ -177,7 +178,9 @@
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div><br />
-            <div class="form-group">
+            <div class="form-group">   
+                <label class="control-label">Enter Stock Type</label>
+                <br />
                 <select asp-for="StockTypeId"></select><br />
                 <span asp-validation-for="StockTypeId" class="text-danger"></span>
             </div>

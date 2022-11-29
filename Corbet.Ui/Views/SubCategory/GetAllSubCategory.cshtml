@@ -204,7 +204,7 @@
 <table class="table" id="myTable">
     <thead>
         <tr>
-            <th>
+            <th data-orderable="false">
                 Sr.No
               @*  @Html.DisplayNameFor(model => model.Id)*@
             </th>
@@ -220,14 +220,14 @@
 
                 @Html.DisplayNameFor(model => model.Description)
             </th>*@
-            <th>
+                <th data-orderable="false">
                 Tax Type
 @*                @Html.DisplayNameFor(model => model.TaxName)
 *@            </th>
-            <th>
+                <th data-orderable="false">
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-            <th>Actions</th>
+            <th data-orderable="false">Actions</th>
         </tr>
     </thead>
     <tbody>

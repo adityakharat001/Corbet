@@ -13,7 +13,7 @@ namespace Corbet.Domain.Entities
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StockTypeId { get; set; }
-
+   
         [Column(TypeName = "varchar(40)")]
         public string StockTypeName { get; set; } = null!;
     }

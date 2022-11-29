@@ -27,4 +27,9 @@
     <ProjectReference Include="..\Corbet.Domain\Corbet.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Invoice\Queries\GetAllInvoice\" />
+    <Folder Include="Features\OrderManagement\Command\CreateOrderManagement\" />
+  </ItemGroup>
+
 </Project>

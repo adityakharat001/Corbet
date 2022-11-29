@@ -12,6 +12,7 @@ using Corbet.Application.Features.Events.Commands.UpdateEvent;
 using Corbet.Application.Features.Events.Queries.GetEventDetail;
 using Corbet.Application.Features.Events.Queries.GetEventsExport;
 using Corbet.Application.Features.Events.Queries.GetEventsList;
+using Corbet.Application.Features.OrderManagement.Command.CreateOrder;
 using Corbet.Application.Features.Orders.GetOrdersForMonth;
 using Corbet.Application.Features.ProductCategory.Commands.CraeteProductCategory;
 using Corbet.Application.Features.ProductCategory.Commands.CreateProductCategory;
@@ -212,8 +213,7 @@ namespace Corbet.Application.Profiles
             CreateMap<AddToCart, GetCartListQuery>().ReverseMap();
             CreateMap<AddToCart, GetCartListVm>().ReverseMap();
 
-            //CreateMap<OrderManagement,CreateOrderCommand>().ReverseMap();
-            //CreateMap<OrderManagement, CreateOrderDto>().ReverseMap();
+            CreateMap<OrderManagement,CreateOrderCommand>().ReverseMap();
 
             //StockTypes
             CreateMap<GetAllStockTypesQuery, StockType>();

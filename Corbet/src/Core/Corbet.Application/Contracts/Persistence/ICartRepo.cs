@@ -15,5 +15,7 @@ namespace Corbet.Application.Contracts.Persistence
         Task<DeleteCartCommandDto> RemoveCartAsync(int cartId);
         Task<bool> IsCartExist(AddToCart addToCart);
         Task<List<GetCartListVm>> GetAllCart(int userId);
+
+        double GetProductPrice(int stockingid);
     }
 }

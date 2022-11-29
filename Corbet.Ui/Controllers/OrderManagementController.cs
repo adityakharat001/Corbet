@@ -1,4 +1,6 @@
-﻿using Corbet.Domain.Entities;
+﻿using System.Net.Http;
+
+using Corbet.Domain.Entities;
 using Corbet.Ui.Models;
 
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +50,46 @@ namespace Corbet.Ui.Controllers
             }
             return RedirectToAction("GetAllCart");
 
+        }
+
+        [HttpGet]
+        public ActionResult CreateOrder()
+        {
+
+            return View();
+        }
+
+
+
+
+
+        [HttpPost]
+        public ActionResult CreateOrder(OrderViewModel orderViewModel)
+        {
+            string UserId = HttpContext.Session.GetString("UserId");
+            orderViewModel.UserId = Convert.ToInt32(UserId);
+            //TO Generat a OrderCode
+            Random ran = new Random();
+
+            String b = "abcdefghijklmnopqrstuvwxyz0123456789";
+          
+
+            int length = 6;
+
+            String random = "";
+
+            for (int i = 0; i < length; i++)
+            {
+                int a = ran.Next(b.Length); //string.Lenght gets the size of string
+                random = random + b.ElementAt(a);
+            }
+            orderViewModel.OrderCode = random;  
+           
+            string data = JsonConvert.SerializeObject(orderViewModel);
+            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PostAsync(client.BaseAddress + "OrderManagement/AddOrder", content).Result;
+            TempData["AlertMessage"] = "Order Added Suucessfully";
+            return RedirectToRoute(new { controller = "OrderManagement", action = "GetAllOrderDetails" });
         }
 
 

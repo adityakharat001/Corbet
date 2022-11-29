@@ -1,0 +1,424 @@
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllStocksModel>
+
+@{
+    ViewData["Title"] = "GetAllPurchaseStocks";
+}
+
+
+@{
+    ViewData["Title"] = "GetAllStocks";
+    int counter = 0;
+}
+
+<style>
+    .btn-and-filters {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+</style>
+
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
+
+        <li class="nav-item ">
+            <a class="nav-link collapsed"
+               asp-controller="Role"
+               asp-action="GetAllRoles">
+                <i class="bi bi-menu-button-wide"></i><span>Roles</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="UserRegister"
+               asp-action="GetAllUsers">
+                <i class="bi bi-menu-button-wide"></i><span>All Users</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link collapsed"
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliers">
+                <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Product"
+               asp-action="GetAllProducts">
+                <i class="bi bi-menu-button-wide"></i><span>Products</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Stock"
+               asp-action="GetAllStocks">
+                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               data-bs-target="#generics-nav"
+               data-bs-toggle="collapse"
+               href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>Generics</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="generics-nav"
+                class="nav-content collapse"
+                data-bs-parent="#sidebar-nav">
+                <li>
+                    <a asp-controller="UnitMeasurement" asp-action="GetAllUnitMeasurements">
+                        <i class="bi bi-circle"></i><span>Unit Data</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Tax Management</span>
+                    </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="Tax" asp-action="GetAllTaxes">
+                                <i class="bi bi-circle"></i><span>Tax Types</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Tax" asp-action="GetAllTaxDetails">
+                                <i class="bi bi-circle"></i><span>Tax Details</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#category-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
+                    </a>
+                    <ul id="category-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="ProductCategory" asp-action="GetAllCategories">
+                                <i class="bi bi-circle"></i><span>Product Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="CategoryDetails" asp-action="GetAllCategoryDetails">
+                                <i class="bi bi-circle"></i><span>Product Category Details</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
+                        <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
+                    </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="StockType" asp-action="GetAllStockTypes">
+                                <i class="bi bi-circle"></i><span>Stock Types</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</aside>
+<!-- End Sidebar -->
+
+<div class="pagetitle">
+    <h1>Stocks</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Stocks</li>
+        </ol>
+    </nav>
+</div>
+
+
+@*<p>
+    <a class="btn btn-primary" asp-controller="Stock" asp-action="AddStock">Create Stock</a>
+</p>
+
+<div class="filters">
+    <label class="labelFilter">Filters -> </label>
+    <select class="cl_product" id="ddlProduct" title="filter by product name"></select>
+    <select class="cl_quantity" id="ddlQuantity" title="filter by quantity (no. of stocks available)"></select>
+    <select class="cl_type" id="ddlType" title="filter by stock type"></select>
+</div>*@
+
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                Sr. No
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                Type
+            </th>
+           
+            <th data-orderable="false">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        counter++;
+                    }
+                    @counter
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockTypeName)
+                </td>
+    
+                <td class="tableActions">
+                <button class="btn btn-sm btn-primary mt-4" itemid='@item.StockId' asp-route-id="@item.StockId" onclick="AddToCart('@item.StockId')"><i class="bag-plus-fill"></i>Add to cart</button><br />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+    //$("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+    //    $("#success-alert").slideUp(500);
+    //});
+
+    //MULTIPLE FILTERS
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+
+        });
+
+        //ProductList -> Extract ProductName
+        var productNode = $("#ddlProduct");
+        productNode.append($("<option></option>").val("all").html("Select Product"));
+        var url = "/Stock/GetProductList";
+        $.get(url, null, function (data) {
+            console.log(data);
+            $.each(data, function (i, product) {
+                productNode.append($("<option></option>").val(product.productName).html(product.productName));
+            });
+        });
+        //StockTypeList -> Extract StockTypeName
+        var stockTypeNode = $("#ddlType");
+        stockTypeNode.append($("<option></option>").val("all").html("Select Type"));
+        var url = "/Stock/GetStockTypeList";
+        $.get(url, null, function (data) {
+            console.log(data);
+
+            $.each(data, function (i, type) {
+                stockTypeNode.append($("<option></option>").val(type.stockTypeName).html(type.stockTypeName));
+            });
+        });
+        //StockList's Quantity -> Putting Quantity of range(1, 100)
+        var stockQuantityNode = $("#ddlQuantity");
+        stockQuantityNode.append($("<option></option>").val("all").html("Select Quantity"));
+        for (let q = 1; q <= 100; q++) {
+            stockQuantityNode.append($("<option></option>").val(q).html(q));
+        }
+
+        //OnChange dropdown list -> apply filters
+        $("#ddlProduct, #ddlQuantity, #ddlType").on("change", function () {
+            var product = $('#ddlProduct').find("option:selected").val();
+            var quantity = $('#ddlQuantity').find("option:selected").val();
+            var type = $('#ddlType').find("option:selected").val();
+            SearchData(product, quantity, type);
+        });
+    });
+
+    function SearchData(product, quantity, type) {
+        if (product.toUpperCase() == 'ALL' && quantity.toUpperCase() == 'ALL' && type.toUpperCase() == 'ALL') {
+            $('#myTable tbody tr').show();
+        }
+        else {
+            $('#myTable tbody tr:has(td)').each(function () {
+                var rowProduct = $.trim($(this).find('td:eq(1)').text());
+                var rowQuantity = $.trim($(this).find('td:eq(2)').text());
+                var rowType = $.trim($(this).find('td:eq(3)').text());
+
+                if (product.toUpperCase() != 'ALL' && quantity.toUpperCase() != 'ALL' && rowType.toUpperCase() != 'ALL') {
+                    if (rowProduct.toUpperCase() == product.toUpperCase() && rowQuantity == quantity && rowType.toUpperCase() == type.toUpperCase()) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                }
+                if (product.toUpperCase() != 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() == 'ALL') {
+                    //console.log("1");
+                    //console.log("product.toUpperCase() != 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() == 'ALL'");
+                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
+                    if (rowProduct.toUpperCase() == product.toUpperCase() && rowType.toUpperCase() == type.toUpperCase()) {
+                        //console.log("1-true");
+                        $(this).show();
+                    }
+                    else {
+                        //console.log("1-false");
+                        $(this).hide();
+                    }
+                    //console.log("===================================");
+                }
+
+                if (product.toUpperCase() != 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() != 'ALL') {
+                    //console.log("2");
+                    //console.log("product.toUpperCase() != 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() != 'ALL'");
+                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
+                    if (rowProduct.toUpperCase() == product.toUpperCase() && rowQuantity == quantity) {
+                        //console.log("2-true");
+                        $(this).show();
+                    }
+                    else {
+                        //console.log("2-false");
+                        $(this).hide();
+                    }
+                    //console.log("===================================");
+                }
+
+                if (product.toUpperCase() != 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() == 'ALL') {
+                    //console.log("3");
+                    //console.log("product.toUpperCase() != 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() == 'ALL'");
+                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
+                    if (rowProduct.toUpperCase() == product.toUpperCase()) {
+                        //console.log("3-true");
+                        $(this).show();
+                    }
+                    else {
+                        //console.log("3-false");
+                        $(this).hide();
+                    }
+                    //console.log("===================================");
+                }
+
+                if (product.toUpperCase() == 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() != 'ALL') {
+                    console.log("4");
+                    //console.log("product.toUpperCase() == 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() != 'ALL'");
+                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
+                    if (rowType.toUpperCase() == type.toUpperCase() && rowQuantity == quantity) {
+                        //console.log("4-true");
+                        $(this).show();
+                    }
+                    else {
+                        //console.log("4-false");
+                        $(this).hide();
+                    }
+                    //console.log("===================================");
+                }
+
+                if (product.toUpperCase() == 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() == 'ALL') {
+                    //console.log("5");
+                    //console.log("product.toUpperCase() == 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() == 'ALL'");
+                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
+                    if (rowType.toUpperCase() == type.toUpperCase()) {
+                        //console.log("5-true");
+                        $(this).show();
+                    }
+                    else {
+
+                        //console.log("5-false");
+                        $(this).hide();
+                    }
+                    //console.log("===================================");
+                }
+                if (product.toUpperCase() == 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() != 'ALL') {
+                    //console.log("6");
+                    //console.log("product.toUpperCase() == 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() != 'ALL'");
+                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
+                    if (rowQuantity == quantity) {
+                        //console.log("6-true");
+                        $(this).show();
+                    }
+                    else {
+                        //console.log("6-false");
+                        $(this).hide();
+                    }
+                    //console.log("===================================");
+                }
+
+            });
+        }
+    }
+
+    function AddToCart(stockId) {
+        console.log("hello");
+        console.log(stockId);
+
+        var form = new FormData();
+        form.append("stockId", stockId);
+        console.log(form);
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: 'JSON',
+            data: { stockId:stockId},
+            url: '/ProductSupplier/AddToCart',
+            success: function (stockId) {
+
+            },
+            error: function () {
+                alert("There is something Problem");
+
+            }
+
+
+
+
+        });
+    }
+</script>
+
+
+
+
+
+

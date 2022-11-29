@@ -2,6 +2,7 @@
 using Corbet.Application.Features.AddCart.Command;
 using Corbet.Application.Features.AddCart.Command.DeleteCart;
 using Corbet.Application.Features.AddCart.Queries;
+using Corbet.Application.Features.OrderManagement.Command.CreateOrder;
 using Corbet.Application.Features.ProductCategory.Commands.DeleteProductCategory;
 using Corbet.Application.Features.ProductSubCategory.Command.CreateSubCategory;
 using Corbet.Application.Features.Roles.Commands.DeleteRole;
@@ -28,6 +29,23 @@ namespace Corbet.Api.Controllers.v3
             _mediator = mediator;
         }
 
+
+        #region AddOrder
+        [HttpPost]
+        [Route("AddOrder")]
+        public async Task<ActionResult> CreateOrder(CreateOrderCommand createorderCommand)
+        {
+            _logger.LogInformation("Adding Order initiated");
+            var response = await _mediator.Send(createorderCommand);
+            if (response == null)
+            {
+                return BadRequest();
+            }
+            _logger.LogInformation("Adding order completed");
+            return Ok(response);
+        }
+        #endregion
+
         [HttpPost]
         [Route("AddCart")]
         public async Task<ActionResult> Createcart(CreateCartCommand createcartCommand)
@@ -43,7 +61,7 @@ namespace Corbet.Api.Controllers.v3
         }
 
 
-        #region Getting All OrderDetail
+        #region Getting All cartDetail
 
         [HttpGet]
         [Route("GetAllCartDetails")]

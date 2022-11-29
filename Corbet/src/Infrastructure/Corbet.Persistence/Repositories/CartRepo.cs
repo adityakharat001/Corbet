@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,7 +54,7 @@ namespace Corbet.Persistence.Repositories
 
         public async Task<bool> IsCartExist(AddToCart addToCart)
         {
-           var check=  _dbContext.AddCarts.Where(x => x.ProductId == addToCart.ProductId && x.UserId == addToCart.UserId).FirstOrDefault();
+           var check=  _dbContext.AddCarts.Where(x => x.StockingId == addToCart.StockingId && x.UserId == addToCart.UserId).FirstOrDefault();
             if (check != null)
             {
                 check.Quantity = check.Quantity + 1;
@@ -71,25 +72,39 @@ namespace Corbet.Persistence.Repositories
 
 
             var cart = (from c in _dbContext.AddCarts
+                        join s in _dbContext.Stocks
+                        on c.StockingId equals s.StockId
                         join p in _dbContext.Products
-                        on c.ProductId equals p.ProductId
-                        join subcategory in _dbContext.ProductSubCategories
-                        on p.SubCategoryId equals subcategory.SubCategoryId
+                        on s.ProductId equals p.ProductId
                         where (c.UserId == userId)
                         select new GetCartListVm
                         {
                             CartId = c.CartId,
-                            image = p.ImagePath,
+                            //image = p.ImagePath,
                             Price = p.Price,
                             ProductName = p.ProductName,
                             Quantity = c.Quantity,
-                            Description = subcategory.Description
+                      
                         }).ToList();
-
+            _logger.LogInformation("GetAllCart");
             return cart;
         }
 
 
+
+        public double GetProductPrice(int stockingid)
+        {
+            double pricenew;
+            var price = (from s in _dbContext.Stocks
+                         join p in _dbContext.Products
+                         on s.StockId equals stockingid
+                         select new
+                         {
+                             pricenew = p.Price
+                         }).ToString;
+            pricenew = Convert.ToDouble(price);
+                         return pricenew;
+        }
 
     }
 }

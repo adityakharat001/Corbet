@@ -1,12 +1,16 @@
 ﻿
 
+using System.Net.Http;
 using System.Reflection.PortableExecutable;
 
 using Corbet.Ui.Models;
 
 using Microsoft.AspNetCore.Mvc;
 
+using Nancy.Json;
+
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Corbet.Ui.Controllers
 {
@@ -30,25 +34,40 @@ namespace Corbet.Ui.Controllers
 
 
         [HttpGet]
-        public ActionResult GetAllProductsSupplier()
+        public IActionResult GetAllPurchaseStocks()
         {
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "Product/GetAllProducts").Result;
-            dynamic data = response.Content.ReadAsStringAsync().Result;
-          var  products = JsonConvert.DeserializeObject<List<Product>>(data);
-            return View(products);
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = baseAddress;
+                HttpResponseMessage response = client.GetAsync(client.BaseAddress + "Stock/GetAllStocks").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiResponse = response.Content.ReadAsStringAsync().Result;
+                    var jsonArrayResponse = JObject.Parse(apiResponse);
+
+                    var resultData = jsonArrayResponse["data"].ToString();
+
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+                    var stockList = js.Deserialize<List<GetAllStocksModel>>(resultData);
+                    return View(stockList);
+                }
+                else
+                {
+                    return View();
+                }
+            }
         }
 
 
         //   [HttpPost]
 
         [HttpPost]
-        public JsonResult AddToCart(int item,int price)
+        public JsonResult AddToCart(int stockId)
         {
             ProductCart product = new ProductCart();
             string UserId =HttpContext.Session.GetString("UserId");
             product.UserId = Convert.ToInt32(UserId);
-            product.ProductId = item;
-            product.Price = price;
+            product.StockingId = stockId;
             product.Quantity = 1;
             string data = JsonConvert.SerializeObject(product);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");

@@ -17,11 +17,7 @@ namespace Corbet.Application.Features.AddCart.Queries
         public string ProductName { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
-        public string image { get; set; }
-        public string Description
-        {
-            get; set;
-
-        }
+        //public string image { get; set; }
+  
     }
 }

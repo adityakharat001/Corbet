@@ -7,17 +7,22 @@ using System.Threading.Tasks;
 
 namespace Corbet.Domain.Entities
 {
-    public class OrderDetails
+    public class OrderDetail
     {
         public int OrderDetailId { get; set; }
-        public virtual int OrderId { get; set; }
+       public virtual int OrderId { get; set; }
+        public int SupplierId { get; set; }
         public int StockId { get; set; }
-        public int UserId { get; set; }
+       public int UserId { get; set; }  
         public int Quantity { get; set; }
-        public double Price { get; set; }
 
-        [ForeignKey("OrderId")]
-        public virtual OrderManagement OrderManagement { get; set; }
+       public double Price { get; set; }
+
+       
+
+      [ForeignKey("OrderId")]
+      public virtual OrderManagement OrderManagement { get; set; }    
+
 
     }
 }

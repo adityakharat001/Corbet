@@ -5,16 +5,15 @@ namespace Corbet.Ui.Models
 {
     public class OrderViewModel
     {
-     //   public int OrderId { get; set; }
-     //   public string OrderCode { get; set; }
+
+        public int OrderId { get; set; }
+        public int UserId { get; set; }
         public int SupplierId { get; set; }
-        public  int OrderProductId { get; set; }
-        public int Quantity { get; set; }
-        public string MailThumb { get; set; }
-        public string POThumb { get; set; }
+        public string OrderCode { get; set; }
+        public DateTime DeliveryDate { get; set; }
 
+        public string Address { get; set; }
 
-        public string Description { get; set; }
 
 
     }

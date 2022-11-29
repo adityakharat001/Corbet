@@ -1,36 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Corbet.Application.Responses;
 using Corbet.Domain.Entities;
 
 using MediatR;
-using Corbet.Application.Responses;
 
-namespace Corbet.Application.Features.OrderManagement.Command
+namespace Corbet.Application.Features.OrderManagement.Command.CreateOrder
 {
-    public class CreateOrderCommand : IRequest<Response<CreateOrderDto>>
-
+    public class CreateOrderCommand: IRequest<Response<CreateOrderCommandDto>>
     {
-        [Key]
+        public int OrderId { get; set; }
+        public int UserId { get; set; }
+        public  int SupplierId { get; set; }
+        public string OrderCode { get; set; }
+        public DateTime DeliveryDate { get; set; }
 
-        public int SupplierId { get; set; }
-        public int OrderProductId { get; set; }
-        public int Quantity { get; set; }
-        public string MailThumb { get; set; }
-        public string POThumb { get; set; }
+        public string Address { get; set; }
 
-
-        public string Description { get; set; }
-
-
-
-
-
-
+       
     }
 }

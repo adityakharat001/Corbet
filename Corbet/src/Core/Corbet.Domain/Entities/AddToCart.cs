@@ -13,11 +13,12 @@ namespace Corbet.Domain.Entities
         [Key]
         public int CartId { get; set; }
         public int UserId { get; set; }
-        public virtual int ProductId { get; set; }
-        public float Price { get; set; }
+        public double Price { get; set; }
+       
+        public  int StockingId { get; set; }
+ 
         public int Quantity { get; set; }
 
-        [ForeignKey("ProductId")]
-        public virtual Product Products { get; set; }
+     
     }
 }

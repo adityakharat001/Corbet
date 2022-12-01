@@ -4,7 +4,7 @@
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link " asp-controller="#" asp-action="#">
+            <a class="nav-link " asp-controller="PurchaseUser" asp-action="Index">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -14,8 +14,8 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-               asp-controller="PurchaseUser"
-               asp-action="GetAllSuppliers">
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliersForPurchaseUser">
                 <i class="bi bi-menu-button-wide"></i><span>Suppliers</span>
             </a>
         </li>
@@ -28,13 +28,30 @@
                 <i class="bi bi-menu-button-wide"></i><span>Orders</span>
             </a>
         </li>
-
+@*
         <li class="nav-item">
 
             <a class="nav-link collapsed"
                asp-controller="PurchaseUser"
                asp-action="GetAllStocks">
                 <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
+            </a>
+        </li>*@
+        <li class="nav-item">
+
+            <a class="nav-link collapsed"
+               asp-controller="OrderManagement"
+               asp-action="GetAllProductSupplier">
+                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link collapsed"
+               asp-controller="OrderManagement"
+               asp-action="GetAllCart">
+                <i class="bi bi-menu-button-wide"></i><span>Cart</span>
             </a>
         </li>
 

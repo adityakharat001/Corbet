@@ -1,4 +1,6 @@
-﻿using Corbet.Domain.Entities;
+﻿using System.Net.Http;
+
+using Corbet.Domain.Entities;
 using Corbet.Ui.Models;
 
 using Microsoft.AspNetCore.Mvc;
@@ -29,52 +31,119 @@ namespace Corbet.Ui.Controllers
         public ActionResult GetAllCart()
         {
             string UserId = HttpContext.Session.GetString("UserId");
-           int userid = Convert.ToInt32(UserId);
+            int userid = Convert.ToInt32(UserId);
             HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"OrderManagement/GetAllCartDetails?UserId={userid}").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
             var cart = JsonConvert.DeserializeObject<List<GetAllCart>>(data);
-            return View(cart);
+            return View(cart)
+;
         }
 
 
         public ActionResult DeleteCart(int id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            string data = JsonConvert.SerializeObject(id)
+;
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"OrderManagement/DeleteCart?id={id}").Result;
             if (response.IsSuccessStatusCode)
             {
-                TempData["AlertMessage"] = "Cart Remove Suucessfully";
+                TempData["AlertMessage"] = "Cart Remove Successfully";
             }
             return RedirectToAction("GetAllCart");
 
         }
 
 
-        //[HttpGet]
-        //public ActionResult CreateOrder()
+        [HttpGet]
+        public ActionResult GetAllProductSupplier()
+        {
+
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "OrderManagement/GetAllProductDetails").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            var productsupplier = JsonConvert.DeserializeObject<List<ProductSupplierStock>>(data);
+            return View(productsupplier);
+        }
+
+        [HttpGet]
+        public ActionResult IncreaseCartItem(int stockId, int UserId, int cartId, int productId, int Quantity)
+        {
+
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "OrderManagement/DecreaseQuantityCart").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["AlertMessage"] = "Sorry Stock is full";
+            }
+            return NoContent();
+        }
+
+        [HttpGet]
+        public ActionResult CreateOrder()
+        {
+
+            //  string UserId = HttpContext.Session.GetString("UserId");
+            //int userId = Convert.ToInt32(UserId);
+
+            //  HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"OrderManagement/TotalBill?UserId={userId}").Result;
+            //  dynamic data = response.Content.ReadAsStringAsync().Result;
+            //  var cart = JsonConvert.DeserializeObject<double>(data);
+
+            return View();
+        }
+
+        [HttpGet]
+
+        [HttpGet]
+        public JsonResult GetAllTotalBill()
+        {
+            string UserId = HttpContext.Session.GetString("UserId");
+            int userId = Convert.ToInt32(UserId);
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"OrderManagement/TotalBill?UserId={userId}").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            double TotalBill = JsonConvert.DeserializeObject<double>(data);
+            return Json(TotalBill);
+        }
+
+
+        //[HttpPost]
+        //public ActionResult CreateOrder(OrderViewModel orderViewModel)
         //{
+        //    string UserId = HttpContext.Session.GetString("UserId");
+        //    orderViewModel.UserId = Convert.ToInt32(UserId);
+        //    //TO Generat a OrderCode
+        //    Random ran = new Random();
 
-        //    HttpResponseMessage msg = _httpClient.GetAsync(_httpClient.BaseAddress + "SupplierDetails/GetAlSuppliersDetails").Result;
-        //    if (msg.IsSuccessStatusCode)
+        //    String b = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+
+        //    int length = 6;
+
+        //    String random = "";
+
+        //    for (int i = 0; i < length; i++)
         //    {
-        //        var responseData = msg.Content.ReadAsStringAsync().Result;
-
-        //        dynamic SupplierList = JsonConvert.DeserializeObject(responseData);
-
-
-        //        var SupplieNamelist = new List<SelectListItem>();
-        //        foreach (var item in SupplierList)
-        //        {
-        //            SupplieNamelist.Add(new SelectListItem { Text = item.SupplierName.ToString(), Value = item.SupplierId.ToString() });
-        //            // TaxNamelist.Add(new SelectListItem { Text = item.TaxId, Value = item.Name.ToString() });
-
-        //        }
-        //        ViewBag.SupplieNamelist = SupplieNamelist;
-        //        return View();
+        //        int a = ran.Next(b.Length); //string.Lenght gets the size of string
+        //        random = random + b.ElementAt(a);
         //    }
+        //    orderViewModel.OrderCode = random;
 
-        //    return View();
+        //    string data = JsonConvert.SerializeObject(orderViewModel);
+        //    StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+        //    HttpResponseMessage response = client.PostAsync(client.BaseAddress + "OrderManagement/AddOrder", content).Result;
+        //    TempData["AlertMessage"] = "Order Added Suucessfully";
+        //    return RedirectToRoute(new { controller = "OrderManagement", action = "GetAllOrderDetails" });
         //}
+
+
+
+        [HttpGet]
+        public JsonResult GetAllSupplier()
+        {
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "Supplier/GetAllSuppliers").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            var supplier = JsonConvert.DeserializeObject<List<SupplierViewModel>>(data);
+            return Json(supplier);
+        }
     }
 }

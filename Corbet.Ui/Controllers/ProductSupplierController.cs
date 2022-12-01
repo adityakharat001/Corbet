@@ -42,22 +42,21 @@ namespace Corbet.Ui.Controllers
         //   [HttpPost]
 
         [HttpPost]
-        public JsonResult AddToCart(int item,int price)
+        public JsonResult AddToCart(int stockId)
         {
             ProductCart product = new ProductCart();
-            string UserId =HttpContext.Session.GetString("UserId");
+            string UserId = HttpContext.Session.GetString("UserId");
             product.UserId = Convert.ToInt32(UserId);
-            product.ProductId = item;
-            product.Price = price;
+            product.StockingId = stockId;
             product.Quantity = 1;
             string data = JsonConvert.SerializeObject(product);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "OrderManagement/AddCart", content).Result;
             if (response.IsSuccessStatusCode)
             {
-                return Json(data:new{Success=true}, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+                return Json(true);
             }
-            return Json(data: new { success = false }, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            return Json(false);
         }
     }
 }

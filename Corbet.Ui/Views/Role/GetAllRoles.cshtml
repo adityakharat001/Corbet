@@ -24,7 +24,7 @@
 
 
         <li class="nav-item ">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                asp-controller="Role"
                asp-action="GetAllRoles">
                 <i class="bi bi-menu-button-wide"></i><span>Roles</span>
@@ -59,14 +59,6 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">
@@ -163,8 +155,9 @@
 </div>
 
 <p>
-    <a class="btn btn-primary" asp-controller="Role" asp-action="CreateRole">Create New</a>
+    <a class="btn btn-primary" asp-controller="Role" asp-action="CreateRole">Add New</a>
 </p>
+<hr />
 <table class="table" id="myTable">
     <thead>
         <tr>

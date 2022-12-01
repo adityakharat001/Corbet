@@ -70,14 +70,6 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
             <a class="nav-link"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
@@ -145,12 +137,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                       data-bs-target="#stock-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="stock-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -167,16 +159,15 @@
 <!-- End Sidebar -->
 
 <div class="pagetitle">
-    <h1>Update SubCategory</h1>
+    <h1>Update Product Subcategory</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="CreateSubCategory">SubCategory</a></li>
-            <li class="breadcrumb-item active">Update SubCategory</li>
+            <li class="breadcrumb-item"><a asp-action="CreateSubCategory">Product Subcategories</a></li>
+            <li class="breadcrumb-item active">Update Product Subcategory</li>
         </ol>
     </nav>
 </div>
 
-<h3>Update SubCategory</h3>
 <hr />
 
 <div class="row">

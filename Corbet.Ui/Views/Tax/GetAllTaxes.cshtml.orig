@@ -174,11 +174,6 @@
             <th>
                 Sr. No
             </th>
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> 860a3fdaff6b93104a2a8c3d5e0bb70c1f9ed10f
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -195,20 +190,18 @@
                     }
                     @counter
                 </td>
-<<<<<<< HEAD
-
-=======
->>>>>>> 860a3fdaff6b93104a2a8c3d5e0bb70c1f9ed10f
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     <a class="btn btn-sm btn-primary" asp-controller="Tax" asp-action="UpdateTax" asp-route-id="@item.TaxId"><i class="ri-edit-box-fill "></i></a>
 <<<<<<< HEAD
-                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')" ><i class="ri-delete-bin-6-fill "></i></button>
-=======
+
                     <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')"><i class="ri-delete-bin-6-fill "></i></button>
->>>>>>> 860a3fdaff6b93104a2a8c3d5e0bb70c1f9ed10f
+=======
+                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')" ><i class="ri-delete-bin-6-fill "></i></button>
+
+>>>>>>> 6d53d4df5e882c0e5bdc3539577021e620007fba
                 </td>
             </tr>
         }
@@ -241,7 +234,6 @@
         })
     }
 
-<<<<<<< HEAD
           
     //  //  const encryptedId = CryptoJS.AES.encrypt(id, "THISISASECURITYKEY");
     //  //  console.log(encryptedId);
@@ -266,8 +258,7 @@
       
            
         </script>
-=======
+
     
 
-</script>
->>>>>>> 860a3fdaff6b93104a2a8c3d5e0bb70c1f9ed10f
+

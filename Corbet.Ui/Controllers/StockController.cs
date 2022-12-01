@@ -49,14 +49,14 @@ namespace Corbet.Ui.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStock(AddStockModel addStockModel)
         {
-            int year, month, day, hour, min, sec;
-            year = addStockModel.TimeIn.Year;
-            month = addStockModel.TimeIn.Month;
-            day = addStockModel.TimeIn.Day;
-            hour = addStockModel.TimeIn.Hour;
-            min = addStockModel.TimeIn.Minute;
-            sec = 0;
-            addStockModel.TimeIn = new DateTime(year, month, day, hour, min, sec);//assigns year, month, day, hour, min, seconds
+            //int year, month, day, hour, min, sec;
+            //year = addStockModel.TimeIn.Year;
+            //month = addStockModel.TimeIn.Month;
+            //day = addStockModel.TimeIn.Day;
+            //hour = addStockModel.TimeIn.Hour;
+            //min = addStockModel.TimeIn.Minute;
+            //sec = 0;
+            //addStockModel.TimeIn = new DateTime(year, month, day, hour, min, sec);//assigns year, month, day, hour, min, seconds
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = baseAddress;

@@ -17,7 +17,7 @@ namespace Corbet.Application.Features.Suppliers.Commands.CreateSupplier
         public string SupplierType { get; set; }
         public long CreditLimit { get; set; }
         public DateTime CreditPeriod { get; set; }
-        //public string? DocumentPath { get; set; }
+        public string? DocumentPath { get; set; }
 
     }
 }

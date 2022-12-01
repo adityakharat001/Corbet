@@ -54,7 +54,7 @@
         </div>
         <!-- End Logo -->
 
-       
+
 
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
@@ -234,6 +234,8 @@
                             @if (TempData["UserName"] != null)
                             {
                                 @TempData["UserName"]
+                                TempData.Keep("UserName");
+
                             }
                         </span>
                     </a>
@@ -247,6 +249,9 @@
                             {
                                 <h6>
                                     @TempData["UserName"]
+                                    @{
+                                        TempData.Keep("UserName");
+                                    }
                                 </h6>
                             }
                             @*<span>Web Designer</span>*@

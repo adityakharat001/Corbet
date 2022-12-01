@@ -5,11 +5,67 @@
     int counter = 0;
 }
 
-<h1>GetAllSuppliersForPurchaseUser</h1>
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link " asp-controller="PurchaseUser" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
 
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliersForPurchaseUser">
+                <i class="bi bi-menu-button-wide"></i><span>Suppliers</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="PurchaseUser"
+               asp-action="GetAllOrders">
+                <i class="bi bi-menu-button-wide"></i><span>Orders</span>
+            </a>
+        </li>
+        <li class="nav-item">
+
+            <a class="nav-link collapsed"
+               asp-controller="OrderManagement"
+               asp-action="GetAllProductSupplier">
+                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link collapsed"
+               asp-controller="OrderManagement"
+               asp-action="GetAllCart">
+                <i class="bi bi-menu-button-wide"></i><span>Cart</span>
+            </a>
+        </li>
+
+    </ul>
+</aside>
+<!-- End Sidebar -->
+
+<div class="pagetitle">
+    <h1>Suppliers</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Suppliers</li>
+        </ol>
+    </nav>
+</div>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="AddSupplier">Add New</a>
 </p>
+<hr />
 <table class="table" id="myTable">
     <thead>
         <tr>
@@ -26,20 +82,9 @@
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th data-orderable="false">
-                @Html.DisplayNameFor(model => model.BillingAddress)
-            </th>
-            <th data-orderable="false">
-                @Html.DisplayNameFor(model => model.SupplierType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreditLimit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreditPeriod)
-            </th>
-            <th data-orderable="false">
                 @Html.DisplayNameFor(model => model.DocumentPath)
             </th>
+            <th data-orderable="false">Details</th>
             <th data-orderable="false">Actions</th>
         </tr>
     </thead>
@@ -63,23 +108,36 @@
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.BillingAddress)
+                    @if (item.DocumentPath != null)
+                    {
+                        <button class="btn btn-sm btn-dark my-1" data-bs-toggle="modal" data-bs-target="@($"#resumeModal{item.SupplierId}")"><i class="ri-file-text-line"></i></button>
+                        <div class="modal fade" id="@($"resumeModal{item.SupplierId}")" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content m-2" style="width: 55vw;">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">@item.SupplierName</h5><span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </span>
+                                    </div>
+                                    <iframe id="frame" src="~/Documents/SupplierDocs/@item.DocumentPath" style="height: 80vh;"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+
+                    {
+                        <span>No Document</span>
+                    }
+
+
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SupplierType)
+                    <a class="btn btn-sm btn-outline-primary" asp-controller="Supplier" asp-action="GetSupplierDetails" title="View Supplier Details" asp-route-id="@item.SupplierId">View Details</a>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreditLimit)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreditPeriod)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocumentPath)
-                </td>
-                <td>
-                    <a class="btn btn-sm btn-primary" asp-controller="Supplier" asp-action="UpdateSupplierForPurchaseUser" asp-route-id="@item.SupplierId"><i class="ri-edit-box-fill "></i></a>
-                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.SupplierId')" ><i class="ri-delete-bin-6-fill "></i></button>
+                <td class="text-center align-items-center">
+                    <a class="btn btn-sm btn-primary my-1" asp-controller="Supplier" asp-action="UpdateSupplierForPurchaseUser" title="Edit Supplier Details" asp-route-id="@item.SupplierId"><i class="ri-edit-box-fill "></i></a>
+                    <button class="btn btn-sm btn-danger my-1" onclick="DeleteAlert('@item.SupplierId')" title="Delete Supplier"><i class="ri-delete-bin-6-fill"></i></button>
                 </td>
             </tr>
         }
@@ -96,20 +154,29 @@
         });
     });
 
-function DeleteAlert(id)
- {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.assign(`/Supplier/DeleteSupplier/${id}`);
-        }
-    })
-}
+    function DeleteAlert(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.assign(`/Supplier/DeleteSupplier/${id}`);
+            }
+        })
+    }
+
+                                            //function ViewDoc(doc) {
+                                            //    console.log(doc);
+                                            //    Swal.fire({
+                                            //        title: 'Supplier document',
+                                            //        text: "asdasd",
+                                            //        html: `<iframe src="../Documents/SupplierDocs/2b18a51e-8135-43e5-9866-4bea6314bcc6AdityaKharatResume.pdf"></iframe>`,
+                                            //        width: "70%",
+                                            //    })
+                                            //}
 </script>

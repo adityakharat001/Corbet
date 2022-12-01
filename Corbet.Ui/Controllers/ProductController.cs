@@ -15,7 +15,6 @@ namespace Corbet.Ui.Controllers
 
 
         Uri baseAddress = new Uri("https://localhost:5000/api/v3/");
-        //Uri ddlAddress = new Uri("https://localhost:7221/Product/CategoryDdl")
         HttpClient client;
         public ProductController(ILogger<ProductController> logger, IWebHostEnvironment webHostEnvironment)
         {

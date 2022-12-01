@@ -28,10 +28,10 @@ namespace Corbet.Application.Features.ProductCategory.Commands.UpdateProductCate
         public async Task<Response<UpdateProductCategoryCommandDto>> Handle(UpdateProductCategoryCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Update Category initiated");
-            var category = await _productRepository.GetById(request.CategoryId);
+            var category = await _productRepository.GetById(request.Id);
             if (category == null)
             {
-                throw new NotFoundException(nameof(Domain.Entities.ProductCategory), request.CategoryId);
+                throw new NotFoundException(nameof(Domain.Entities.ProductCategory), request.Id);
             }
 
             var categoryData = _mapper.Map(request, category);

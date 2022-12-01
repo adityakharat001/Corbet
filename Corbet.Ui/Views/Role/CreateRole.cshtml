@@ -16,7 +16,7 @@
 
 
         <li class="nav-item ">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                asp-controller="Role"
                asp-action="GetAllRoles">
                 <i class="bi bi-menu-button-wide"></i><span>Roles</span>
@@ -51,14 +51,6 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">
@@ -146,16 +138,15 @@
 </aside>
 <!-- End Sidebar -->
 <div class="pagetitle">
-    <h1>Create Role</h1>
+    <h1>Add Role</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="GetAllRoles">Roles</a></li>
-            <li class="breadcrumb-item active">Create Role</li>
+            <li class="breadcrumb-item active">Add Role</li>
         </ol>
     </nav>
 </div>
 
-<h4>Role</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -173,7 +164,7 @@
 
             <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Add" class="btn btn-primary" />
                 <a class="btn btn-warning" asp-controller="Role" asp-action="GetAllRoles">Back to List</a>
             </div>
         </form>

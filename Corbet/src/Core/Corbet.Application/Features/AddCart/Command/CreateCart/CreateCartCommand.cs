@@ -14,8 +14,9 @@ namespace Corbet.Application.Features.AddCart.Command.CreateCart
     {
         // public int CartId { get; set; }
         public int UserId { get; set; }
-        public  int ProductId { get; set; }
+        public int StockingId { get; set; }
+        public int quantity { get; set; }
         public double Price { get; set; }
- 
+
     }
 }

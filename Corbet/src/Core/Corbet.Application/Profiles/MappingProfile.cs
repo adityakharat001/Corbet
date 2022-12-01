@@ -205,9 +205,8 @@ namespace Corbet.Application.Profiles
             CreateMap<ProductSubCategory, SubCategoryExistCommand>().ReverseMap();
 
 
-            CreateMap<AddToCart,CreateCartCommand>().ReverseMap();
+            CreateMap<AddToCart, CreateCartCommand>().ReverseMap();
             CreateMap<AddToCart, CreateCartCommandDto>().ReverseMap();
-
 
             CreateMap<AddToCart, GetCartListQuery>().ReverseMap();
             CreateMap<AddToCart, GetCartListVm>().ReverseMap();

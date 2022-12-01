@@ -15,9 +15,6 @@ namespace Corbet.Application.Features.Suppliers.Commands.UpdateSupplier
         public string Email { get; set; }
         public int PhoneNumber { get; set; }
         public string BillingAddress { get; set; }
-        public string SupplierType { get; set; }
-        public int CreditLimit { get; set; }
-        public DateTime CreditPeriod { get; set; }
         //public string? DocumentPath { get; set; }
     }
 }

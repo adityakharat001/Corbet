@@ -14,8 +14,6 @@ namespace Corbet.Application.Features.AddCart.Command.DeleteCart
     {
         public int CartId { get; set; } 
        
-
-       
     }
 
 }

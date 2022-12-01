@@ -1,6 +1,10 @@
 ﻿using Corbet.Application.Features.AddCart.Command;
 using Corbet.Application.Features.AddCart.Queries;
 using Corbet.Application.Features.Invoice.Command.CreateInvoice;
+using Corbet.Application.Features.Invoice.Queries.GetAllInvoice;
+using Corbet.Application.Features.Invoice.Queries.GetInvoiceById;
+using Corbet.Application.Features.ProductCategory.Queries.GetAllProductCategories;
+using Corbet.Application.Features.Suppliers.Queries.GetSupplierById;
 
 using MediatR;
 
@@ -9,7 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Corbet.Api.Controllers.v3
 {
-    [Route("api/[controller]")]
+    [ApiVersion("3")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class InvoiceController : ControllerBase
     {
@@ -38,15 +43,27 @@ namespace Corbet.Api.Controllers.v3
 
         #region Getting All Invoices
 
-        //[HttpGet]
-        //[Route("GetAllInvoices")]
-        //public async Task<IActionResult> GetAllInvoices(int InvoiceId)
-        //{
-        //    _logger.LogInformation("Cart Details Initiated");
-        //    var InvoiceData = await _mediator.Send(new GetInvoiceListQuery() { });
-        //    _logger.LogInformation("Successfull");
-        //    return Ok(CartData);
-        //}
+
+        [HttpGet]
+        [Route("GetAllInvoices")]
+        public async Task<IActionResult> GetAllInvoices()
+        {
+            _logger.LogInformation("Initiated");
+            var invoiceList = await _mediator.Send(new GetAllInvoiceQuery());
+            _logger.LogInformation("Successfull");
+            return Ok(invoiceList);
+        }
         #endregion
+
+
+        [HttpGet]
+        [Route("GetInvoiceById")]
+        public async Task<ActionResult> GetInvoiceById(int id)
+        {
+            _logger.LogInformation("Get Invoice Initiated");
+            var invoice = await _mediator.Send(new GetInvoiceByIdQuery() { Id = id });
+            _logger.LogInformation("Get Invoice Completed");
+            return Ok(invoice);
+        }
     }
 }

@@ -31,7 +31,7 @@ namespace Corbet.Persistence.Repositories
                                on p.PrimarySupplierId equals s.SupplierId
                                 join sf in _dbContext.Suppliers
                                on p.SecondarySupplierId equals sf.SupplierId
-                                join td in _dbContext.TaxDetails
+                                join td in _dbContext.TaxDetails                              
                                on p.TaxId equals td.TaxId
                                join t in _dbContext.Taxes
                                on p.TaxId equals t.TaxId
@@ -42,6 +42,7 @@ namespace Corbet.Persistence.Repositories
                                where (p.Price > td.MinTax && p.Price < td.MaxTax) && p.IsDeleted == false
                                select new GetAllProductsVm
                                {
+                                 
                                    Id = p.ProductId,
                                    ProductCode = p.ProductCode,
                                    ProductName = p.ProductName,
@@ -55,13 +56,11 @@ namespace Corbet.Persistence.Repositories
                                    Tax = t.Name,
                                    TaxApplicable = td.Percentage,
                                    IsActive = p.IsActive
-
                                }).ToList();
             _logger.LogInformation("Ge");
             
             return productData;
         }
-
         public async Task<DeleteProductCommandDto> RemoveProductAsync(int id)
         {
             _logger.LogInformation("In Repository Remove Product Initiated");

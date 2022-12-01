@@ -52,7 +52,6 @@ namespace Corbet.Application.Features.OrderManagement.Command.CreateOrder
                 //bool check = _orderManagementRepo.(orderDetail);
             }
 
-
             CreateOrderCommandDto responses = new CreateOrderCommandDto();
             responses.OrderId = OrderDto.OrderId;
             responses.Message = "Order Detail Added Successful";

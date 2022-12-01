@@ -36,7 +36,7 @@ namespace Corbet.Persistence
             services.AddScoped<ICartRepo, CartRepo>();
             services.AddScoped<IStockRepository, StockRepository>();
             services.AddScoped<IStockTypeRepository, StockTypeRepository>();
-
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             return services;
         }
     }

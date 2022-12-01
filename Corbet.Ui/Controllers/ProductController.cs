@@ -60,7 +60,6 @@ namespace Corbet.Ui.Controllers
             return RedirectToRoute(new { controller = "Product", action = "GetAllProducts" });
         }
 
-
         [HttpGet]
         public ActionResult GetAllProducts()
         {

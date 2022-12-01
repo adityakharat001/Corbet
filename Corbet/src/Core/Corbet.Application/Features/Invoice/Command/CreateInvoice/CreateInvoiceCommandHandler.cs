@@ -31,9 +31,11 @@ namespace Corbet.Application.Features.Invoice.Command.CreateInvoice
         public async Task<Response<CreateInvoiceCommandDto>> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("initiated");
-            var invoice=_mapper.Map<Domain.Entities.Invoice>(request);
-            var dto = await _invoiceRepository.AddAsync(invoice);
-            var data = _mapper.Map<CreateInvoiceCommandDto>(dto);
+            //var invoice=_mapper.Map<Domain.Entities.Invoice>(request.OrderCode, request.UserId);
+            var dto = await _invoiceRepository.Addinvoice(request.UserId, request.OrderCode,request.PhoneNumber, request.InvoiceNumber);
+           var mapInvoice= _mapper.Map<Domain.Entities.Invoice>(dto);
+            var invoiceData = await _invoiceRepository.AddAsync(mapInvoice);
+            var data = _mapper.Map<CreateInvoiceCommandDto>(invoiceData);
             _logger.LogInformation("completed");
             return new Response<CreateInvoiceCommandDto>(data);
         }

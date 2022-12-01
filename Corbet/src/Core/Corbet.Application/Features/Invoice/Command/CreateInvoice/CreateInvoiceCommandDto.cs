@@ -13,7 +13,7 @@ namespace Corbet.Application.Features.Invoice.Command.CreateInvoice
     public class CreateInvoiceCommandDto
     {
         public int Id { get; set; }
-        public virtual int OrderCode { get; set; }
+        public string OrderCode { get; set; }
         public Guid InvoiceNumber { get; set; }
         public int UserId { get; set; }
         public string PhoneNumber { get; set; }
@@ -26,6 +26,6 @@ namespace Corbet.Application.Features.Invoice.Command.CreateInvoice
         public bool Status { get; set; }
 
         [ForeignKey("OrderCode")]
-        public virtual OrderManagement OrderManagements { get; set; }
+        public virtual Domain.Entities.OrderManagement OrderManagements { get; set; }
     }
 }

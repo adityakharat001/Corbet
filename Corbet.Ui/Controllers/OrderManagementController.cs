@@ -60,9 +60,6 @@ namespace Corbet.Ui.Controllers
         }
 
 
-
-
-
         [HttpPost]
         public ActionResult CreateOrder(OrderViewModel orderViewModel)
         {

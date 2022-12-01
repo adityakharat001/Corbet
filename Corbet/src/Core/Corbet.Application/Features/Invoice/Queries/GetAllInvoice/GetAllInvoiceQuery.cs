@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using MediatR;
+
 namespace Corbet.Application.Features.Invoice.Queries.GetAllInvoice
 {
-    internal class GetAllInvoiceQuery
+    public class GetAllInvoiceQuery:IRequest<List<GetAllInvoiceQueryVm>>
     {
+
     }
 }

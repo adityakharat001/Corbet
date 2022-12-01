@@ -12,6 +12,9 @@ using Corbet.Application.Features.Events.Commands.UpdateEvent;
 using Corbet.Application.Features.Events.Queries.GetEventDetail;
 using Corbet.Application.Features.Events.Queries.GetEventsExport;
 using Corbet.Application.Features.Events.Queries.GetEventsList;
+using Corbet.Application.Features.Invoice.Command.CreateInvoice;
+using Corbet.Application.Features.Invoice.Queries.GetAllInvoice;
+using Corbet.Application.Features.Invoice.Queries.GetInvoiceById;
 using Corbet.Application.Features.OrderManagement.Command.CreateOrder;
 using Corbet.Application.Features.Orders.GetOrdersForMonth;
 using Corbet.Application.Features.ProductCategory.Commands.CraeteProductCategory;
@@ -236,6 +239,15 @@ namespace Corbet.Application.Profiles
             CreateMap<Stock, DeleteStockDto>();
             CreateMap<UpdateStockCommand, Stock>();
             CreateMap<Stock, UpdateStockDto>();
+
+            //invoice
+            CreateMap<CreateInvoiceCommand, Invoice>().ReverseMap();
+            CreateMap<CreateInvoiceCommandDto, Invoice>().ReverseMap();
+
+            CreateMap<GetAllInvoiceQuery, Invoice>().ReverseMap();
+            CreateMap<GetAllInvoiceQueryVm, Invoice>().ReverseMap();
+
+            CreateMap<GetInvoiceByIdQuery, Invoice>().ReverseMap();
 
         }
     }

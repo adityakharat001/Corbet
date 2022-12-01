@@ -1,8 +1,11 @@
-﻿@model Corbet.Ui.Models.UnitMeasurement
+﻿@model IEnumerable<Corbet.Ui.Models.InvoiceViewModel>
 
 @{
-    ViewData["Title"] = "CreateUnitMeasurement";
+    ViewData["Title"] = "GetAllInvoices";
+    int counter = 0;
 }
+
+<h1>Get All Invoices</h1>
 
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -145,41 +148,95 @@
     </ul>
 </aside>
 <!-- End Sidebar -->
+@*<p>
+    <a class="btn btn-primary" asp-action="AddInvoice">Add Invoice</a>
+</p>*@
 
-<div class="pagetitle">
-    <h1>Add Unit Measurement</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="GetAllUnitMeasurements">Unit Measurements</a></li>
-            <li class="breadcrumb-item active">Add Unit Measurement</li>
-        </ol>
-    </nav>
-</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th data-orderable="false">
+               @* @Html.DisplayNameFor(model => model.Id)*@
+               Sr No.
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderCode)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.InvoiceNumber)
+            </th>
+            <th>
+                User Name
+                @*@Html.DisplayNameFor(model => model.UserId)*@
+            </th>
+            <th>
+                Phone Number
+                @*@Html.DisplayNameFor(model => model.PhoneNumber)*@
+            </th>
+           @* <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>*@
+           @* <th>
+                @Html.DisplayNameFor(model => model.DelivaryAddress)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpectedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            <tr>
+                <td>
+               @* @Html.DisplayFor(modelItem => item.Id)*@
+               @{counter++;}
+               @counter
 
-<h4>Unit Measurement</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateUnitMeasurement">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label class="control-label">Unit Type</label>
-                <span class="text-danger">*</span>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
-                <a class="btn btn-warning" asp-controller="UnitMeasurement" asp-action="GetAllUnitMeasurements">Back to List</a>
-            </div>
-        </form>
-    </div>
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-        }
-
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>*@
+            @*<td>
+                @Html.DisplayFor(modelItem => item.DelivaryAddress)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpectedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                    <a class="btn btn-sm btn-outline-primary" asp-controller="Invoice" asp-action="GetInvoiceDetails" title="View Bill" asp-route-id="@item.Id">View Bill</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

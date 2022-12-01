@@ -16,15 +16,22 @@ namespace Corbet.Application.Features.Invoice.Command.CreateInvoice
     public class CreateInvoiceCommand:IRequest<Response<CreateInvoiceCommandDto>>
     {
 
-        public virtual int OrderCode { get; set; }
+
+        public int Id { get; set; }
+        public  string OrderCode { get; set; }
         public Guid InvoiceNumber { get; set; }
         public int UserId { get; set; }
         public string PhoneNumber { get; set; }
-        public virtual int Description { get; set; }
+        public  int Description { get; set; }
         [MaxLength(250)]
-        public string DelivaryAddress { get; set; }   
+        public string DelivaryAddress { get; set; }
+        public DateTime ReceivedDate { get; set; }
+        public DateTime ExpectedDate { get; set; }
         public float TotalPrice { get; set; }
         public bool Status { get; set; }
+
+       
+
 
     }
 }

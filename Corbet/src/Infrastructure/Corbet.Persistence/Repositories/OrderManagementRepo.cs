@@ -27,10 +27,8 @@ namespace Corbet.Persistence.Repositories
 
         public  List<AddToCart> GetAllCart(int userId)
         {
-
            List<AddToCart>  addcart= _dbContext.AddCarts.Where(x => x.UserId == userId).ToList();
             return addcart;
-
 
         }
 

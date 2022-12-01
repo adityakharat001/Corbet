@@ -7,7 +7,7 @@
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link collapsed" asp-controller="Home" asp-action="Index">
+            <a class="nav-link collapsed" asp-controller="#" asp-action="#">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -15,42 +15,16 @@
         <!-- End Dashboard Nav -->
 
 
-        <li class="nav-item ">
-            <a class="nav-link collapsed"
-               asp-controller="Role"
-               asp-action="GetAllRoles">
-                <i class="bi bi-menu-button-wide"></i><span>Roles</span>
-            </a>
-        </li>
-
-
         <li class="nav-item">
             <a class="nav-link collapsed"
-               asp-controller="UserRegister"
-               asp-action="GetAllUsers">
-                <i class="bi bi-menu-button-wide"></i><span>All Users</span>
+               asp-controller="BackOffice"
+               asp-action="GetAllOrders">
+                <i class="bi bi-menu-button-wide"></i><span>Orders</span>
             </a>
         </li>
-
+        
         <li class="nav-item">
-
-            <a class="nav-link collapsed"
-               asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
-                <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed"
-               asp-controller="Product"
-               asp-action="GetAllProducts">
-                <i class="bi bi-menu-button-wide"></i><span>Products</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed"
+            <a class="nav-link "
                asp-controller="Stock"
                asp-action="GetAllStocks">
                 <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
@@ -58,89 +32,12 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link"
-               data-bs-target="#generics-nav"
-               data-bs-toggle="collapse"
-               href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>Generics</span><i class="bi bi-chevron-down ms-auto"></i>
+
+            <a class="nav-link collapsed"
+               asp-controller="BackOffice"
+               asp-action="GetAllInvoices">
+                <i class="bi bi-menu-button-wide"></i><span>Invoices</span>
             </a>
-            <ul id="generics-nav"
-                class="nav-content collapse"
-                data-bs-parent="#sidebar-nav">
-                <li>
-                    <a asp-controller="UnitMeasurement" asp-action="GetAllUnitMeasurements">
-                        <i class="bi bi-circle"></i><span>Unit Data</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
-                       data-bs-toggle="collapse"
-                       href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Tax Management</span>
-                    </a>
-                    <ul id="tax-nav"
-                        class="nav-content collapse"
-                        data-bs-parent="#generics-nav">
-                        <li>
-                            <a asp-controller="Tax" asp-action="GetAllTaxes">
-                                <i class="bi bi-circle"></i><span>Tax Types</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-controller="Tax" asp-action="GetAllTaxDetails">
-                                <i class="bi bi-circle"></i><span>Tax Details</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link collapsed"
-                       data-bs-target="#category-nav"
-                       data-bs-toggle="collapse"
-                       href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
-                    </a>
-                    <ul id="category-nav"
-                        class="nav-content collapse"
-                        data-bs-parent="#generics-nav">
-                        <li>
-                            <a asp-controller="ProductCategory" asp-action="GetAllCategories">
-                                <i class="bi bi-circle"></i><span>Product Category</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-controller="CategoryDetails" asp-action="GetAllCategoryDetails">
-                                <i class="bi bi-circle"></i><span>Product Category Details</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
-                        <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
-                       data-bs-toggle="collapse"
-                       href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
-                    </a>
-                    <ul id="tax-nav"
-                        class="nav-content collapse"
-                        data-bs-parent="#generics-nav">
-                        <li>
-                            <a asp-controller="StockType" asp-action="GetAllStockTypes">
-                                <i class="bi bi-circle"></i><span>Stock Types</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
         </li>
     </ul>
 </aside>
@@ -156,14 +53,12 @@
     </nav>
 </div>
 
-@*<h4>Stock</h4>*@
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddStock">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label class="control-label">Enter Product Name</label><br />
                 <select asp-for="ProductId">
                     @*<option value="0">-Select Product-</option>
                     @foreach (var product in Model.ProductList)
@@ -178,9 +73,7 @@
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div><br />
-            <div class="form-group">   
-                <label class="control-label">Enter Stock Type</label>
-                <br />
+            <div class="form-group">
                 <select asp-for="StockTypeId"></select><br />
                 <span asp-validation-for="StockTypeId" class="text-danger"></span>
             </div>

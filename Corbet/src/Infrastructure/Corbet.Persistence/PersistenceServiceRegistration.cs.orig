@@ -32,13 +32,14 @@ namespace Corbet.Persistence
             services.AddScoped<ICategoryDetailsRepo, CategoryDetailsRepository>();
             services.AddScoped<IProductSubCategoryRepo, ProductSubCategoryRepo>();
 <<<<<<< HEAD
-            services.AddScoped<ICartRepo, CartRepo>();
-            services.AddScoped<IOrderManagementRepo, OrderManagementRepo>();    
+            //services.AddScoped<IOrderManagementRepo, OrderManagementRepo>();
 =======
-            services.AddScoped<IOrderManagementRepo, OrderManagementRepo>();
+         
+            services.AddScoped<ICartRepo, CartRepo>();
+>>>>>>> 6d53d4df5e882c0e5bdc3539577021e620007fba
             services.AddScoped<IStockRepository, StockRepository>();
+            services.AddScoped<ICartRepo, CartRepo>();
             services.AddScoped<IStockTypeRepository, StockTypeRepository>();
->>>>>>> 860a3fdaff6b93104a2a8c3d5e0bb70c1f9ed10f
 
             return services;
         }

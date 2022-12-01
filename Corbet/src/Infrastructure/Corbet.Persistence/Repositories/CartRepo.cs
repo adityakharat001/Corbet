@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 using Corbet.Application.Contracts.Persistence;
 using Corbet.Application.Features.AddCart.Command.DeleteCart;
 using Corbet.Application.Features.AddCart.Queries;
+using Corbet.Application.Features.AddCart.Queries.GetProductSupplier;
+//using Corbet.Application.Features.AddCart.Queries.GetProductSupplier;
+//using Corbet.Application.Features.AddCart.Queries.GetTotalBill;
 using Corbet.Application.Features.Roles.Commands.DeleteRole;
 using Corbet.Domain.Entities;
 
@@ -16,7 +20,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Corbet.Persistence.Repositories
 {
-    public class CartRepo: BaseRepository<AddToCart>, ICartRepo
+    public class CartRepo : BaseRepository<AddToCart>, ICartRepo
     {
         private readonly ILogger _logger;
         public CartRepo(ApplicationDbContext dbContext, ILogger<AddToCart> logger) : base(dbContext, logger)
@@ -30,8 +34,8 @@ namespace Corbet.Persistence.Repositories
             var IsCartExist = await _dbContext.AddCarts.Where(x => x.CartId == cartId).FirstOrDefaultAsync();
             if (IsCartExist != null)
             {
-              _dbContext.AddCarts.Remove(IsCartExist);
-             
+                _dbContext.AddCarts.Remove(IsCartExist);
+
                 await _dbContext.SaveChangesAsync();
 
                 response.CartId = IsCartExist.CartId;
@@ -51,15 +55,59 @@ namespace Corbet.Persistence.Repositories
             }
         }
 
+        //ProductSupplier
+
+
+        public bool DecreaseCartitem(int cartId, int userId, int stockId, int productId, int Quantity)
+        {
+            var check = _dbContext.Stocks.Where(x => x.StockId == stockId && x.ProductId == productId).FirstOrDefault();
+            if (check != null)
+            {
+                if (Quantity < check.Quantity)
+                {
+
+                    var cartvalue = _dbContext.AddCarts.Where(x => x.StockingId == stockId && x.UserId == userId).FirstOrDefault();
+                    cartvalue.Quantity = cartvalue.Quantity + 1;
+                    _dbContext.SaveChangesAsync();
+                    return true;
+                }
+
+
+
+            }
+            return false;
+        }
+        public async Task<List<GetProductSupplierQueryVm>> GetAllProductSupplier()
+        {
+            var productSupplier = (from s in _dbContext.Stocks
+                                   join p in _dbContext.Products
+                                   on s.ProductId equals p.ProductId
+
+
+                                   select new GetProductSupplierQueryVm
+                                   {
+                                       StockId = s.StockId,
+                                       ProductName = p.ProductName,
+                                       Price = p.Price,
+                                       Quantity = s.Quantity,
+                                       ProductCode = p.ProductCode,
+                                       ImagePath = p.ImagePath
+                                   }).ToList();
+
+
+            _logger.LogInformation("GetAllProductSupplier");
+            return productSupplier;
+        }
+
 
         public async Task<bool> IsCartExist(AddToCart addToCart)
         {
-           var check=  _dbContext.AddCarts.Where(x => x.StockingId == addToCart.StockingId && x.UserId == addToCart.UserId).FirstOrDefault();
+            var check = _dbContext.AddCarts.Where(x => x.StockingId == addToCart.StockingId && x.UserId == addToCart.UserId).FirstOrDefault();
             if (check != null)
             {
                 check.Quantity = check.Quantity + 1;
-                
-            
+
+
                 _dbContext.SaveChangesAsync();
                 return true;
             }
@@ -84,7 +132,7 @@ namespace Corbet.Persistence.Repositories
                             Price = p.Price,
                             ProductName = p.ProductName,
                             Quantity = c.Quantity,
-                      
+
                         }).ToList();
             _logger.LogInformation("GetAllCart");
             return cart;
@@ -92,19 +140,6 @@ namespace Corbet.Persistence.Repositories
 
 
 
-        public double GetProductPrice(int stockingid)
-        {
-            double pricenew;
-            var price = (from s in _dbContext.Stocks
-                         join p in _dbContext.Products
-                         on s.StockId equals stockingid
-                         select new
-                         {
-                             pricenew = p.Price
-                         }).ToString;
-            pricenew = Convert.ToDouble(price);
-                         return pricenew;
-        }
 
     }
 }

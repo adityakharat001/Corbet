@@ -1,8 +1,12 @@
-﻿
-using Corbet.Application.Features.AddCart.Command;
+﻿using Corbet.Application.Features.AddCart.Command;
+using Corbet.Application.Features.AddCart.Command.CreateCart;
+//using Corbet.Application.Features.AddCart.Command.DecreaseCartItem;
 using Corbet.Application.Features.AddCart.Command.DeleteCart;
 using Corbet.Application.Features.AddCart.Queries;
-using Corbet.Application.Features.OrderManagement.Command.CreateOrder;
+using Corbet.Application.Features.AddCart.Queries.GetProductSupplier;
+//using Corbet.Application.Features.AddCart.Queries.GetProductSupplier;
+//using Corbet.Application.Features.AddCart.Queries.GetTotalBill;
+//using Corbet.Application.Features.OrderManagement.Command.CreateOrder;
 using Corbet.Application.Features.ProductCategory.Commands.DeleteProductCategory;
 using Corbet.Application.Features.ProductSubCategory.Command.CreateSubCategory;
 using Corbet.Application.Features.Roles.Commands.DeleteRole;
@@ -31,19 +35,19 @@ namespace Corbet.Api.Controllers.v3
 
 
         #region AddOrder
-        [HttpPost]
-        [Route("AddOrder")]
-        public async Task<ActionResult> CreateOrder(CreateOrderCommand createorderCommand)
-        {
-            _logger.LogInformation("Adding Order initiated");
-            var response = await _mediator.Send(createorderCommand);
-            if (response == null)
-            {
-                return BadRequest();
-            }
-            _logger.LogInformation("Adding order completed");
-            return Ok(response);
-        }
+        //[HttpPost]
+        //[Route("AddOrder")]
+        //public async Task<ActionResult> CreateOrder(CreateOrderCommand createorderCommand)
+        //{
+        //    _logger.LogInformation("Adding Order initiated");
+        //    var response = await _mediator.Send(createorderCommand);
+        //    if (response == null)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    _logger.LogInformation("Adding order completed");
+        //    return Ok(response);
+        //}
         #endregion
 
         [HttpPost]
@@ -61,6 +65,7 @@ namespace Corbet.Api.Controllers.v3
         }
 
 
+
         #region Getting All cartDetail
 
         [HttpGet]
@@ -74,7 +79,30 @@ namespace Corbet.Api.Controllers.v3
         }
         #endregion
 
+        #region Getting All productSupplierDetail
 
+        [HttpGet]
+        [Route("GetAllProductDetails")]
+        public async Task<IActionResult> GetAllProductSupplierDetails()
+        {
+            _logger.LogInformation("Product Supplier Details Initiated");
+            var ProductData = await _mediator.Send(new GetProductSupplierListQuery());
+            _logger.LogInformation("Successfull");
+            return Ok(ProductData);
+        }
+        #endregion
+
+        #region TotalBill
+        //[HttpGet]
+        //[Route("TotalBill")]
+        //public async Task<IActionResult> TotalBill(int UserId)
+        //{
+        //    _logger.LogInformation("Cart Details Initiated");
+        //    var CartData = await _mediator.Send(new GetTotalBillQuery() { UserId = UserId });
+        //    _logger.LogInformation("Successfull");
+        //    return Ok(CartData);
+        //}
+        #endregion
 
         #region DeleteCart
         [HttpDelete]
@@ -87,6 +115,19 @@ namespace Corbet.Api.Controllers.v3
             return NoContent();
         }
         #endregion
+
+        #region DeleteCart
+        //[HttpGet]
+        //[Route("DecreaseCart")]
+        //public async Task<IActionResult> DecreaseQuantityCart(int cartId, int UserId, int stockId, int productId, int Quantity)
+        //{
+        //    _logger.LogInformation("cart delete initiated");
+        //    await _mediator.Send(new DecreaseCartItemCommand() { CartId = cartId, UserId = UserId, stockId = stockId, productId = productId, Quantity = Quantity });
+        //    _logger.LogInformation("Category delete completed");
+        //    return NoContent();
+        //}
+        #endregion
+
 
 
 

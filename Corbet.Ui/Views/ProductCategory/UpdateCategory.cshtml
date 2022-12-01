@@ -1,4 +1,4 @@
-﻿@model Corbet.Ui.Models.ProductCategoryModel
+﻿@model Corbet.Ui.Models.ProductCategoryUpdateModel
 
 @{
     ViewData["Title"] = "UpdateCategory";
@@ -48,14 +48,6 @@
                asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
             </a>
         </li>
 
@@ -127,12 +119,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                       data-bs-target="#stock-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="stock-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -148,17 +140,20 @@
 </aside>
 <!-- End Sidebar -->
 
-<h4>Update Product Category</h4>
+<div class="pagetitle">
+    <h1>Update Product Category</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="GetAllCategories">Products</a></li>
+            <li class="breadcrumb-item active">Update Product Category</li>
+        </ol>
+    </nav>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="UpdateCategory">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label><span class="text-danger">*</span>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="CategoryName" class="control-label"></label><span class="text-danger">*</span>
               

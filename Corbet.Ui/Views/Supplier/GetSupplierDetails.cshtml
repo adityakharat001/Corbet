@@ -1,0 +1,143 @@
+﻿@model Corbet.Ui.Models.SupplierViewModel
+
+@{
+    ViewData["Title"] = "GetSupplierDetails";
+}
+
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link " asp-controller="PurchaseUser" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliersForPurchaseUser">
+                <i class="bi bi-menu-button-wide"></i><span>Suppliers</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="PurchaseUser"
+               asp-action="GetAllOrders">
+                <i class="bi bi-menu-button-wide"></i><span>Orders</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link collapsed"
+               asp-controller="OrderManagement"
+               asp-action="GetAllProductSupplier">
+                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link collapsed"
+               asp-controller="OrderManagement"
+               asp-action="GetAllCart">
+                <i class="bi bi-menu-button-wide"></i><span>Cart</span>
+            </a>
+        </li>
+
+    </ul>
+</aside>
+<!-- End Sidebar -->
+
+<div class="pagetitle">
+    <h1>Supplier Details</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Suppliers</li>
+            <li class="breadcrumb-item">Supplier Details</li>
+        </ol>
+    </nav>
+</div>
+<hr />
+<div>
+    <dl class="row mx-auto">
+        <dt class="col-sm-3 col-md-4 col-lg-5">
+            @Html.DisplayNameFor(model => model.SupplierName)
+        </dt>
+        <dd class="col-sm-9 col-md-4 col-lg-5">
+            @Html.DisplayFor(model => model.SupplierName)
+        </dd>
+        <dt class="col-sm-3 col-md-4 col-lg-5">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-9 col-md-4 col-lg-5">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-3 col-md-4 col-lg-5">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-sm-9 col-md-4 col-lg-5">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class="col-sm-3 col-md-4 col-lg-5">
+            @Html.DisplayNameFor(model => model.BillingAddress)
+        </dt>
+        <dd class="col-sm-9 col-md-4 col-lg-5">
+            @Html.DisplayFor(model => model.BillingAddress)
+        </dd>
+        <dt class="col-sm-3 col-md-4 col-lg-5">
+            @Html.DisplayNameFor(model => model.SupplierType)
+        </dt>
+        <dd class="col-sm-9 col-md-4 col-lg-5">
+            @Html.DisplayFor(model => model.SupplierType)
+        </dd>
+        <dt class="col-sm-3 col-md-4 col-lg-5">
+            @Html.DisplayNameFor(model => model.CreditLimit)
+        </dt>
+        <dd class="col-sm-9 col-md-4 col-lg-5">
+            @Html.DisplayFor(model => model.CreditLimit)
+        </dd>
+        <dt class="col-sm-3 col-md-4 col-lg-5">
+            @Html.DisplayNameFor(model => model.CreditPeriod)
+        </dt>
+        <dd class="col-sm-9 col-md-4 col-lg-5">
+            @Html.DisplayFor(model => model.CreditPeriod)
+        </dd>
+        <dt class="col-sm-3 col-md-4 col-lg-5">
+            Supplier Document
+        </dt>
+        <dd class="col-sm-9 col-md-4 col-lg-5">
+            @if (Model.DocumentPath != null)
+            {
+                <button class="btn btn-sm btn-dark my-1" data-bs-toggle="modal" data-bs-target="@($"#resumeModal{Model.SupplierId}")"><i class="ri-file-text-line"></i></button>
+                <div class="modal fade" id="@($"resumeModal{Model.SupplierId}")" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content m-2" style="width: 55vw;">
+                            <div class="modal-header">
+                                <h5 class="modal-title">@Model.SupplierName</h5><span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </span>
+                            </div>
+                            <iframe id="frame" src="~/Documents/SupplierDocs/@Model.DocumentPath" style="height: 80vh;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <span>No Document</span>
+            }
+
+        </dd>
+
+    </dl>
+</div>
+<div class="text-center mr-3">
+    <a class="btn btn-sm btn-primary my-1" asp-controller="Supplier" asp-action="UpdateSupplierForPurchaseUser" title="Edit Supplier Details" asp-route-id="@Model.SupplierId">Edit Details</a>
+    <a class="btn btn-sm btn-warning my-1" asp-action="GetAllSuppliersForPurchaseUser">Back to List</a>
+</div>

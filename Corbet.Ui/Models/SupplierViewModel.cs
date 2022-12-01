@@ -22,8 +22,10 @@ namespace Corbet.Ui.Models
         public long CreditLimit { get; set; }
         [DisplayName("Credit Period")]
         public DateTime CreditPeriod { get; set; }
+        [DisplayName("Document")]
         public string? DocumentPath { get; set; }
         [DisplayName("Creation Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime CreatedDate { get; set; }
         [DisplayName("Payment Status")]
         public bool IsPaymentDone { get; set; }

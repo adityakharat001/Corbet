@@ -36,13 +36,13 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
@@ -51,14 +51,6 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">
@@ -125,12 +117,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                       data-bs-target="#stock-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="stock-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -146,7 +138,7 @@
 </aside>
 <!-- End Sidebar -->
 <div class="pagetitle">
-    <h1>Products</h1>
+    <h1>Update Product</h1>
     <nav>
         <ol class="breadcrumb" >
             <li class="breadcrumb-item"><a asp-action="GetAllProducts">Products</a></li>
@@ -154,7 +146,6 @@
         </ol>
     </nav>
 </div>
-<h4>Update Product</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">

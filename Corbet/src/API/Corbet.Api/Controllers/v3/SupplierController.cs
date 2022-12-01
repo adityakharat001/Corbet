@@ -2,6 +2,7 @@
 using Corbet.Application.Features.ProductCategory.Commands.CraeteProductCategory;
 using Corbet.Application.Features.Roles.Commands.UpdateRole;
 using Corbet.Application.Features.Roles.Queries.GetRoleById;
+using Corbet.Application.Features.Suppliers.Commands.CheckSupplierExists;
 using Corbet.Application.Features.Suppliers.Commands.CreateSupplier;
 using Corbet.Application.Features.Suppliers.Commands.DeleteSupplier;
 using Corbet.Application.Features.Suppliers.Commands.UpdateSupplier;
@@ -48,6 +49,16 @@ namespace Corbet.Api.Controllers.v3
         {
             _logger.LogInformation("Get Suppliers Initiated");
             var suppliers = await _mediator.Send(new GetAllSuppliersQuery());
+            _logger.LogInformation("Get Suppliers Completed");
+            return Ok(suppliers);
+        }
+
+        [HttpGet]
+        [Route("GetAllSuppliersForPurchaseUser")]
+        public async Task<ActionResult> GetAllSuppliersForPurchaseUser()
+        {
+            _logger.LogInformation("Get Suppliers Initiated");
+            var suppliers = await _mediator.Send(new GetAllSuppliersForPurchaseUserQuery());
             _logger.LogInformation("Get Suppliers Completed");
             return Ok(suppliers);
         }
@@ -102,5 +113,12 @@ namespace Corbet.Api.Controllers.v3
             return (isActive) ? Ok("Active") : Ok("InActive");
         }
 
+        [Route("CheckSupplierExists")]
+        [HttpGet]
+        public async Task<IActionResult> CheckSupplierExists(string supplierName)
+        {
+            var response = await _mediator.Send(new CheckSupplierExistsCommand() { SupplierName = supplierName });
+            return Ok(response);
+        }
     }
 }

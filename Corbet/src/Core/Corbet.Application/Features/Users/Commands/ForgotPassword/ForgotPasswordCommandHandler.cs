@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Corbet.Application.Contracts.Persistence;
+﻿using Corbet.Application.Contracts.Persistence;
 using Corbet.Application.Responses;
 using MediatR;
 using Microsoft.Extensions.Logging;

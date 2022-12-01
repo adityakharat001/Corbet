@@ -3,17 +3,6 @@
 @{
     ViewData["Title"] = "AddProductCategory";
 }
-@*@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Successful.!!</strong> Product Category Name Added successfully..!
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-}*@
-
-
 
 
 
@@ -59,14 +48,6 @@
                asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
             </a>
         </li>
 
@@ -137,12 +118,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                       data-bs-target="#stock-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="stock-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -157,7 +138,16 @@
     </ul>
 </aside>
 <!-- End Sidebar -->
-<h4>Add Product Category</h4>
+
+<div class="pagetitle">
+    <h1>Add Product Category</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="GetAllCategories">Product Categories</a></li>
+            <li class="breadcrumb-item active">Add Product Category</li>
+        </ol>
+    </nav>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">

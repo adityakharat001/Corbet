@@ -43,17 +43,9 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-            asp-controller="Product"
+               asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
             </a>
         </li>
 
@@ -94,7 +86,7 @@
                         </li>
                     </ul>
                 </li>
-               <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link collapsed"
                        data-bs-target="#tax-nav"
                        data-bs-toggle="collapse"
@@ -125,12 +117,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                       data-bs-target="#stock-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="stock-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -153,6 +145,7 @@
         </ol>
     </nav>
 </div>
+<hr />
 <table class="table" id="myTable">
     <thead>
         <tr>
@@ -182,7 +175,9 @@
         {
             <tr>
                 <td>
-                    @{counter++;}
+                    @{
+                        counter++;
+                    }
                     @counter
                 </td>
                 <td>
@@ -194,7 +189,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedDate)
                 </td>
-                    @if (item.IsPaymentDone)
+                @if (item.IsPaymentDone)
                 {
                     <td>
                         Paid
@@ -203,10 +198,10 @@
                 else
                 {
                     <td>
-                        UnPaid
+                        Unpaid
                     </td>
                 }
-         
+
                 @if (item.IsActive)
                 {
                     <td>
@@ -220,9 +215,9 @@
                     </td>
                 }
 
-                <td class="text-center align-items-center ">
+                <td class="text-center align-items-center">
                     <a class="btn btn-sm btn-primary my-1" asp-controller="Supplier" asp-action="UpdateSupplierForAdmin" asp-route-id="@item.SupplierId"><i class="ri-edit-box-fill "></i></a>
-                    <br/>
+                    <br />
                     @if (item.IsActive == true)
                     {
                         <a class="btn btn-sm btn-danger my-1" asp-controller="Supplier" asp-action="ToggleActiveStatus" asp-route-id="@item.SupplierId">Deactivate</a>
@@ -242,10 +237,10 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-$(document).ready(function () {
+    $(document).ready(function() {
         $('#myTable').DataTable({
- 
+
         });
-});
+    });
 </script>
 

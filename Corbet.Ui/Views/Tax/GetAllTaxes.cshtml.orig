@@ -171,17 +171,15 @@
 <table class="table" id="myTable">
     <thead>
         <tr>
-            <th data-orderable="false">
+            <th>
                 Sr. No
             </th>
-           
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th data-orderable="false">Actions</th>
         </tr>
     </thead>
-
     <tbody>
         @foreach (var item in Model)
         {
@@ -197,9 +195,11 @@
                 </td>
                 <td>
                     <a class="btn btn-sm btn-primary" asp-controller="Tax" asp-action="UpdateTax" asp-route-id="@item.TaxId"><i class="ri-edit-box-fill "></i></a>
-                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')" ><i class="ri-delete-bin-6-fill "></i></button>
 <<<<<<< HEAD
+
+                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')"><i class="ri-delete-bin-6-fill "></i></button>
 =======
+                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxId')" ><i class="ri-delete-bin-6-fill "></i></button>
 
 >>>>>>> 6d53d4df5e882c0e5bdc3539577021e620007fba
                 </td>
@@ -234,9 +234,6 @@
         })
     }
 
-<<<<<<< HEAD
-</script>
-=======
           
     //  //  const encryptedId = CryptoJS.AES.encrypt(id, "THISISASECURITYKEY");
     //  //  console.log(encryptedId);
@@ -265,4 +262,3 @@
     
 
 
->>>>>>> 6d53d4df5e882c0e5bdc3539577021e620007fba

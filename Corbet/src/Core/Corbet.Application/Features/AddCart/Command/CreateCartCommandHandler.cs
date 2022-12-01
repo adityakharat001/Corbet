@@ -31,21 +31,26 @@ namespace Corbet.Application.Features.AddCart.Command
         {
 
             var cart = _mapper.Map<Domain.Entities.AddToCart>(request);
-            bool check = await _cartRepo.IsCartExist(cart);
+            bool check = await _cartRepo.IsCartExist(cart)
+;
             if (check)
             {
-                var cartDto = _mapper.Map<CreateCartCommandDto>(cart);
+
+                var cartDto = _mapper.Map<CreateCartCommandDto>(cart)
+;
                 return new Response<CreateCartCommandDto>(cartDto);
             }
             else
             {
                 cart.Price = 900;
                 cart.Quantity = 1;
-                var cartData = await _cartRepo.AddAsync(cart);
+                var cartData = await _cartRepo.AddAsync(cart)
+;
                 var cartDto = _mapper.Map<CreateCartCommandDto>(cartData);
                 return new Response<CreateCartCommandDto>(cartDto);
             }
         }
     }
+
 }
   

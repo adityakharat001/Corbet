@@ -65,7 +65,7 @@ namespace Corbet.Ui.Controllers
         public JsonResult AddToCart(int stockId)
         {
             ProductCart product = new ProductCart();
-            string UserId =HttpContext.Session.GetString("UserId");
+            string UserId = HttpContext.Session.GetString("UserId");
             product.UserId = Convert.ToInt32(UserId);
             product.StockingId = stockId;
             product.Quantity = 1;
@@ -74,9 +74,9 @@ namespace Corbet.Ui.Controllers
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "OrderManagement/AddCart", content).Result;
             if (response.IsSuccessStatusCode)
             {
-                return Json(data:new{Success=true}, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+                return Json(true);
             }
-            return Json(data: new { success = false }, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            return Json(false);
         }
     }
 }

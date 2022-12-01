@@ -45,7 +45,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -55,14 +55,6 @@
                asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
             </a>
         </li>
 
@@ -134,12 +126,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                       data-bs-target="#stock-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="stock-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -154,18 +146,20 @@
     </ul>
 </aside>
 <!-- End Sidebar -->
-<h4>All Product Categories</h4>
+
+
 <div class="pagetitle">
-    <h1></h1>
+    <h1>All Product Categories</h1>
     <nav>
         <ol class="breadcrumb">
-            @* <li class="breadcrumb-item"><a asp-action="GetAllCategoryDetails">Product Category Details</a></li>*@
+            <li class="breadcrumb-item">Product Categories</li>
         </ol>
     </nav>
-</div
+</div>
 <p>
-    <a class="btn btn-primary" asp-action="AddProductCategory">Add Product Category</a>
+    <a class="btn btn-primary" asp-action="AddProductCategory">Add New</a>
 </p>
+<hr />
 
 <table class="table" id="myTable">
     <thead>

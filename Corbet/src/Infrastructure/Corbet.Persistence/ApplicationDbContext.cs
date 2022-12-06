@@ -48,8 +48,14 @@ namespace Corbet.Persistence
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<StockType> StockTypes { get; set; }
 
-        public DbSet<Order> Orders { get; set; }    
-       // public DbSet<OrderManagement> OrderManagements { get; set; }
+        public DbSet<Order> Orders { get; set; }   
+        //Product Order 
+       public DbSet<OrderManagement> OrderManagements { get; set; }
+
+        public DbSet<OrderDetail> OrderDetails { get; set; }    
+        public DbSet<OrderAddress> OrderAddress { get; set; }
+
+        public DbSet<State> States { get; set; }
         public DbSet<AddToCart> AddCarts { get; set; }
   
 

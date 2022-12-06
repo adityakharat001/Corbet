@@ -1,7 +1,9 @@
 ﻿using Corbet.Application.Features.Products.Commands.CheckProductExistsInStockList;
+using Corbet.Application.Features.Products.Queries.GetProductById;
 using Corbet.Application.Features.Stocks.Commands.AddStock;
 using Corbet.Application.Features.Stocks.Commands.DeleteStock;
 using Corbet.Application.Features.Stocks.Commands.UpdateStock;
+using Corbet.Application.Features.Stocks.Commands.UpdateStockQuantity;
 using Corbet.Application.Features.Stocks.Queries.GetAllStocks;
 using Corbet.Application.Features.Stocks.Queries.GetStockByStockId;
 
@@ -68,6 +70,23 @@ namespace Corbet.Api.Controllers.v3
                 TimeOut = updateStockCommand.TimeOut
             });
             return (response.Succeeded) ? Ok(response) : NotFound(response);
+        }
+
+
+        [HttpGet]
+        [Route("UpdateStockQuantity")]
+        public async Task<ActionResult> UpdateStockQuantity(int id)
+        {
+      
+            var product = await _mediator.Send(new UpdateStockQuantityCommand() { UserId = id });
+            if (product.Succeeded)
+            {
+                return Ok(product);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [Route("CheckProductAlreadyExistsInStockList")]

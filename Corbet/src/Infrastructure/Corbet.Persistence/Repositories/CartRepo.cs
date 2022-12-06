@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 using Corbet.Application.Contracts.Persistence;
 using Corbet.Application.Features.AddCart.Command.DeleteCart;
+using Corbet.Application.Features.AddCart.Command.RemoveAllCart;
 using Corbet.Application.Features.AddCart.Queries;
 using Corbet.Application.Features.AddCart.Queries.GetProductSupplier;
-//using Corbet.Application.Features.AddCart.Queries.GetProductSupplier;
-//using Corbet.Application.Features.AddCart.Queries.GetTotalBill;
+using Corbet.Application.Features.AddCart.Queries.GetTotalBill;
 using Corbet.Application.Features.Roles.Commands.DeleteRole;
 using Corbet.Domain.Entities;
 
@@ -54,20 +54,65 @@ namespace Corbet.Persistence.Repositories
                 _logger.LogInformation("In Repository Remove Cart Doesn't exist");
             }
         }
+        //Remove All Cart
+        public async Task<RemoveAllCartCommandDto> RemoveAllCartAsync(int userId)
+        {
+            RemoveAllCartCommandDto response = new RemoveAllCartCommandDto();
+            List<AddToCart> IsCartExist = await _dbContext.AddCarts.Where(x => x.UserId == userId).ToListAsync();
+            foreach (var row in IsCartExist)
+            {
+                _dbContext.AddCarts.Remove(row);
+                await _dbContext.SaveChangesAsync();
+            }
+          
+
+
+                response.UserId = userId;
+                response.Message = "Cart Deleted Successful";
+                response.Succeeded = true;
+                return response;
+                _logger.LogInformation("In Repository Cart  Completed");
+            
+
+ 
+            
+        }
 
         //ProductSupplier
 
+
+        public bool IncreaseCartitem(int cartId,int userId,int stockId,int productId,int Quantity)
+        {
+            var check = _dbContext.Stocks.Where(x => x.StockId == stockId && x.ProductId==productId ).FirstOrDefault();
+            if (check != null)
+            {
+                if ((Quantity) < check.Quantity)
+                {
+                   
+                    var cartvalue = _dbContext.AddCarts.Where(x => x.StockingId == stockId && x.UserId == userId).FirstOrDefault();
+                    cartvalue.Quantity = cartvalue.Quantity + 1;
+                    _dbContext.SaveChangesAsync();
+                    return true;
+                }
+
+              
+         
+            }
+            return false;
+        }
+
+        //Decrease Cart
 
         public bool DecreaseCartitem(int cartId, int userId, int stockId, int productId, int Quantity)
         {
             var check = _dbContext.Stocks.Where(x => x.StockId == stockId && x.ProductId == productId).FirstOrDefault();
             if (check != null)
             {
-                if (Quantity < check.Quantity)
+                if (Quantity!=1)
                 {
 
                     var cartvalue = _dbContext.AddCarts.Where(x => x.StockingId == stockId && x.UserId == userId).FirstOrDefault();
-                    cartvalue.Quantity = cartvalue.Quantity + 1;
+                    cartvalue.Quantity = cartvalue.Quantity - 1;
                     _dbContext.SaveChangesAsync();
                     return true;
                 }
@@ -77,41 +122,51 @@ namespace Corbet.Persistence.Repositories
             }
             return false;
         }
+
         public async Task<List<GetProductSupplierQueryVm>> GetAllProductSupplier()
         {
-            var productSupplier = (from s in _dbContext.Stocks
-                                   join p in _dbContext.Products
-                                   on s.ProductId equals p.ProductId
+            var productSupplier=(from s in _dbContext.Stocks
+                                join p in _dbContext.Products
+                                on s.ProductId equals p.ProductId
+                              
+                               
+                                select new GetProductSupplierQueryVm
+                                {
+                                    StockId=s.StockId,
+                                    ProductName=p.ProductName,
+                                    Price=p.Price,  
+                                    Quantity=s.Quantity,
+                                  ProductCode=p.ProductCode,
+                                    ImagePath=p.ImagePath
+                                }).ToList();
 
-
-                                   select new GetProductSupplierQueryVm
-                                   {
-                                       StockId = s.StockId,
-                                       ProductName = p.ProductName,
-                                       Price = p.Price,
-                                       Quantity = s.Quantity,
-                                       ProductCode = p.ProductCode,
-                                       ImagePath = p.ImagePath
-                                   }).ToList();
-
-
+        
             _logger.LogInformation("GetAllProductSupplier");
             return productSupplier;
         }
 
 
-        public async Task<bool> IsCartExist(AddToCart addToCart)
+        public async Task<int> IsCartExist(AddToCart addToCart)
         {
-            var check = _dbContext.AddCarts.Where(x => x.StockingId == addToCart.StockingId && x.UserId == addToCart.UserId).FirstOrDefault();
+
+            var stock = _dbContext.Stocks.Where(x => x.StockId == addToCart.StockingId).FirstOrDefault();
+           var check=  _dbContext.AddCarts.Where(x => x.StockingId == addToCart.StockingId && x.UserId == addToCart.UserId).FirstOrDefault();
             if (check != null)
             {
-                check.Quantity = check.Quantity + 1;
+                if (check.Quantity < stock.Quantity)
+                {
+                    check.Quantity = check.Quantity + 1;
 
 
-                _dbContext.SaveChangesAsync();
-                return true;
+                    _dbContext.SaveChangesAsync();
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
             }
-            return false;
+            return 2;
         }
 
 
@@ -127,6 +182,9 @@ namespace Corbet.Persistence.Repositories
                         where (c.UserId == userId)
                         select new GetCartListVm
                         {
+                            UserId = userId,
+                            ProductId = p.ProductId,
+                            stockId = c.StockingId,
                             CartId = c.CartId,
                             //image = p.ImagePath,
                             Price = p.Price,
@@ -138,8 +196,8 @@ namespace Corbet.Persistence.Repositories
             return cart;
         }
 
-
-
+        
+   
 
     }
 }

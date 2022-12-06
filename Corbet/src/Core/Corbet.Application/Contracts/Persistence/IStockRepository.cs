@@ -1,4 +1,5 @@
-﻿using Corbet.Domain.Entities;
+﻿using Corbet.Application.Features.AddCart.Queries;
+using Corbet.Domain.Entities;
 
 namespace Corbet.Application.Contracts.Persistence
 {
@@ -7,5 +8,6 @@ namespace Corbet.Application.Contracts.Persistence
         Task<Stock> GetByProductIdAsync(int productId);
         Task<Stock> GetByIdAsync(int stockId);
         Task<bool> CheckProductExistsInStockList(int productId);
+        Task<bool> UpdateStockQuantity(List<GetCartListVm> cart);
     }
 }

@@ -1,5 +1,9 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
+using System.Net.Mail;
+using System.Net.Mime;
 
+using Corbet.Application.Models.Mail;
 using Corbet.Domain.Entities;
 using Corbet.Ui.Models;
 
@@ -55,6 +59,7 @@ namespace Corbet.Ui.Controllers
         }
 
 
+        //GetAllProductSupplier
         [HttpGet]
         public ActionResult GetAllProductSupplier()
         {
@@ -94,47 +99,90 @@ namespace Corbet.Ui.Controllers
 
         [HttpGet]
 
+        [HttpPost]
+        public ActionResult  CreateOrder(OrderViewModel orderViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                string UserId = HttpContext.Session.GetString("UserId");
+                orderViewModel.UserId = Convert.ToInt32(UserId);
+                //TO Generat a OrderCode
+                Random ran = new Random();
+
+                String b = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+                string OrderCode = "ORD";
+                int length = 2;
+
+                String random = "";
+
+                for (int i = 0; i < length; i++)
+                {
+                    int a = ran.Next(b.Length); //string.Lenght gets the size of string
+                    random = random + b.ElementAt(a);
+                }
+                orderViewModel.OrderCode = "ORD" + random + "00" + UserId;
+
+                string data = JsonConvert.SerializeObject(orderViewModel);
+                StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage response = client.PostAsync(client.BaseAddress + "OrderManagement/AddOrder", content).Result;
+                if (response.IsSuccessStatusCode)
+
+                {
+                    int id;
+                    id = (int)orderViewModel.UserId;
+                    string dataUpdate = JsonConvert.SerializeObject(orderViewModel.UserId);
+                    StringContent contentupdate = new StringContent(dataUpdate, System.Text.Encoding.UTF8, "application/json");
+                    HttpResponseMessage responseupdate = client.GetAsync(client.BaseAddress + $"Stock/UpdateStockQuantity?id={id}").Result;
+                    if (responseupdate.IsSuccessStatusCode)
+                    {
+                        string datadelete = JsonConvert.SerializeObject(orderViewModel.UserId);
+                        StringContent contentdelete = new StringContent(datadelete, System.Text.Encoding.UTF8, "application/json");
+                        HttpResponseMessage responsedelete = client.DeleteAsync(client.BaseAddress + $"OrderManagement/RemoveAllCart?userid={id}").Result;
+                        if (responsedelete.IsSuccessStatusCode)
+                        {
+                            TempData["AlertMessage"] = "Cart Remove Successfully";
+                            
+
+
+                          // SendMail(filePath,emailFrom, emailTo);
+
+                        }
+                    }
+                 return RedirectToRoute(new { controller = "OrderManagement", action = "GetAllProductSupplier" });
+
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            
+            else
+            {
+                return View();
+            }
+           // return RedirectToRoute(new { controller = "OrderManagement", action = "GetAllOrderDetails" });
+        }
+
+        //[HttpGet]
+        //public ActionResult GetAllOrderDetails()
+        //{
+
+        //}
         [HttpGet]
         public JsonResult GetAllTotalBill()
         {
-            string UserId = HttpContext.Session.GetString("UserId");
+             string UserId = HttpContext.Session.GetString("UserId");
             int userId = Convert.ToInt32(UserId);
             HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"OrderManagement/TotalBill?UserId={userId}").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
-            double TotalBill = JsonConvert.DeserializeObject<double>(data);
-            return Json(TotalBill);
+         GetTotalBill getTotalBill = JsonConvert.DeserializeObject<GetTotalBill>(data);
+            return Json(getTotalBill.TotalBill);
         }
 
 
-        //[HttpPost]
-        //public ActionResult CreateOrder(OrderViewModel orderViewModel)
-        //{
-        //    string UserId = HttpContext.Session.GetString("UserId");
-        //    orderViewModel.UserId = Convert.ToInt32(UserId);
-        //    //TO Generat a OrderCode
-        //    Random ran = new Random();
-
-        //    String b = "abcdefghijklmnopqrstuvwxyz0123456789";
-
-
-        //    int length = 6;
-
-        //    String random = "";
-
-        //    for (int i = 0; i < length; i++)
-        //    {
-        //        int a = ran.Next(b.Length); //string.Lenght gets the size of string
-        //        random = random + b.ElementAt(a);
-        //    }
-        //    orderViewModel.OrderCode = random;
-
-        //    string data = JsonConvert.SerializeObject(orderViewModel);
-        //    StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-        //    HttpResponseMessage response = client.PostAsync(client.BaseAddress + "OrderManagement/AddOrder", content).Result;
-        //    TempData["AlertMessage"] = "Order Added Suucessfully";
-        //    return RedirectToRoute(new { controller = "OrderManagement", action = "GetAllOrderDetails" });
-        //}
-
+      
 
 
         [HttpGet]
@@ -145,5 +193,87 @@ namespace Corbet.Ui.Controllers
             var supplier = JsonConvert.DeserializeObject<List<SupplierViewModel>>(data);
             return Json(supplier);
         }
+
+
+        [HttpGet]
+        public JsonResult GetAllCartOrder()
+        {
+            string UserId = HttpContext.Session.GetString("UserId");
+            int userid = Convert.ToInt32(UserId);
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"OrderManagement/GetAllCartDetails?UserId={userid}").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+   var cart = JsonConvert.DeserializeObject<List<GetAllCart>>(data);
+            return Json(cart);
+
+
+        }
+
+
+        [HttpGet]
+        public JsonResult GetAllState()
+        {
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "OrderManagement/GetAllState").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            var state = JsonConvert.DeserializeObject<List<StateView>>(data);
+            return Json(state);
+        }
+
+
+
+        //Send a mail
+
+        public string SendMail(string filePath, string emailFrom, string emailTo)
+        {
+            MailAddress sendTo = new MailAddress(emailTo);
+            MailAddress sendFrom = new MailAddress(emailFrom);
+            Attachment billAttachment = new Attachment(filePath, MediaTypeNames.Application.Octet);
+            MailMessage message = new MailMessage(sendFrom, sendTo);
+            message.Subject = "Order Placed successfully! Here is your bill invoice";
+            message.IsBodyHtml = true;
+            message.Body = $"Hello User, <br> Thank you for your purchase. Below attached is the invoice of your order, incase of " +
+                $"any queries please write back to us. Purchase Again! <br> Regards, <br> Team Corbet.";
+            message.Attachments.Add(billAttachment);
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential(emailFrom, "password"),
+                EnableSsl = true
+            };
+            client.Send(message);
+            return "Order mail sent successfully!";
+        }
+
+        //Get User By Id
+        public string  GetUserById(int userId)
+        {
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"User/GetUserById?id={userId}").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            UserViewModel user = JsonConvert.DeserializeObject<UserViewModel>(data);
+            string email=user.Email;
+            return email;
+
+        }
+
+        public string GetSupplierById(int supplierId)
+        {
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"Supplier/GetSupplierById?id={supplierId}").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            SupplierViewModel supplier = JsonConvert.DeserializeObject<SupplierViewModel>(data);
+            string email = supplier.Email;
+            return email;
+
+        }
     }
 }
+
+
+
+
+
+
+
+
+//
+//    };
+//    client.Send(message);
+//    return "Invoice mail sent successfully!";
+//}

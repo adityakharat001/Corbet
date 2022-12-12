@@ -6,22 +6,25 @@ using Corbet.Application.Features.Categories.Commands.CreateCategory;
 using Corbet.Application.Features.Categories.Commands.StoredProcedure;
 using Corbet.Application.Features.Categories.Queries.GetCategoriesList;
 using Corbet.Application.Features.Categories.Queries.GetCategoriesListWithEvents;
+using Corbet.Application.Features.Customers.Commands.ChangePassword;
+using Corbet.Application.Features.Customers.Commands.CreateCustomer;
+using Corbet.Application.Features.Customers.Commands.ResetPasswordForCustomer;
+using Corbet.Application.Features.Customers.Commands.UpdateCustomer;
+using Corbet.Application.Features.Customers.Queries.GetAllCustomers;
 using Corbet.Application.Features.Events.Commands.CreateEvent;
 using Corbet.Application.Features.Events.Commands.Transaction;
 using Corbet.Application.Features.Events.Commands.UpdateEvent;
 using Corbet.Application.Features.Events.Queries.GetEventDetail;
 using Corbet.Application.Features.Events.Queries.GetEventsExport;
 using Corbet.Application.Features.Events.Queries.GetEventsList;
+using Corbet.Application.Features.OrderManagement.Command.CreatePurchaseOrder;
+using Corbet.Application.Features.OrderManagement.Queries.GetAllState;
 using Corbet.Application.Features.Orders.GetOrdersForMonth;
 using Corbet.Application.Features.ProductCategory.Commands.CraeteProductCategory;
 using Corbet.Application.Features.ProductCategory.Commands.CreateProductCategory;
 using Corbet.Application.Features.ProductCategory.Commands.UpdateProductCategory;
 using Corbet.Application.Features.ProductCategory.Queries.CategoryNameExist;
 using Corbet.Application.Features.ProductCategory.Queries.GetAllProductCategories;
-using Corbet.Application.Features.ProductCategoryDetails.Commands.CreateCategoryDetails;
-using Corbet.Application.Features.ProductCategoryDetails.Commands.DeletCategoryDetails;
-using Corbet.Application.Features.ProductCategoryDetails.Commands.UpdateCategoryDetails;
-using Corbet.Application.Features.ProductCategoryDetails.Queries.GetAllCategoryDetails;
 using Corbet.Application.Features.Products.Commands.CreateProduct;
 using Corbet.Application.Features.Products.Commands.UpdateProduct;
 using Corbet.Application.Features.Products.Queries.GetAllProducts;
@@ -30,6 +33,7 @@ using Corbet.Application.Features.ProductSubCategory.Command.SubCategoryExist;
 using Corbet.Application.Features.ProductSubCategory.Command.UpdateSubCategory;
 using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryByCategoryId;
 using Corbet.Application.Features.ProductSubCategory.Queries.GetSubCategoryList;
+using Corbet.Application.Features.PurchaseCart.Command;
 using Corbet.Application.Features.Roles.Commands.CreateRole;
 using Corbet.Application.Features.Roles.Commands.UpdateRole;
 using Corbet.Application.Features.Roles.Queries.GetAllRoles;
@@ -112,6 +116,23 @@ namespace Corbet.Application.Profiles
             CreateMap<User, ResetPasswordDto>().ReverseMap();
 
 
+
+            CreateMap<GetAllCustomersQuery, Customer>();
+            CreateMap<Customer, GetCustomersQueryVm>().ReverseMap();
+
+            CreateMap<Customer, CreateCustomerCommand>().ReverseMap();
+            CreateMap<Customer, CreateCustomerCommandDto>().ReverseMap();
+
+            CreateMap<Customer, UpdateCustomerCommand>().ReverseMap();
+            CreateMap<Customer, UpdateCustomerCommandDto>().ReverseMap();
+
+            CreateMap<Customer, ResetPasswordForCustomerCommand>().ReverseMap();
+            CreateMap<Customer, ResetPasswordForCustomerDto>().ReverseMap();
+
+            CreateMap<Customer, ChangePasswordCommand>().ReverseMap();
+            CreateMap<Customer, ChangePasswordDto>().ReverseMap();
+
+
             CreateMap<Supplier, CreateSupplierCommand>().ReverseMap();
             CreateMap<Supplier, CreateSupplierCommandDto>().ReverseMap();
 
@@ -172,20 +193,7 @@ namespace Corbet.Application.Profiles
             CreateMap<UpdateProductCategoryCommand, Domain.Entities.ProductCategory>();
             CreateMap<Domain.Entities.ProductCategory, UpdateProductCategoryCommandDto>();
 
-            CreateMap<CreateCategoryDetailsCommand, ProductCategoryDetail>();
-            CreateMap<ProductCategoryDetail, CreateCategoryDetailsCommandDto>();
-
-            CreateMap<ProductCategory, GetAllProductCategoriesVm>();
-
-            CreateMap<UpdateCategoryDetailsCommand, ProductCategoryDetail>();
-            CreateMap<ProductCategoryDetail, UpdateCategoryDetailsCommandDto>();
-
-            CreateMap<DeleteCategoryDetailsCommand, ProductCategoryDetail>();
-            CreateMap<ProductCategoryDetail, DeleteCategoryDetailsCommandDto>();
-
-
-            CreateMap<ProductCategoryDetail, GetAllCategoryDetailsQuery>().ReverseMap();
-            CreateMap<ProductCategoryDetail, GetAllCategoryDetailsVm>().ReverseMap();
+            CreateMap<ProductCategory, GetAllProductCategoriesVm>().ReverseMap();
 
             CreateMap<ProductCategory, CategoryNameExistQuery>().ReverseMap();
             CreateMap<ProductCategory, CategoryNameExistDto>().ReverseMap();
@@ -205,11 +213,6 @@ namespace Corbet.Application.Profiles
             CreateMap<ProductSubCategory, SubCategoryExistCommand>().ReverseMap();
 
 
-            CreateMap<AddToCart, CreateCartCommand>().ReverseMap();
-            CreateMap<AddToCart, CreateCartCommandDto>().ReverseMap();
-
-            CreateMap<AddToCart, GetCartListQuery>().ReverseMap();
-            CreateMap<AddToCart, GetCartListVm>().ReverseMap();
 
             //CreateMap<OrderManagement,CreateOrderCommand>().ReverseMap();
             //CreateMap<OrderManagement, CreateOrderDto>().ReverseMap();
@@ -235,6 +238,16 @@ namespace Corbet.Application.Profiles
             CreateMap<Stock, DeleteStockDto>();
             CreateMap<UpdateStockCommand, Stock>();
             CreateMap<Stock, UpdateStockDto>();
+
+            CreateMap<AddToCart, CreateCartCommand>().ReverseMap();
+            CreateMap<AddToCart, CreateCartCommandDto>().ReverseMap();
+
+            CreateMap<AddToCart, GetCartListQuery>().ReverseMap();
+            CreateMap<AddToCart, GetCartListVm>().ReverseMap();
+
+            CreateMap<PurchaseCart, CreatePurchaseCartCommand>().ReverseMap();
+            CreateMap<State, GetAllStateQueryVm>().ReverseMap();
+            CreateMap<PurchaseOrderManagement, CreatePurchaseOrderCommand>().ReverseMap();
 
         }
     }

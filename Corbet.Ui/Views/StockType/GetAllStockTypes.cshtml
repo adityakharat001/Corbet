@@ -177,8 +177,8 @@
                     @Html.DisplayFor(modelItem => item.StockTypeName)
                 </td>
                 <td class="tableActions">
-                    <a class="btn btn-sm btn-primary" asp-action="UpdateStockType" asp-route-id="@item.StockTypeId"><i class="ri-edit-box-fill "></i></a>
-                    <a class="btn btn-sm btn-danger" onclick="DeleteStockTypeWithSwal('@item.StockTypeId')"><i class="ri-delete-bin-6-fill "></i></a>
+                    <a title="Edit" class="btn btn-sm btn-primary" asp-action="UpdateStockType" asp-route-id="@item.StockTypeId"><i class="ri-edit-box-fill "></i></a>
+                    <a title="Delete" class="btn btn-sm btn-danger" onclick="DeleteStockTypeWithSwal('@item.StockTypeId')"><i class="ri-delete-bin-6-fill "></i></a>
                 </td>
             </tr>
         }

@@ -21,7 +21,7 @@ namespace Corbet.Persistence.Repositories
     {
         public ProductSubCategoryRepo(ApplicationDbContext dbContext, ILogger<ProductSubCategory> logger) : base(dbContext, logger)
         {
-
+            
         }
 
         public async Task<List<GetCategoryQueryVm>> GetAllSubCategoryDetail()
@@ -82,13 +82,14 @@ namespace Corbet.Persistence.Repositories
         }
 
 
-        public async Task<DeleteSubCategoryDto> RemoveSubCategoryAsync(int Id)
+        public async Task<DeleteSubCategoryDto> RemoveSubCategoryAsync(int Id, int? deletedBy)
         {
             DeleteSubCategoryDto response = new DeleteSubCategoryDto();
             var IsSubCategoryExist = await _dbContext.ProductSubCategories.Where(x => x.SubCategoryId == Id).FirstOrDefaultAsync();
             if (IsSubCategoryExist != null)
             {
-
+                IsSubCategoryExist.DeletedBy = deletedBy;
+                IsSubCategoryExist.DeletedDate = DateTime.Now;
                 IsSubCategoryExist.IsDeleted = true;
                 IsSubCategoryExist.Status = false;
 
@@ -105,6 +106,30 @@ namespace Corbet.Persistence.Repositories
                 response.Succeeded = false;
                 return response;
             }
+
+        }
+
+
+        public async Task<bool> ToggleActiveStatus(int id)
+        {
+            var subCategoryExist = await _dbContext.ProductSubCategories.Where(x => x.SubCategoryId == id).FirstOrDefaultAsync();
+            if (subCategoryExist != null)
+            {
+                if (subCategoryExist.Status)
+                {
+                    subCategoryExist.Status = false;
+                    _dbContext.SaveChanges();
+                    return false;
+                }
+                else if (!subCategoryExist.Status)
+                {
+                    subCategoryExist.Status = true;
+                    _dbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            return false;
 
         }
     }

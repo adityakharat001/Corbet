@@ -1,13 +1,15 @@
 ﻿using Corbet.Domain.Common;
+
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Corbet.Ui.Models
 {
-    public class UserUpdateDto : AuditableEntity
+    public class UserUpdateDto : AuditableEntityModel
     {
+        public string Id { get; set; }
         [DisplayName("User Id")]
-        public int Id { get; set; }
+        public int UserId { get; set; }
         [Required(ErrorMessage = "First Name Is required")]
         [RegularExpression(@"^([a-zA-Z])*$", ErrorMessage = " First Name must contain only alphabet ")]
         [MinLength(3, ErrorMessage = "First Name must at least 3 characters")]

@@ -97,10 +97,10 @@ namespace Corbet.Api.Controllers.v3
 
         [HttpDelete]
         [Route("DeleteSupplier")]
-        public async Task<ActionResult> DeleteSupplier(int Id)
+        public async Task<ActionResult> DeleteSupplier(int Id,int? deletedBy)
         {
             _logger.LogInformation("Remove Supplier Initiated");
-            var dtos = await _mediator.Send(new DeleteSupplierCommand() { SupplierId = Id });
+            var dtos = await _mediator.Send(new DeleteSupplierCommand() { SupplierId = Id ,DeletedBy = deletedBy});
             _logger.LogInformation("Remove Supplier Completed");
             return Ok(dtos);
         }

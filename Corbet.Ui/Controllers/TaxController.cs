@@ -5,6 +5,7 @@ using System.Web.Helpers;
 using Corbet.Application.Features.Taxes.Queries.GetAllTaxDetails;
 using Corbet.Application.Responses;
 using Corbet.Ui.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Primitives;
@@ -45,6 +46,7 @@ namespace Corbet.Ui.Controllers
         {
             if (ModelState.IsValid)
             {
+                tax.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 string data = JsonConvert.SerializeObject(tax);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "Tax/AddTax", content).Result;
@@ -73,7 +75,7 @@ namespace Corbet.Ui.Controllers
 
                 }
                 ViewBag.TaxNamelist = TaxNamelist;
-              
+
                 return View();
 
             }
@@ -84,10 +86,11 @@ namespace Corbet.Ui.Controllers
         [HttpPost]
         public ActionResult CreateTaxDetails(TaxDetailsViewModel taxDetails)
         {
+            taxDetails.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(taxDetails);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "Tax/AddTaxDetail", content).Result;
-            TempData["AlertMessage"] = "Tax Details Added Suucessfully";
+            TempData["AlertMessage"] = "Tax Details Added Sucessfully";
             return RedirectToRoute(new { controller = "Tax", action = "GetAllTaxDetails" });
         }
 
@@ -112,8 +115,8 @@ namespace Corbet.Ui.Controllers
         {
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "Tax/GetAllTaxes").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
-           List< TaxViewModel> taxlist = JsonConvert.DeserializeObject<List<TaxViewModel>>(data);
-          
+            List<TaxViewModel> taxlist = JsonConvert.DeserializeObject<List<TaxViewModel>>(data);
+
             //string taxIdvalue;
             //foreach(var i in taxlist){
             //   // i.TaxId = i.TaxId;
@@ -138,8 +141,8 @@ namespace Corbet.Ui.Controllers
             //    cs.FlushFinalBlock();
             //    string valuenew = Convert.ToBase64String(ms.ToArray());
             //    taxlist.TaxId = valuenew;
-           // byte[] encoded = System.Text.Encoding.UTF8.GetBytes(encodeMe);
-           //taxlist.TaxId= Convert.ToInt32(encoded);
+            // byte[] encoded = System.Text.Encoding.UTF8.GetBytes(encodeMe);
+            //taxlist.TaxId= Convert.ToInt32(encoded);
             return View(taxlist);
         }
         #endregion
@@ -147,23 +150,18 @@ namespace Corbet.Ui.Controllers
         [HttpGet]
         public ActionResult UpdateTax(int id)
         {
-                string data = JsonConvert.SerializeObject(id);
-                StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/GetTaxById?id={id}").Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    dynamic responseData = response.Content.ReadAsStringAsync().Result;
-                    TaxUpdateModel taxData = JsonConvert.DeserializeObject<Response<TaxUpdateModel>>(responseData).Data;
-                    return View(taxData);
-                }
-                return RedirectToRoute(new { controller = "Home", action = "NotFoundPage" });
+            string data = JsonConvert.SerializeObject(id);
+            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/GetTaxById?id={id}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                dynamic responseData = response.Content.ReadAsStringAsync().Result;
+                TaxUpdateModel taxData = JsonConvert.DeserializeObject<Response<TaxUpdateModel>>(responseData).Data;
+                return View(taxData);
             }
-           
+            return RedirectToRoute(new { controller = "Home", action = "NotFoundPage" });
+        }
 
-                
-            
-
-  
 
 
 
@@ -172,7 +170,7 @@ namespace Corbet.Ui.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+                tax.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 string data = JsonConvert.SerializeObject(tax);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "Tax/UpdateTax", content).Result;
@@ -189,7 +187,7 @@ namespace Corbet.Ui.Controllers
                     return View();
 
                 }
-                
+
             }
             return View();
         }
@@ -240,6 +238,7 @@ namespace Corbet.Ui.Controllers
         [HttpPost]
         public ActionResult UpdateTaxDetails(TaxDetailsViewModel taxDetails)
         {
+            taxDetails.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(taxDetails);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "Tax/UpdateTaxDetail", content).Result;
@@ -263,9 +262,12 @@ namespace Corbet.Ui.Controllers
         #region Delete TaxType
         public ActionResult DeleteTaxType(int id)
         {
+            int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(id);
+            string delData = JsonConvert.SerializeObject(deletedBy);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"Tax/DeleteTaxType?id={id}").Result;
+            StringContent delContent = new StringContent(delData, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"Tax/DeleteTaxType?id={id}&deletedBy={deletedBy}").Result;
             return RedirectToAction("GetAllTaxes");
         }
         #endregion
@@ -273,17 +275,20 @@ namespace Corbet.Ui.Controllers
         #region Delete TaxDetails
         public ActionResult DeleteTaxDetails(int id)
         {
+            int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(id);
+            string delData = JsonConvert.SerializeObject(deletedBy);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"Tax/DeleteTaxDetails?id={id}").Result;
-            return RedirectToAction("GetAllTaxesDetails");
+            StringContent delContent = new StringContent(delData, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"Tax/DeleteTaxDetails?id={id}&deletedBy={deletedBy}").Result;
+            return RedirectToAction("GetAllTaxDetails");
         }
         #endregion
 
 
 
 
-       
+
         [HttpGet]
         public JsonResult IsTaxExist(string Name)
         {
@@ -299,11 +304,18 @@ namespace Corbet.Ui.Controllers
                 return Json(true);
             }
         }
-
-
-     
-      
-
         
+
+        public ActionResult ToggleActiveStatus(int id)
+        {
+            string data = JsonConvert.SerializeObject(id);
+            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/ToggleActiveStatus?id={id}").Result;
+            return NoContent();
+        }
+
+
+
+
     }
 }

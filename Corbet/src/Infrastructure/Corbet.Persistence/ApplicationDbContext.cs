@@ -43,7 +43,7 @@ namespace Corbet.Persistence
         public DbSet<UnitMeasurement> UnitMeasurements { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
-        public DbSet<ProductCategoryDetail> ProductCategoryDetails { get; set; }
+        //public DbSet<ProductCategoryDetail> ProductCategoryDetails { get; set; }
         public DbSet<ProductSubCategory> ProductSubCategories { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<StockType> StockTypes { get; set; }
@@ -51,7 +51,14 @@ namespace Corbet.Persistence
         public DbSet<Order> Orders { get; set; }    
        // public DbSet<OrderManagement> OrderManagements { get; set; }
         public DbSet<AddToCart> AddCarts { get; set; }
-  
+        public DbSet<State> States { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<PurchaseCart> PurchaseCarts { get; set; }
+        public DbSet<PurchaseOrderManagement> PurchaseOrderManagements { get; set; }
+
+
+
+
 
         private IDbContextTransaction _transaction;
 
@@ -282,11 +289,11 @@ namespace Corbet.Persistence
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedDate = DateTime.UtcNow;
-                        entry.Entity.CreatedBy = _loggedInUserService.UserId;
+                        //entry.Entity.CreatedBy = _loggedInUserService.UserId;
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModifiedDate = DateTime.UtcNow;
-                        entry.Entity.LastModifiedBy = _loggedInUserService.UserId;
+                        //entry.Entity.LastModifiedBy = _loggedInUserService.UserId;
                         break;
                 }
             }
@@ -296,11 +303,11 @@ namespace Corbet.Persistence
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedDate = DateTime.UtcNow;
-                        //entry.Entity.CreatedBy = _loggedInUserService.UserId;
+                        //entry.Entity.CreatedBy = int.Parse(_loggedInUserService.UserId);
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModifiedDate = DateTime.UtcNow;
-                        //entry.Entity.LastModifiedBy = _loggedInUserService.UserId;
+                        //entry.Entity.LastModifiedBy = int.Parse(_loggedInUserService.UserId);
                         break;
                 }
             }

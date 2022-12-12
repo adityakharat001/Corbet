@@ -5,10 +5,11 @@
     int counter = 0;
 }
 
+    
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link " asp-controller="PurchaseUser" asp-action="Index">
+            <a class="nav-link collapsed" asp-controller="#" asp-action="#">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -27,26 +28,25 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed"
-               asp-controller="PurchaseUser"
-               asp-action="GetAllOrders">
-                <i class="bi bi-menu-button-wide"></i><span>Orders</span>
-            </a>
-        </li>
-        <li class="nav-item">
-
-            <a class="nav-link collapsed"
-               asp-controller="OrderManagement"
-               asp-action="GetAllProductSupplier">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-
-            <a class="nav-link collapsed"
-               asp-controller="OrderManagement"
-               asp-action="GetAllCart">
+               asp-controller="PurchaseCart"
+               asp-action="PurchaseGetAllCart">
                 <i class="bi bi-menu-button-wide"></i><span>Cart</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="PurchaseCart"
+               asp-action="GetAllProductPurchase">
+                <i class="bi bi-menu-button-wide"></i><span>Products</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="PurchaseCart"
+               asp-action="PurchaseAllOrder">
+                <i class="bi bi-menu-button-wide"></i><span>Order Status</span>
             </a>
         </li>
 
@@ -116,7 +116,7 @@
                                 <div class="modal-content m-2" style="width: 55vw;">
                                     <div class="modal-header">
                                         <h5 class="modal-title">@item.SupplierName</h5><span>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" title="View Document" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </span>
                                     </div>
                                     <iframe id="frame" src="~/Documents/SupplierDocs/@item.DocumentPath" style="height: 80vh;"></iframe>
@@ -133,11 +133,11 @@
 
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-outline-primary" asp-controller="Supplier" asp-action="GetSupplierDetails" title="View Supplier Details" asp-route-id="@item.SupplierId">View Details</a>
+                    <a title="More Details" class="btn btn-sm btn-outline-primary" asp-controller="Supplier" asp-action="GetSupplierDetails" title="View Supplier Details" asp-route-id="@item.SupplierId">View Details</a>
                 </td>
                 <td class="text-center align-items-center">
-                    <a class="btn btn-sm btn-primary my-1" asp-controller="Supplier" asp-action="UpdateSupplierForPurchaseUser" title="Edit Supplier Details" asp-route-id="@item.SupplierId"><i class="ri-edit-box-fill "></i></a>
-                    <button class="btn btn-sm btn-danger my-1" onclick="DeleteAlert('@item.SupplierId')" title="Delete Supplier"><i class="ri-delete-bin-6-fill"></i></button>
+                    <a title="Edit" class="btn btn-sm btn-primary my-1" asp-controller="Supplier" asp-action="UpdateSupplierForPurchaseUser" title="Edit Supplier Details" asp-route-id="@item.SupplierId"><i class="ri-edit-box-fill "></i></a>
+                    <button title="Delete" class="btn btn-sm btn-danger my-1" onclick="DeleteAlert('@item.SupplierId')" title="Delete Supplier"><i class="ri-delete-bin-6-fill"></i></button>
                 </td>
             </tr>
         }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Corbet.Ui.Models
 {
-    public class UsersRegisterDto : AuditableEntity
+    public class UsersRegisterDto : AuditableEntityModel
     {
         [DisplayName("User Id")]
         public int UserId { get; set; }

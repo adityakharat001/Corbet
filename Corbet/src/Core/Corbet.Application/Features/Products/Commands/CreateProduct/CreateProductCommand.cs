@@ -19,6 +19,8 @@ namespace Corbet.Application.Features.Products.Commands.CreateProduct
         public int SecondarySupplierId { get; set; }
         public string? ImagePath { get; set; }
         public int TaxId { get; set; }
+        public int? CreatedBy { get; set; }
+
 
     }
 }

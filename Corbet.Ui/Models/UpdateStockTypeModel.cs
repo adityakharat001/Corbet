@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Corbet.Domain.Common;
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
 using System.ComponentModel.DataAnnotations;
 using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribute;
 
 namespace Corbet.Ui.Models
 {
-    public class UpdateStockTypeModel
+    public class UpdateStockTypeModel:AuditableEntityModel
     {
         public int Id { get; set; }
 

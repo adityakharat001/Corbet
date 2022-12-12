@@ -21,6 +21,7 @@ namespace Corbet.Application.Features.ProductCategory.Commands.CreateProductCate
 
         public async Task<Response<CreateProductCategoryCommandDto>> Handle(CreateProductCategoryCommand request, CancellationToken cancellationToken)
         {
+            request.Status = true;
             var category = _mapper.Map<Domain.Entities.ProductCategory>(request);
             var productData = await _productCategoryRepo.AddAsync(category);
             var productDto = _mapper.Map<CreateProductCategoryCommandDto>(productData);

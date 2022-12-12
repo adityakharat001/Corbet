@@ -28,7 +28,7 @@ namespace Corbet.Application.Features.ProductCategory.Commands.DeleteProductCate
         public async Task<Response<DeleteProductCategoryCommandDto>> Handle(DeleteProductCategoryCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Delete category initiated");
-            var categoryDto = await _productCategoryRepo.RemoveCategoryAsync(request.CategoryId);
+            var categoryDto = await _productCategoryRepo.RemoveCategoryAsync(request.CategoryId, request.DeletedBy);
             _logger.LogInformation("Delete Category Completed");
             if (categoryDto.Succeeded)
             {

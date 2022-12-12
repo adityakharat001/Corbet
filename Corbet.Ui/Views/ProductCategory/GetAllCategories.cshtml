@@ -166,31 +166,38 @@
         <tr>
             <th data-orderable="false">
                 Sr No.
-               @* @Html.DisplayNameFor(model => model.CategoryId)*@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.CategoryDescription)
             </th>
             <th data-orderable="false">Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                 @{counter++;}
-                    @counter
-                @*@Html.DisplayFor(modelItem => item.CategoryId)*@
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
-                    <a class="btn btn-sm btn-primary" asp-controller="ProductCategory" asp-action="UpdateCategory" asp-route-id="@item.CategoryId"><i class="ri-edit-box-fill "></i></a>
-                    <button class="btn btn-sm btn-danger" asp-action="DeleteCategory" onclick="DeleteAlert('@item.CategoryId')"><i class="ri-delete-bin-6-fill "></i></button>
+                    @{
+                        counter++;
+                    }
+                    @counter
                 </td>
-        </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryDescription)
+                </td>
+                <td>
+                    <a title="Edit" class="btn btn-sm btn-primary" asp-controller="ProductCategory" asp-action="UpdateCategory" asp-route-id="@item.CategoryId"><i class="ri-edit-box-fill "></i></a>
+                    <button title="Delete" class="btn btn-sm btn-danger" asp-action="DeleteCategory" onclick="DeleteAlert('@item.CategoryId')"><i class="ri-delete-bin-6-fill "></i></button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
@@ -201,12 +208,12 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#myTable').DataTable({
 
         });
     });
-    $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
         $("#success-alert").slideUp(500);
     });
     function DeleteAlert(id) {

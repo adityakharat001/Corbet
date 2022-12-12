@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
+using Corbet.Domain.Common;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Corbet.Ui.Models
 {
-    public class SupplierAddDto
+    public class SupplierAddDto:AuditableEntityModel
     {
         [DisplayName("Supplier Id")]
         public int SupplierId { get; set; }
@@ -16,9 +18,11 @@ namespace Corbet.Ui.Models
         public string SupplierName { get; set; }
         [Required]
         [DisplayName("Email")]
+        [RegularExpression(@"^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$", ErrorMessage = "Please Enter A Valid Email Address")]
         public string Email { get; set; }
         [Required]
         [DisplayName("Phone")]
+        [RegularExpression(@"^[6-9]{1}[0-9]{9}$", ErrorMessage = "Please Enter A Valid Phone Number")]
         public string PhoneNumber { get; set; }
         [Required]
         [DisplayName("Billing Address")]

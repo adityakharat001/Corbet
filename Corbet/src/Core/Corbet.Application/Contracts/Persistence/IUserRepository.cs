@@ -20,6 +20,6 @@ namespace Corbet.Application.Contracts.Persistence
         public Task<bool> CheckEmailExists(string email);
         public Task<bool> CheckPhoneExists(string phone);
         public Task<List<GetUsersQueryVm>> GetAllUsers();
-        public Task<DeleteUserCommandDto> RemoveUserAsync(int userId);
+        public Task<DeleteUserCommandDto> RemoveUserAsync(int userId, int? deletedBy);
     }
 }

@@ -45,6 +45,7 @@ namespace Corbet.Ui.Controllers
             {
                 using (var httpClient = new HttpClient())
                 {
+                    unitMeasurement.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                     httpClient.BaseAddress = baseAddress;
                     string data = JsonConvert.SerializeObject(unitMeasurement);
                     StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
@@ -55,7 +56,7 @@ namespace Corbet.Ui.Controllers
                         var jsonArrayResponse = JObject.Parse(responseData);
 
                         var result = jsonArrayResponse["data"].ToString();
-                        TempData["AlertMessage"] = "Unit Measurement Added Suucessfully";
+                        TempData["AlertMessage"] = "Unit Measurement Added Sucessfully";
                         return RedirectToAction("GetAllUnitMeasurements");
                     }
                     else
@@ -103,6 +104,7 @@ namespace Corbet.Ui.Controllers
             {
                 using (var httpClient = new HttpClient())
                 {
+                    editUnitMeasurementDto.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                     httpClient.BaseAddress = baseAddress;
                     string data = JsonConvert.SerializeObject(editUnitMeasurementDto);
                     StringContent content = new StringContent(data, Encoding.UTF8, "application/json");

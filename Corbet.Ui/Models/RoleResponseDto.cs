@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Corbet.Ui.Models
 {
-    public class RoleResponseDto : AuditableEntity
+    public class RoleResponseDto : AuditableEntityModel
     {
         [Required(ErrorMessage ="Role Name is required")]
         [DisplayName("Role Name")]

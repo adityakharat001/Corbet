@@ -17,6 +17,8 @@ namespace Corbet.Application.Features.Users.Commands.CreateUser
         public string? PhoneNumber { get; set; }
         public int RoleId { get; set; }
         public bool IsActive { get; set; } = true;
+        public int? CreatedBy { get; set; }
+
 
     }
 }

@@ -19,16 +19,18 @@ namespace Corbet.Persistence.Services
     {
 
         private readonly IUserRepository _userRepository;
+        private readonly ICustomerRepository _customerRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthenticationServiceLogin> _logger;
 
-        public AuthenticationServiceLogin(IConfiguration configuration, IUserRepository userRepository, ILogger<AuthenticationServiceLogin> logger, IRoleRepository roleRepository)
+        public AuthenticationServiceLogin(IConfiguration configuration, IUserRepository userRepository, ILogger<AuthenticationServiceLogin> logger, IRoleRepository roleRepository, ICustomerRepository customerRepository)
         {
             _configuration = configuration;
             _logger = logger;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _customerRepository = customerRepository;
         }
         public async Task<AuthenticationResponse> Login(string email, string password)
         {
@@ -45,6 +47,24 @@ namespace Corbet.Persistence.Services
                 string name = $"{user.FirstName} {user.LastName}";
                 string token = GenerateToken(user.UserId, user.Email, name);
                 return new AuthenticationResponse() { IsAuthenticated = true, Token = token, Message = "Login Successful", UserName = name, Id = userId ,RoleName = roleName};
+
+            }
+        }
+        
+        public async Task<AuthenticationResponse> LoginCustomer(string email, string password)
+        {
+            Customer user = await _customerRepository.FindCustomerByEmail(email, password);
+            if (user == null)
+            {
+                throw new Exception("Failed to find user with these credentials");
+            }
+            else
+            {
+                int customerId = user.CustomerId;
+                string name = $"{user.FirstName} {user.LastName}";
+                string token = GenerateToken(user.CustomerId, user.Email, name);
+                string roleName = "customer";
+                return new AuthenticationResponse() { IsAuthenticated = true, Token = token, Message = "Login Successful", UserName = name, Id = customerId, RoleName = roleName};
 
             }
         }

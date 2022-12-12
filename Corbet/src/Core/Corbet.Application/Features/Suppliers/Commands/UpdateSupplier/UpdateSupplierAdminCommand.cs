@@ -14,5 +14,6 @@ namespace Corbet.Application.Features.Suppliers.Commands.UpdateSupplier
         public string SupplierName { get; set; }
         public int CreditLimit { get; set; }
         public bool IsPaymentDone { get; set; }
+        public int? LastModifiedBy { get; set; }
     }
 }

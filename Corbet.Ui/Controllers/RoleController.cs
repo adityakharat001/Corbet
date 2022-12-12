@@ -27,6 +27,7 @@ namespace Corbet.Ui.Controllers
         {
             if (ModelState.IsValid)
             {
+                role.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 string data = JsonConvert.SerializeObject(role);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Role/AddRole", content).Result;
@@ -51,6 +52,7 @@ namespace Corbet.Ui.Controllers
         [HttpPost]
         public ActionResult UpdateRole(RoleUpdateDto role)
         {
+            role.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(role);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Role/UpdateRole", content).Result;
@@ -83,9 +85,10 @@ namespace Corbet.Ui.Controllers
 
         public ActionResult DeleteRole(int id)
         {
+            int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"Role/DeleteRole?id={id}").Result;
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"Role/DeleteRole?id={id}&deletedBy={deletedBy}").Result;
             return RedirectToAction("GetAllRoles");
 
         }

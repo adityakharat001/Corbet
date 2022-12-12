@@ -27,13 +27,13 @@ namespace Corbet.Application.Features.ProductCategory.Queries.GetAllProductCateg
         {
             _logger.LogInformation("All Categories inintiated");
 
-            var alltax = await _productCategoryRepo.GetAllCategories();
+            var allCategories = await _productCategoryRepo.GetAllCategories();
 
-            var taxData = _mapper.Map<List<GetAllProductCategoriesVm>>(alltax);
+            var categoryData = _mapper.Map<List<GetAllProductCategoriesVm>>(allCategories);
 
             _logger.LogInformation("Displayed all taxes successfully");
 
-            return new List<GetAllProductCategoriesVm>(taxData);
+            return new List<GetAllProductCategoriesVm>(categoryData);
         }
     }
 }

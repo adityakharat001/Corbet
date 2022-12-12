@@ -9,7 +9,9 @@ using Corbet.Application.Features.Roles.Commands.DeleteRole;
 using Corbet.Application.Features.Roles.Commands.UpdateRole;
 using Corbet.Application.Features.Taxes.Queries.GetAllTaxes;
 using Corbet.Application.Features.Taxes.Queries.GetTaxById;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,10 +55,10 @@ namespace Corbet.Api.Controllers.v3
 
         [HttpDelete]
         [Route("DeleteCategory")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCategory(int id, int? deletedBy)
         {
             _logger.LogInformation("Category delete initiated");
-            await _mediator.Send(new DeleteProductCategoryCommand() { CategoryId= id });
+            await _mediator.Send(new DeleteProductCategoryCommand() { CategoryId = id, DeletedBy = deletedBy });
             _logger.LogInformation("Category delete completed");
             return NoContent();
         }
@@ -64,11 +66,11 @@ namespace Corbet.Api.Controllers.v3
         [HttpGet]
         [Route("GetAllCategories")]
         public async Task<IActionResult> GetAllCategories()
-        {  
-                _logger.LogInformation("Initiated");
-                var categoryList = await _mediator.Send(new GetAllProductCategoriesQuery());
-                _logger.LogInformation("Successfull");
-                return Ok(categoryList);
+        {
+            _logger.LogInformation("Initiated");
+            var categoryList = await _mediator.Send(new GetAllProductCategoriesQuery());
+            _logger.LogInformation("Successfull");
+            return Ok(categoryList);
         }
 
         [HttpGet]

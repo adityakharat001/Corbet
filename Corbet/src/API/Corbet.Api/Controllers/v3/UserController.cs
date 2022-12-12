@@ -102,10 +102,10 @@ namespace Corbet.Api.Controllers.v3
 
         [HttpDelete]
         [Route("DeleteUser")]
-        public async Task<ActionResult> DeleteUser(int Id)
+        public async Task<ActionResult> DeleteUser(int Id, int deletedBy)
         {
             _logger.LogInformation("Remove User Initiated");
-            var dtos = await _mediator.Send(new DeleteUserCommand() { UserId = Id});
+            var dtos = await _mediator.Send(new DeleteUserCommand() { UserId = Id, DeletedBy = deletedBy});
             _logger.LogInformation("Remove User Completed");
             return Ok(dtos);
         }

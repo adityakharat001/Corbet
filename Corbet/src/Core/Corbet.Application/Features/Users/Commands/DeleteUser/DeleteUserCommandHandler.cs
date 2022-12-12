@@ -27,7 +27,7 @@ namespace Corbet.Application.Features.Users.Commands.DeleteUser
         {
 
             _logger.LogInformation("Delete User Initiated");
-            var userDto = await _userRepository.RemoveUserAsync(request.UserId);
+            var userDto = await _userRepository.RemoveUserAsync(request.UserId, request.DeletedBy);
             _logger.LogInformation("Delete User Completed");
             if (userDto.Succeeded)
             {

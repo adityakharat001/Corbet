@@ -31,7 +31,7 @@ namespace Corbet.Application.Features.Suppliers.Commands.DeleteSupplier
         {
 
             _logger.LogInformation("Delete Supplier Initiated");
-            var supplierDto = await _supplierRepository.RemoveSupplierAsync(request.SupplierId);
+            var supplierDto = await _supplierRepository.RemoveSupplierAsync(request.SupplierId,request.DeletedBy);
             _logger.LogInformation("Delete Supplier Completed");
             if (supplierDto.Succeeded)
             {

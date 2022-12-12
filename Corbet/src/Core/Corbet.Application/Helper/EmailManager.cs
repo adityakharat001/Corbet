@@ -44,6 +44,25 @@ namespace Corbet.Application.Helper
             smtp.Send(email);
             smtp.Disconnect(true);
         }
+        public void SendEmailToCustomer(string mEmail)
+        {
+            string emailHost, userEmail, emailPassword;
+            emailHost = _configuration.GetSection("EmailSettings").GetSection("Host").Value;
+            userEmail = _configuration.GetSection("EmailSettings").GetSection("Mail").Value;
+            emailPassword = _configuration.GetSection("EmailSettings").GetSection("Password").Value;
+
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(userEmail));
+            email.To.Add(MailboxAddress.Parse(mEmail));
+            email.Subject = "Reset Your Password!";
+            var lnkHref = $"<button><a href='https://localhost:7221/Customer/ResetPasswordForCustomer?email={mEmail}'>Reset Password</a></button>";
+            email.Body = new TextPart(TextFormat.Html) { Text = "Dear User, <br/><br/>We recieved your request to reset your password. Please refer to link below to reset your password.<br/><b>Please find the Password Reset Link. </b><br/>" + lnkHref + "<br/> Regards, <br/> Team.Support"};
+            var smtp = new SmtpClient();
+            smtp.Connect(emailHost, 587, SecureSocketOptions.StartTls);//host and port
+            smtp.Authenticate(userEmail, emailPassword);
+            smtp.Send(email);
+            smtp.Disconnect(true);
+        }
     }
 }
 

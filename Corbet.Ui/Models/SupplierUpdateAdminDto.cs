@@ -14,7 +14,7 @@ namespace Corbet.Ui.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "Supplier Name is required")]
         [DisplayName("Supplier Name")]
-        [Remote("CheckSupplierExists", "Supplier")]
+        //[Remote("CheckSupplierExists", "Supplier")]
         [RegularExpression(@"^[a-zA-Z0-9\s]*$", ErrorMessage = "Special characters are not allowed.")]
         public string SupplierName { get; set; }
         [Required(ErrorMessage = "Credit Limit is required")]

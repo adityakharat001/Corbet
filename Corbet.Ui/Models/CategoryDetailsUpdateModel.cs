@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using Corbet.Domain.Common;
 
 namespace Corbet.Ui.Models
 {
-    public class CategoryDetailsUpdateModel
+    public class CategoryDetailsUpdateModel:AuditableEntityModel
     {
         public int Id { get; set; }
         [DisplayName("Category Name")]

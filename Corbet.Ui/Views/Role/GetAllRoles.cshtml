@@ -184,8 +184,8 @@
                     @Html.DisplayFor(modelItem => item.RoleName)
                 </td>
                 <td class="tableActions">
-                    <a class="btn btn-sm btn-primary" asp-controller="Role" asp-action="UpdateRole" asp-route-id="@item.RoleId"><i class="ri-edit-box-fill "></i></a>
-                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.RoleId')" ><i class="ri-delete-bin-6-fill "></i></button>
+                    <a title="Edit" class="btn btn-sm btn-primary" asp-controller="Role" asp-action="UpdateRole" asp-route-id="@item.RoleId"><i class="ri-edit-box-fill "></i></a>
+                    <button title="Delete" class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.RoleId')" ><i class="ri-delete-bin-6-fill "></i></button>
                 </td>
             </tr>
         }

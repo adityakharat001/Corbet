@@ -62,14 +62,15 @@ namespace Corbet.Persistence.Repositories
             return productData;
         }
 
-        public async Task<DeleteProductCommandDto> RemoveProductAsync(int id)
+        public async Task<DeleteProductCommandDto> RemoveProductAsync(int id, int? deletedBy)
         {
             _logger.LogInformation("In Repository Remove Product Initiated");
             DeleteProductCommandDto response = new DeleteProductCommandDto();
             var IsProductExist = await _dbContext.Products.Where(x => x.ProductId == id).FirstOrDefaultAsync();
             if (IsProductExist != null)
             {
-
+                IsProductExist.DeletedBy = deletedBy;
+                IsProductExist.DeletedDate = DateTime.Now;
                 IsProductExist.IsDeleted = true;
                 IsProductExist.IsActive = false;
                 await _dbContext.SaveChangesAsync();

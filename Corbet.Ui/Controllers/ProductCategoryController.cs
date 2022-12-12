@@ -40,6 +40,7 @@ namespace Corbet.Ui.Controllers
         {
             if (ModelState.IsValid)
             {
+                category.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 string data = JsonConvert.SerializeObject(category);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategory/AddProductCategory", content).Result;
@@ -84,6 +85,7 @@ namespace Corbet.Ui.Controllers
         {
             if (ModelState.IsValid)
             {
+                categoryUpdate.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 string data = JsonConvert.SerializeObject(categoryUpdate);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategory/UpdateCategory", content).Result;
@@ -111,9 +113,10 @@ namespace Corbet.Ui.Controllers
         #region Delete category
         public ActionResult DeleteCategory(int id)
         {
+            int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"ProductCategory/DeleteCategory?id={id}").Result;
+            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"ProductCategory/DeleteCategory?id={id}&deletedBy={deletedBy}").Result;
             return RedirectToAction("GetAllCategories");
 
         }

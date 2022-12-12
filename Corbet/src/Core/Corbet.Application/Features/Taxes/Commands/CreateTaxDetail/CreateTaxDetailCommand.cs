@@ -15,5 +15,6 @@ namespace Corbet.Application.Features.Taxes.Commands.CreateTaxDetail
         public double MaxTax { get; set; }
         public double Percentage { get; set; }
         public bool Status { get; set; } = false;
+        public int? CreatedBy { get; set; }
     }
 }

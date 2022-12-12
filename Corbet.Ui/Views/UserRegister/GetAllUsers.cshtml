@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Ui.Models.UserViewModel>
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllUsersViewModel>
 
 @{
     ViewData["Title"] = "GetAllUsers";
@@ -43,9 +43,10 @@
         </li>
 
         <li class="nav-item">
+
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliersForAdmin">
+               asp-action="GetAllSuppliers">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -58,6 +59,13 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Stock"
+               asp-action="GetAllStocks">
+                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
+            </a>
+        </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed"
@@ -163,17 +171,17 @@
 <table class="table" id="myTable">
     <thead>
         <tr>
-            <th data-orderable="false">Sr. No</th>
+            <th>Sr. No</th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
-            <th data-orderable="false">
+            <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            <th data-orderable="false">
+            <th>
                 @Html.DisplayNameFor(model => model.Role)
             </th>
             <th data-orderable="false">
@@ -206,8 +214,8 @@
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-primary" asp-controller="UserRegister" asp-action="UpdateUser" asp-route-id="@item.UserId"><i class="ri-edit-box-fill "></i></a>
-                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.UserId')" ><i class="ri-delete-bin-6-fill "></i></button>
+                    <a title="Edit" class="btn btn-sm btn-primary" asp-controller="UserRegister" asp-action="UpdateUser" asp-route-id="@item.UserId"><i class="ri-edit-box-fill "></i></a>
+                    <button title="Delete" class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.UserId')" ><i class="ri-delete-bin-6-fill "></i></button>
                 </td>
             </tr>
         }
@@ -225,7 +233,7 @@ $(document).ready(function () {
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
         $("#success-alert").slideUp(500);
     });
-function DeleteAlert(id)
+function DeleteAlert(idVal)
  {
     Swal.fire({
         title: 'Are you sure?',
@@ -237,8 +245,22 @@ function DeleteAlert(id)
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.assign(`/UserRegister/DeleteUser/${id}`);
-
+            //window.location.assign(`/UserRegister/DeleteUser/${id}`);
+                let URL = "/UserRegister/DeleteUser";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log(d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
         }
     })
 }

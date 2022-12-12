@@ -14,5 +14,9 @@ namespace Corbet.Application.Features.ProductCategory.Commands.CraeteProductCate
     public class CreateProductCategoryCommand:IRequest<Response<CreateProductCategoryCommandDto>>
     {
         public string CategoryName { get; set; }
+        public string CategoryDescription { get; set; }
+        public bool Status { get; set; }
+        public int? CreatedBy { get; set; }
+
     }
 }

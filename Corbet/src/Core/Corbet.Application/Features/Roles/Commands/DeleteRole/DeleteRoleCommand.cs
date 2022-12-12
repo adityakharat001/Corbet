@@ -11,5 +11,7 @@ namespace Corbet.Application.Features.Roles.Commands.DeleteRole
     public class DeleteRoleCommand: IRequest<Response<DeleteRoleCommandDto>>
     {
         public int RoleId { get; set; }
+        public int? DeletedBy { get; set; }
+
     }
 }

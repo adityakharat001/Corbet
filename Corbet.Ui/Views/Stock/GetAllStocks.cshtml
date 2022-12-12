@@ -124,8 +124,8 @@
                     @Html.DisplayFor(modelItem => item.TimeOut)
                 </td>
                 <td class="tableActions">
-                    <a class="btn btn-sm btn-primary" asp-controller="Stock" asp-action="UpdateStock" asp-route-id="@item.StockId"><i class="ri-edit-box-fill "></i></a>
-                    <button class="btn btn-sm btn-danger" onclick="DeleteStockWithSwal('@item.StockId')"><i class="ri-delete-bin-6-fill "></i></button>
+                    <a title="Edit" class="btn btn-sm btn-primary" asp-controller="Stock" asp-action="UpdateStock" asp-route-id="@item.StockId"><i class="ri-edit-box-fill "></i></a>
+                    <button title="Delete" class="btn btn-sm btn-danger" onclick="DeleteStockWithSwal('@item.StockId')"><i class="ri-delete-bin-6-fill "></i></button>
                 </td>
             </tr>
         }

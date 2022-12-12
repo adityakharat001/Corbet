@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Corbet.Ui.Models.PurchaseAllOrder>
+@{
+   
+    int counter = 0;
+}
+<html>
+    <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <style>
+  
+   
+    .btn {
+        background-color: DodgerBlue;
+        border: none;
+        color: white;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    / Darker background on mouse-over /
+    .btn:hover {
+        background-color: RoyalBlue;
+    }
+
+    </style>
+    <body>
+
+<h1 style="text-align:center;"> All Order</h1>
+    
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" asp-controller="PurchaseUser" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliersForPurchaseUser">
+                <i class="bi bi-menu-button-wide"></i><span>Suppliers</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="PurchaseCart"
+               asp-action="PurchaseGetAllCart">
+                <i class="bi bi-menu-button-wide"></i><span>Cart</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="PurchaseCart"
+               asp-action="GetAllProductPurchase">
+                <i class="bi bi-menu-button-wide"></i><span>Products</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="PurchaseCart"
+               asp-action="PurchaseAllOrder">
+                <i class="bi bi-menu-button-wide"></i><span>Order Status</span>
+            </a>
+        </li>
+
+    </ul>
+</aside>
+<!-- End Sidebar -->
+
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    Sr. No
+                </th>
+            <th>
+               Supplier 
+            </th>
+            <th>
+               Order Code 
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                    <td>
+                        @{
+                            counter++;
+                        }
+                        @counter
+                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierName)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderCode)
+            </td>
+            <td>
+                        @if (item.Status== "Pending")
+                        {
+
+                            <button class="btn btn-primary" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </button>
+                        }
+                        @if(item.Status=="Done")
+                        {
+                            <button type="button" style="background-color:green;" class="btn btn-labeled btn-success">
+                                <span style="color:white;" class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>@Html.DisplayFor(modelItem => item.Status)
+                            </button>
+                        }
+                        @if(item.Status=="Failed"){
+                            <button type="button" style="background-color:red;" class="btn btn-warning">
+                                <span style="color:white;" class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>@Html.DisplayFor(modelItem => item.Status)
+
+                            </button>
+                        }
+                        @* <button class="btn"><i class="fa fa-close" style="width:30px;height:20px;"></i>@Html.DisplayFor(modelItem => item.Status)</button>*@
+                  
+@*               // @Html.DisplayFor(modelItem => item.Status)
+*@            </td>
+  
+  
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>

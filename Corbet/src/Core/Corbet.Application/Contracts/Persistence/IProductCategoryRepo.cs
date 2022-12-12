@@ -13,6 +13,6 @@ namespace Corbet.Application.Contracts.Persistence
     {
         public Task<bool> CheckCategoryExists(string categoryName);
         public Task<List<ProductCategory>> GetAllCategories();
-        public Task<DeleteProductCategoryCommandDto> RemoveCategoryAsync(int categoryId);
+        public Task<DeleteProductCategoryCommandDto> RemoveCategoryAsync(int categoryId, int? deletedBy);
     }
 }

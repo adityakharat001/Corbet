@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Corbet.Ui.Models
 {
-    public class ProductCategoryUpdateModel
+    public class ProductCategoryUpdateModel:AuditableEntityModel
     {
         public int Id { get; set; }
 
@@ -14,5 +14,8 @@ namespace Corbet.Ui.Models
         [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Category Name should contain only alphabates")]
         [DisplayName("Category Name")]
         public string CategoryName { get; set; }
+        [DisplayName("Category Description")]
+        public string CategoryDescription { get; set; }
+        public bool Status { get; set; }
     }
 }

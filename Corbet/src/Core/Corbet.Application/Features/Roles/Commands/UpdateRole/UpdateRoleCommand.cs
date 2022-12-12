@@ -13,5 +13,6 @@ namespace Corbet.Application.Features.Roles.Commands.UpdateRole
     {
         public int Id { get; set; }
         public string RoleName { get; set; }
+        public int? LastModifiedBy { get; set; }
     }
 }

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Corbet.Domain.Common;
+
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Corbet.Ui.Models
 {
-    public class UpdateStockModel
+    public class UpdateStockModel:AuditableEntityModel
     {
         public int Id { get; set; }
 

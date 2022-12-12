@@ -11,5 +11,6 @@ namespace Corbet.Application.Features.Users.Commands.DeleteUser
     public class DeleteUserCommand : IRequest<Response<DeleteUserCommandDto>>
     {
         public int UserId { get; set; }
+        public int? DeletedBy { get; set; }
     }
 }

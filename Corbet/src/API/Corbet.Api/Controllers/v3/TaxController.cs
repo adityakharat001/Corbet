@@ -1,4 +1,5 @@
-﻿using Corbet.Application.Features.Taxes.Commands.CheckTaxExist;
+﻿using Corbet.Application.Contracts.Persistence;
+using Corbet.Application.Features.Taxes.Commands.CheckTaxExist;
 using Corbet.Application.Features.Taxes.Commands.CreateTax;
 using Corbet.Application.Features.Taxes.Commands.CreateTaxDetail;
 using Corbet.Application.Features.Taxes.Commands.DeleteTaxDetail;
@@ -21,12 +22,14 @@ namespace Corbet.Api.Controllers.v3
     public class TaxController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ITaxDetailsRepository _taxDetailsRepository;
         private readonly ILogger<TaxController> _logger;
 
-        public TaxController(IMediator mediator, ILogger<TaxController> logger)
+        public TaxController(IMediator mediator, ILogger<TaxController> logger, ITaxDetailsRepository taxDetailsRepository)
         {
             _mediator = mediator;
             _logger = logger;
+            _taxDetailsRepository = taxDetailsRepository;
         }
 
         [HttpPost]
@@ -116,10 +119,10 @@ namespace Corbet.Api.Controllers.v3
         #region Delete Tax Type
         [HttpDelete]
         [Route("DeleteTaxType")]
-        public async Task<IActionResult> DeleteTaxType(int id)
+        public async Task<IActionResult> DeleteTaxType(int id, int deletedBy)
         {
             _logger.LogInformation("Tax delete initiated");
-            await _mediator.Send(new DeleteTaxTypeCommand() { TaxId = id });
+            await _mediator.Send(new DeleteTaxTypeCommand() { TaxId = id, DeletedBy = deletedBy });
             _logger.LogInformation("Tax delete completed");
             return NoContent();
         }
@@ -129,10 +132,10 @@ namespace Corbet.Api.Controllers.v3
         #region Delete Tax Details
         [HttpDelete]
         [Route("DeleteTaxDetails")]
-        public async Task<IActionResult> DeleteTaxDetails(int id)
+        public async Task<IActionResult> DeleteTaxDetails(int id, int deletedBy)
         {
             _logger.LogInformation("Tax Details delete initiated");
-            await _mediator.Send(new DeleteTaxDetailCommand() { Id = id });
+            await _mediator.Send(new DeleteTaxDetailCommand() { Id = id, DeletedBy = deletedBy });
             _logger.LogInformation("Tax Details delete completed");
             return NoContent();
         }
@@ -152,6 +155,14 @@ namespace Corbet.Api.Controllers.v3
         }
         #endregion
 
+
+        [HttpGet]
+        [Route("ToggleActiveStatus")]
+        public async Task<ActionResult> ToggleActiveStatus(int id)
+        {
+            bool isActive = await _taxDetailsRepository.ToggleActiveStatus(id);
+            return (isActive) ? Ok("Active") : Ok("InActive");
+        }
 
 
         [Route("DoesTaxExists/{tax}")]

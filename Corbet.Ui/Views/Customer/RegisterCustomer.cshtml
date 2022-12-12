@@ -1,0 +1,135 @@
+﻿@model Corbet.Ui.Models.CustomerRegisterDto
+
+@{
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+    ViewData["Title"] = "AddUser";
+}
+@Html.Raw(ViewBag.customerUpdateAlert)
+
+<br />
+<head>
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<main>
+    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8 col-sm-12 d-flex flex-column align-items-center justify-content-center">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <div class="pt-2 pb-2">
+                                <h5 class="card-title text-center pb-0 fs-4">Register Your Account</h5>
+                                <p class="text-center small">Enter your details to create account</p>
+                            </div>
+                            <form class="row p-2 g-3 needs-validation" asp-action="AddCustomer">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <div class="form-group">
+                                    <label asp-for="FirstName" class="control-label">First Name</label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="FirstName" class="form-control" required />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="LastName" class="control-label">Last Name</label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="LastName" class="form-control" required>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Email" class="control-label">Email</label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="Email" class="form-control" required>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="PhoneNumber" class="control-label">Phone</label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="PhoneNumber" class="form-control" required>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Password" class="form-label">Password</label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="Password" type="password" class="form-control" required>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="ConfirmPassword" type="password" class="form-control" required>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="State" class="form-label"></label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="State" class="form-control" required>
+                                    <span asp-validation-for="State" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="City" class="form-label"></label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="City" class="form-control" required>
+                                    <span asp-validation-for="City" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Address" class="form-label"></label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="Address" class="form-control" required>
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="AlternateAddress" class="form-label"></label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="AlternateAddress" class="form-control">
+                                    <span asp-validation-for="AlternateAddress" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary w-100" asp-action="AddCustomer" type="submit">Create Account</button>
+                                </div>
+
+                            </form>
+                            <p class="text-center">Back To Login?<a asp-action="CustomerLogin">Click here</a></p>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+<!-- End #main -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js</script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var ddlRole = $('#ddlRole');
+            ddlRole.append($("<option></option>").val('').html('Select Role'));
+            $.ajax({
+                url: 'https://localhost:7221/UserRegister/RoleDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, role) {
+                        ddlRole.append($("<option></option>").val(role.roleId).html(role.roleName));
+                    });
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+        });
+    </script>

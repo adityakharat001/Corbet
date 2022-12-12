@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Corbet.Ui.Models
 {
-    public class UnitMeasurement : AuditableEntity
+    public class UnitMeasurement : AuditableEntityModel
     {
         [Required(ErrorMessage = "Enter Unit Id")]
         [DisplayName("Unit Id")]

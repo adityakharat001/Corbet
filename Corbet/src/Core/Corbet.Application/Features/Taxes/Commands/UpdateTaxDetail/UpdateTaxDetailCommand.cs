@@ -15,7 +15,7 @@ namespace Corbet.Application.Features.Taxes.Commands.UpdateTaxDetail
         public double MinTax { get; set; }
         public double MaxTax { get; set; }
         public double Percentage { get; set; }
-        public bool Status { get; set; }
+        public int? LastModifiedBy { get; set; }
 
     }
 }

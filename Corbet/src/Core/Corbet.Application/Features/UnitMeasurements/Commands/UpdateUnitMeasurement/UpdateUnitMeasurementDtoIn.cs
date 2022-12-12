@@ -9,5 +9,7 @@ namespace Corbet.Application.Features.UnitMeasurements.Commands.UpdateUnitMeasur
     public class UpdateUnitMeasurementDtoIn
     {
         public string Type { get; set; }
+        public int? LastModifiedBy { get; set; }
+
     }
 }

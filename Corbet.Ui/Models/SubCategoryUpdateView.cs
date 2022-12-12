@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Corbet.Ui.Models
 {
@@ -6,15 +7,14 @@ namespace Corbet.Ui.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Select a Category Name")]
-
+        [DisplayName("Category Name")]
         public int CategoryId { get; set; }
         [Required(ErrorMessage = "SubCategory Name is required")]
         [RegularExpression(@"^[A-Za-z0-9\s]+$", ErrorMessage = "SubCategory Name should not contain special characters")]
-
-    
         public string SubCategoryName { get; set; }
         public string? Description { get; set; }
         [Required(ErrorMessage = "Select a Tax Type")]
+        [DisplayName("Tax Type")]
         public int TaxId { get; set; }
         [Required(ErrorMessage = "Select a Status")]
         public bool Status { get; set; }

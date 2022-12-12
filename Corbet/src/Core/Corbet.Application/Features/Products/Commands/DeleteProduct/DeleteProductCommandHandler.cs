@@ -31,7 +31,7 @@ namespace Corbet.Application.Features.Products.Commands.DeleteProduct
         {
 
             _logger.LogInformation("Delete product Initiated");
-            var productDto = await _productRepository.RemoveProductAsync(request.Id);
+            var productDto = await _productRepository.RemoveProductAsync(request.Id, request.DeletedBy);
             _logger.LogInformation("Delete product Completed");
             if (productDto.Succeeded)
             {

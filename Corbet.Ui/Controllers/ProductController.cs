@@ -52,6 +52,7 @@ namespace Corbet.Ui.Controllers
             {
                 product.ImagePath = "default.jpg";
             }
+            product.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(product);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Product/AddProduct", content).Result;
@@ -61,6 +62,15 @@ namespace Corbet.Ui.Controllers
 
         [HttpGet]
         public ActionResult GetAllProducts()
+        {
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "Product/GetAllProducts").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            var products = JsonConvert.DeserializeObject<List<Product>>(data);
+            return View(products);
+        }
+
+        [HttpGet]
+        public ActionResult GetAllProductsForCustomer()
         {
             HttpResponseMessage response = client.GetAsync(client.BaseAddress + "Product/GetAllProducts").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
@@ -104,7 +114,7 @@ namespace Corbet.Ui.Controllers
             var suppliers = JsonConvert.DeserializeObject<List<SupplierViewModel>>(data);
             return Json(suppliers);
         }
-        
+
         [HttpGet]
         public JsonResult TaxDdl()
         {
@@ -139,22 +149,23 @@ namespace Corbet.Ui.Controllers
                 string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
                 await product.Image.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
             }
-            else if(product.Image == null)
+            else if (product.Image == null)
             {
                 product.ImagePath = "default.jpg";
             }
+            product.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(product);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Product/UpdateProduct", content).Result;
             if (response.IsSuccessStatusCode)
             {
                 ViewBag.productUpdateAlert = "<script type='text/javascript'>Swal.fire('Product Update','Product Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/Product/GetAllProducts');</script>";
-                return View();
+                return View(product);
             }
             else
             {
                 ViewBag.productUpdateAlert = "<script type='text/javascript'>Swal.fire('Product Update','Failed To Update Product Details!','error');</script>";
-                return View();
+                return View(product);
 
             }
         }
@@ -162,9 +173,10 @@ namespace Corbet.Ui.Controllers
 
         public ActionResult DeleteProduct(int id)
         {
+            int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"Product/DeleteProduct?Id={id}").Result;
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"Product/DeleteProduct?Id={id}&deletedBy={deletedBy}").Result;
             return RedirectToAction("GetAllProducts");
 
         }

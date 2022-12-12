@@ -29,7 +29,7 @@ namespace Corbet.Application.Features.ProductSubCategory.Command.DeleteSubCatego
         public async Task<Response<DeleteSubCategoryDto>> Handle(DeleteSubCategoryCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Delete SubCategory Initiated");
-            var subCategoryDetailDto = await _productSubCategoryRepository.RemoveSubCategoryAsync(request.SubCategoryId);
+            var subCategoryDetailDto = await _productSubCategoryRepository.RemoveSubCategoryAsync(request.SubCategoryId, request.DeletedBy);
             _logger.LogInformation("Delete  Completed");
 
             if (subCategoryDetailDto.Succeeded)

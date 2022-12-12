@@ -10,7 +10,8 @@ namespace Corbet.Application.Features.ProductCategory.Commands.CreateProductCate
     public class CreateProductCategoryCommandDto
     {
         public int CategoryId { get; set; }
-
         public string CategoryName { get; set; }
+        public string CategoryDescription { get; set; }
+        public bool Status { get; set; }
     }
 }

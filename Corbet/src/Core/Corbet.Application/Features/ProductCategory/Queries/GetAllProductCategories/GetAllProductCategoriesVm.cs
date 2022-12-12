@@ -11,5 +11,8 @@ namespace Corbet.Application.Features.ProductCategory.Queries.GetAllProductCateg
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
+        public string CategoryDescription { get; set; }
+        public bool Status { get; set; }
+
     }
 }

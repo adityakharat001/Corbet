@@ -13,6 +13,6 @@ namespace Corbet.Application.Features.Products.Commands.DeleteProduct
     public class DeleteProductCommand : IRequest<Response<DeleteProductCommandDto>>
     {
         public int Id { get; set; }
-
+        public int? DeletedBy { get; set; }
     }
 }

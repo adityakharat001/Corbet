@@ -92,7 +92,6 @@ namespace Corbet.Ui.Controllers
             return View();
         }
 
-        [HttpGet]
 
         [HttpGet]
         public JsonResult GetAllTotalBill()
@@ -135,7 +134,14 @@ namespace Corbet.Ui.Controllers
         //    return RedirectToRoute(new { controller = "OrderManagement", action = "GetAllOrderDetails" });
         //}
 
-
+        [HttpGet]
+        public JsonResult GetAllState()
+        {
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "OrderManagement/GetAllState").Result;
+            dynamic data = response.Content.ReadAsStringAsync().Result;
+            var state = JsonConvert.DeserializeObject<List<StateView>>(data);
+            return Json(state);
+        }
 
         [HttpGet]
         public JsonResult GetAllSupplier()

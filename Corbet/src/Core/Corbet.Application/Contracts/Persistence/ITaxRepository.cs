@@ -11,7 +11,7 @@ namespace Corbet.Application.Contracts.Persistence
     public interface ITaxRepository: IAsyncRepository<Tax>
     {
 
-        public Task<DeleteTaxTypeDto> RemoveTaxTypeAsync(int TaxId);
+        public Task<DeleteTaxTypeDto> RemoveTaxTypeAsync(int TaxId, int? DeletedBy);
         public Task<List<Tax>> GetAllTaxes();
         public Task<bool> CheckTaxExists(string tax);
 

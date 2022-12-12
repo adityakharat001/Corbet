@@ -153,6 +153,7 @@
 
 
 <!-- Card with an image on left -->
+
 @foreach (var item in Model)
 {
     <div class="card mb-3">
@@ -213,8 +214,8 @@
                 </div>
             </div>
             <div class="col-md-2 mt-5 text-center">
-                <a class="btn btn-sm btn-primary mt-4 " asp-controller="Product" asp-action="UpdateProduct" asp-route-id="@item.Id"><i class="ri-edit-box-fill ri-2x"></i></a><br/>
-                <button class="btn btn-sm btn-danger mt-2 " onclick="DeleteAlert('@item.Id')"><i class="ri-delete-bin-6-fill ri-2x"></i></button>
+                <a title="Edit" class="btn btn-sm btn-primary mt-4 " asp-controller="Product" asp-action="UpdateProduct" asp-route-id="@item.Id"><i class="ri-edit-box-fill ri-2x"></i></a><br/>
+                <button title="Delete" class="btn btn-sm btn-danger mt-2 " onclick="DeleteAlert('@item.Id')"><i class="ri-delete-bin-6-fill ri-2x"></i></button>
             </div>
         </div>
     </div>

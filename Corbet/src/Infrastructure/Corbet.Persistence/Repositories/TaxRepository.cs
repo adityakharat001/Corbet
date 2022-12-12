@@ -33,7 +33,7 @@ namespace Corbet.Persistence.Repositories
         public Task<bool> CheckTaxExists(string tax)
         {
             string lowerCaseTax = tax.ToLower();
-            Tax check = _dbContext.Taxes.Where(x => x.Name.ToLower() == lowerCaseTax).FirstOrDefault();
+            Tax check = _dbContext.Taxes.Where(x => x.Name.ToLower() == lowerCaseTax && x.IsDeleted==false).FirstOrDefault();
             if (check != null)
             {
                 return Task.FromResult(true);
@@ -44,14 +44,15 @@ namespace Corbet.Persistence.Repositories
             }
         }
 
-        public async Task<DeleteTaxTypeDto> RemoveTaxTypeAsync(int TaxId)
+        public async Task<DeleteTaxTypeDto> RemoveTaxTypeAsync(int TaxId, int? deletedBy)
         {
             _logger.LogInformation("In Repository Remove tax type Initiated");
             DeleteTaxTypeDto response = new DeleteTaxTypeDto();
             var IsTaxTypeExist = await _dbContext.Taxes.Where(x => x.TaxId == TaxId).FirstOrDefaultAsync();
             if (IsTaxTypeExist != null)
             {
-
+                IsTaxTypeExist.DeletedBy = deletedBy;
+                IsTaxTypeExist.DeletedDate = DateTime.Now;
                 IsTaxTypeExist.IsDeleted = true;
 
                 await _dbContext.SaveChangesAsync();

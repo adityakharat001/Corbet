@@ -12,9 +12,11 @@ namespace Corbet.Domain.Entities
     {
         [Key]
         public int CategoryId { get; set; }
-
         [MaxLength(100)]
         public string CategoryName { get; set; }
+        [MaxLength(2000)]
+        public string CategoryDescription { get; set; }
+        public bool Status { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

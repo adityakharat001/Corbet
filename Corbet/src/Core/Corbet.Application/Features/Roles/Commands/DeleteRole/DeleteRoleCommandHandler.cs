@@ -27,7 +27,7 @@ namespace Corbet.Application.Features.Roles.Commands.DeleteRole
         public async Task<Response<DeleteRoleCommandDto>> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Delete Role Initiated");
-            var roleDto = await _roleRepository.RemoveRoleAsync(request.RoleId);
+            var roleDto = await _roleRepository.RemoveRoleAsync(request.RoleId, request.DeletedBy);
             _logger.LogInformation("Delete Role Completed");
             if (roleDto.Succeeded)
             {

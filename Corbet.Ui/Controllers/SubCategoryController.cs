@@ -55,7 +55,6 @@ namespace Corbet.Ui.Controllers
                     foreach (var item in TaxList)
                     {
                         TaxNamelist.Add(new SelectListItem { Text = item.name.ToString(), Value = item.taxId.ToString() });
-                        // TaxNamelist.Add(new SelectListItem { Text = item.TaxId, Value = item.Name.ToString() });
 
                     }
                     ViewBag.TaxNamelist = TaxNamelist;
@@ -71,7 +70,7 @@ namespace Corbet.Ui.Controllers
         {
             if (ModelState.IsValid) 
             {
-
+                subCategoryAddView.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 string userid = HttpContext.Session.GetString("UserId");
                 subCategoryAddView.CreatedBy = Convert.ToInt32(userid);
                 string data = JsonConvert.SerializeObject(subCategoryAddView);
@@ -166,6 +165,7 @@ namespace Corbet.Ui.Controllers
         {
             if (ModelState.IsValid)
             {
+                subcategoryUpdate.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 string userid = HttpContext.Session.GetString("UserId");
                
                 subcategoryUpdate.LastModifiedBy = Convert.ToInt32(userid);
@@ -193,14 +193,27 @@ namespace Corbet.Ui.Controllers
 
         public ActionResult DeleteSubCategory(int id)
         {
+            int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(id);
+            string delData = JsonConvert.SerializeObject(deletedBy);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"ProductSubCategory/DeleteSubCategory?id={id}").Result;
+            StringContent delContent = new StringContent(delData, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"ProductSubCategory/DeleteSubCategory?id={id}&deletedBy={deletedBy}").Result;
 
             ViewBag.DeleteSuccess = "Data Deleted Successful!!";
 
             return RedirectToAction("GetAllSubCategory");
 
         }
+
+
+        public ActionResult ToggleActiveStatus(int id)
+        {
+            string data = JsonConvert.SerializeObject(id);
+            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"ProductSubCategory/ToggleActiveStatus?id={id}").Result;
+            return NoContent();
+        }
+
     }
 }

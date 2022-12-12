@@ -2,10 +2,14 @@
 using Corbet.Application.Features.Users.Commands.ResetPassword;
 using Corbet.Ui.Helper;
 using Corbet.Ui.Models;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Nancy.Json;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using System.Text;
 
 namespace Corbet.Ui.Controllers
@@ -52,7 +56,7 @@ namespace Corbet.Ui.Controllers
                     string Username = HttpContext.Session.GetString("UserName");
                     TempData["UserName"] = Username.Replace("\"", "");
                     string RoleName = HttpContext.Session.GetString("RoleName");
-                    string roleName=RoleName.Replace("\"","");
+                    string roleName = RoleName.Replace("\"", "");
                     string trimmedRoleName = String.Concat(roleName.Where(r => !Char.IsWhiteSpace(r)));
                     if (trimmedRoleName.ToLower() == "admin")
                     {
@@ -60,7 +64,7 @@ namespace Corbet.Ui.Controllers
                     }
                     else if (trimmedRoleName.ToLower() == "cspurchaseuser")
                     {
-                        return RedirectToRoute(new { controller = "PurchaseUser", action = "Index" });
+                        return RedirectToRoute(new { controller = "Home", action = "PurchaseLayout" });
 
                     }
                     else if (trimmedRoleName.ToLower() == "cssalesuser")
@@ -71,10 +75,12 @@ namespace Corbet.Ui.Controllers
                     else if (trimmedRoleName.ToLower() == "backofficeuser")
                     {
                         return RedirectToRoute(new { controller = "BackOffice", action = "Index" });
-
                     }
-                    
+
                 }
+                HttpContext.Session.Remove("user");
+                HttpContext.Session.Clear();
+                TempData.Clear();
                 TempData["Error"] = "Failed To Login User. Please Enter Valid Credentials";
                 return View();
             }
@@ -149,12 +155,13 @@ namespace Corbet.Ui.Controllers
             }
         }
 
-
         [HttpGet]
         public IActionResult UserLogout()
         {
             Console.WriteLine(HttpContext.Session.GetString("user"));
             HttpContext.Session.Remove("user");
+            HttpContext.Session.Clear();
+            TempData.Clear();
             Console.WriteLine($"Null : {HttpContext.Session.GetString("user")}");
             return RedirectToAction("Login");
         }

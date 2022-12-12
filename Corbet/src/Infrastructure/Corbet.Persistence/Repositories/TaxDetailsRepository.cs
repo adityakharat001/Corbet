@@ -25,14 +25,15 @@ namespace Corbet.Persistence.Repositories
         }
 
 
-        public async Task<DeleteTaxDetailDto> RemoveTaxDetailsAsync(int Id)
+        public async Task<DeleteTaxDetailDto> RemoveTaxDetailsAsync(int Id, int? deletedBy)
         {
             _logger.LogInformation("In Repository Remove tax type Initiated");
             DeleteTaxDetailDto response = new DeleteTaxDetailDto();
             var IsTaxTypeExist = await _dbContext.TaxDetails.Where(x => x.Id == Id).FirstOrDefaultAsync();
             if (IsTaxTypeExist != null)
             {
-
+                IsTaxTypeExist.DeletedBy = deletedBy;
+                IsTaxTypeExist.DeletedDate = DateTime.Now;
                 IsTaxTypeExist.IsDeleted = true;
 
                 await _dbContext.SaveChangesAsync();
@@ -80,6 +81,31 @@ namespace Corbet.Persistence.Repositories
             //var taxdta = _dbContext.TaxesDetails.Include(n => n.TaxId).Where(x => x.IsDeleted == false).ToList();
             //var  n= _mapper.Map<GetTaxListVm>(taxdta);
             return taxdta;
+        }
+
+
+        public async Task<bool> ToggleActiveStatus(int id)
+        {
+            _logger.LogInformation("In Repository Toggler TaxDetail Active Status Initiated");
+            var taxDetailExist = await _dbContext.TaxDetails.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (taxDetailExist != null)
+            {
+                if (taxDetailExist.Status)
+                {
+                    taxDetailExist.Status = false;
+                    _dbContext.SaveChanges();
+                    return false;
+                }
+                else if (!taxDetailExist.Status)
+                {
+                    taxDetailExist.Status = true;
+                    _dbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            return false;
+
         }
 
     }

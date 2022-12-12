@@ -120,7 +120,7 @@
                         <div class="modal-content m-2" style="width: 55vw;">
                             <div class="modal-header">
                                 <h5 class="modal-title">@Model.SupplierName</h5><span>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" title="View Document" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </span>
                             </div>
                             <iframe id="frame" src="~/Documents/SupplierDocs/@Model.DocumentPath" style="height: 80vh;"></iframe>
@@ -138,6 +138,6 @@
     </dl>
 </div>
 <div class="text-center mr-3">
-    <a class="btn btn-sm btn-primary my-1" asp-controller="Supplier" asp-action="UpdateSupplierForPurchaseUser" title="Edit Supplier Details" asp-route-id="@Model.SupplierId">Edit Details</a>
-    <a class="btn btn-sm btn-warning my-1" asp-action="GetAllSuppliersForPurchaseUser">Back to List</a>
+    <a title="Edit" class="btn btn-sm btn-primary my-1" asp-controller="Supplier" asp-action="UpdateSupplierForPurchaseUser" title="Edit Supplier Details" asp-route-id="@Model.SupplierId">Edit Details</a>
+    <a title="Back" class="btn btn-sm btn-warning my-1" asp-action="GetAllSuppliersForPurchaseUser">Back to List</a>
 </div>

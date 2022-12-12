@@ -11,5 +11,6 @@ namespace Corbet.Application.Features.Roles.Commands.CreateRole
     public class CreateRoleCommand:IRequest<Response<CreateRoleDto>>
     {
         public string RoleName { get; set; }
+        public int? CreatedBy { get; set; } 
     }
 }

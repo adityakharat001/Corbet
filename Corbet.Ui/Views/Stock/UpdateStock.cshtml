@@ -59,22 +59,24 @@
         <form asp-action="UpdateStock">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <select asp-for="ProductId">
+                <label class="control-label">Product Name</label>
+                <select asp-for="ProductId" class="form-control form-select">
                     @*<option value="0">-Select Product-</option>
                     @foreach (var product in Model.ProductList)
                     {
                     <option value="@product.ProductId">@product.ProductTitle</option>
                     }*@
-                </select><br />
+                </select>
                 <span asp-validation-for="ProductId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Enter Quantity</label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div><br/>
+            </div>
             <div class="form-group">
-                <select asp-for="StockTypeId"></select><br />
+                <label class="control-label">Stock Type</label>
+                <select asp-for="StockTypeId" class="form-control form-select"></select>
                 <span asp-validation-for="StockTypeId" class="text-danger"></span>
             </div>
             <div class="form-group">

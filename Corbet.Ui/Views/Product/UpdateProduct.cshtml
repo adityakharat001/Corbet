@@ -160,19 +160,19 @@
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="CategoryId" class="form-control" data-category="@Model.CategoryId" id="ddlCategory"></select>
+                <select asp-for="CategoryId" class="form-control form-select" data-category="@Model.CategoryId" id="ddlCategory"></select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SubCategoryId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="SubCategoryId" class="form-control" data-subcategory="@Model.SubCategoryId" id="ddlSubcategory"></select>
+                <select asp-for="SubCategoryId" class="form-control form-select" data-subcategory="@Model.SubCategoryId" id="ddlSubcategory"></select>
                 <span asp-validation-for="SubCategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UnitId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="UnitId" class="form-control" data-unit="@Model.UnitId" id="ddlUnit"></select>
+                <select asp-for="UnitId" class="form-control form-select" data-unit="@Model.UnitId" id="ddlUnit"></select>
                 <span asp-validation-for="UnitId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -184,30 +184,30 @@
             <div class="form-group">
                 <label asp-for="PrimarySupplierId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="PrimarySupplierId" class="form-control" data-primarysupplier="@Model.PrimarySupplierId" id="ddlPrimarySupplier"></select>
+                <select asp-for="PrimarySupplierId" class="form-control form-select" data-primarysupplier="@Model.PrimarySupplierId" id="ddlPrimarySupplier"></select>
                 <span asp-validation-for="PrimarySupplierId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SecondarySupplierId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="SecondarySupplierId" class="form-control" data-secondarysupplier="@Model.SecondarySupplierId" id="ddlSecondarySupplier"></select>
+                <select asp-for="SecondarySupplierId" class="form-control form-select" data-secondarysupplier="@Model.SecondarySupplierId" id="ddlSecondarySupplier"></select>
                 <span asp-validation-for="SecondarySupplierId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label">Upload Image</label>
-                <input asp-for="Image" type="file" class="form-control" />
+                <input asp-for="Image" accept="image/jpeg, image/png, image/jpg" type="file" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TaxId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="TaxId" class="form-control" data-tax="@Model.TaxId" id="ddlTax"></select>
+                <select asp-for="TaxId" class="form-control form-select" data-tax="@Model.TaxId" id="ddlTax"></select>
                 <span asp-validation-for="TaxId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Status</label>
                 <span class="text-danger">*</span>
-                <select class="form-control" asp-for="IsActive">
+                <select class="form-control form-select" asp-for="IsActive">
                     <option value="false">InActive</option>
                     <option value="true">Active</option>
                     <span asp-validation-for="IsActive" class="text-danger"></span>

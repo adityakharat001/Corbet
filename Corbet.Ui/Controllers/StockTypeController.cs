@@ -47,6 +47,7 @@ namespace Corbet.Mvc.Controllers
         {
             using (var httpClient = new HttpClient())
             {
+                addStockTypeModel.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 httpClient.BaseAddress = baseAddress;
                 string data = JsonConvert.SerializeObject(addStockTypeModel);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
@@ -97,6 +98,7 @@ namespace Corbet.Mvc.Controllers
         {
             using (var httpClient = new HttpClient())
             {
+                updateStockTypeModel.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 httpClient.BaseAddress = baseAddress;
                 string data = JsonConvert.SerializeObject(updateStockTypeModel);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");

@@ -14,5 +14,7 @@ namespace Corbet.Application.Features.UnitMeasurements.Commands.CreateUnitMeasur
     {
 
         public string Type { get; set; }
+        public int? CreatedBy { get; set; }
+
     }
 }

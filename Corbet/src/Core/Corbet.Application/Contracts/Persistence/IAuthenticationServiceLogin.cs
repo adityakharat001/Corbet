@@ -10,5 +10,6 @@ namespace Corbet.Application.Contracts.Persistence
     public interface IAuthenticationServiceLogin
     {
         Task<AuthenticationResponse> Login(string email, string password);
+        Task<AuthenticationResponse> LoginCustomer(string email, string password);
     }
 }

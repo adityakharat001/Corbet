@@ -13,7 +13,7 @@ namespace Corbet.Application.Contracts.Persistence
     public interface ISupplierRepository:IAsyncRepository<Supplier>
     {
         Task<bool> CheckSupplierExists(string supplier);
-        public Task<DeleteSupplierCommandDto> RemoveSupplierAsync(int supplierId);
+        public Task<DeleteSupplierCommandDto> RemoveSupplierAsync(int supplierId, int? deletedBy);
         public List<Supplier> GetAllSuppliers();
         public List<Supplier> GetAllSuppliersForPurchaseUser();
         public Task<bool> ToggleActiveStatus(int supplierId);

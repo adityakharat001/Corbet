@@ -59,6 +59,7 @@ namespace Corbet.Ui.Controllers
             //addStockModel.TimeIn = new DateTime(year, month, day, hour, min, sec);//assigns year, month, day, hour, min, seconds
             using (var httpClient = new HttpClient())
             {
+                addStockModel.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 httpClient.BaseAddress = baseAddress;
                 string data = JsonConvert.SerializeObject(addStockModel);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
@@ -132,6 +133,7 @@ namespace Corbet.Ui.Controllers
         {
             using (var httpClient = new HttpClient())
             {
+                updateStockModel.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 httpClient.BaseAddress = baseAddress;
                 string data = JsonConvert.SerializeObject(updateStockModel);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");

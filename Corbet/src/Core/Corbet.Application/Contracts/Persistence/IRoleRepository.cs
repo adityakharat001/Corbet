@@ -10,7 +10,7 @@ namespace Corbet.Application.Contracts.Persistence
 {
     public interface IRoleRepository:IAsyncRepository<Role>
     {
-        public Task<DeleteRoleCommandDto> RemoveRoleAsync(int roleId);
+        public Task<DeleteRoleCommandDto> RemoveRoleAsync(int roleId, int? deletedBy);
         public Task<List<Role>> GetAllRoles();
         public Task<bool> CheckRoleExists(string RoleName);
     }

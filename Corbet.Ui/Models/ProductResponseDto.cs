@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
+using Corbet.Domain.Common;
+
 namespace Corbet.Ui.Models
 {
-    public class ProductResponseDto
+    public class ProductResponseDto:AuditableEntityModel
     {
         public int Id { get; set; }
         [Required]

@@ -1,4 +1,5 @@
-﻿using Corbet.Application.Features.ProductCategory.Commands.DeleteProductCategory;
+﻿using Corbet.Application.Contracts.Persistence;
+using Corbet.Application.Features.ProductCategory.Commands.DeleteProductCategory;
 using Corbet.Application.Features.ProductSubCategory.Command.CreateSubCategory;
 using Corbet.Application.Features.ProductSubCategory.Command.DeleteSubCategory;
 using Corbet.Application.Features.ProductSubCategory.Command.SubCategoryExist;
@@ -22,10 +23,12 @@ namespace Corbet.Api.Controllers.v3
     {
         private readonly ILogger<ProductSubCategoryController> _logger;
         private readonly IMediator _mediator;
-        public ProductSubCategoryController(ILogger<ProductSubCategoryController> logger, IMediator mediator)
+        private readonly IProductSubCategoryRepo _productSubCategoryRepo;
+        public ProductSubCategoryController(ILogger<ProductSubCategoryController> logger, IMediator mediator, IProductSubCategoryRepo productSubCategoryRepo)
         {
             _logger = logger;
             _mediator = mediator;
+            _productSubCategoryRepo = productSubCategoryRepo;
         }
 
         [HttpPost]
@@ -100,12 +103,22 @@ namespace Corbet.Api.Controllers.v3
 
         [HttpDelete]
         [Route("DeleteSubCategory")]
-        public async Task<ActionResult> DeleteSubCategory(int Id)
+        public async Task<ActionResult> DeleteSubCategory(int Id, int? deletedBy)
         {
             _logger.LogInformation("Remove SubCategory Initiated");
-            var dtos = await _mediator.Send(new DeleteSubCategoryCommand() { SubCategoryId = Id });
+            var dtos = await _mediator.Send(new DeleteSubCategoryCommand() { SubCategoryId = Id ,DeletedBy = deletedBy});
             _logger.LogInformation("Remove User Completed");
             return Ok(dtos);
         }
+
+
+        [HttpGet]
+        [Route("ToggleActiveStatus")]
+        public async Task<ActionResult> ToggleActiveStatus(int id)
+        {
+            bool isActive = await _productSubCategoryRepo.ToggleActiveStatus(id);
+            return (isActive) ? Ok("Active") : Ok("InActive");
+        }
+
     }
 }

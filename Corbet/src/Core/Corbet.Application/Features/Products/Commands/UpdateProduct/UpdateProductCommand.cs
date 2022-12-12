@@ -21,5 +21,7 @@ namespace Corbet.Application.Features.Products.Commands.UpdateProduct
         public string? ImagePath { get; set; }
         public int TaxId { get; set; }
         public bool IsActive { get; set; }
+        public int? LastModifiedBy { get; set; }
+
     }
 }

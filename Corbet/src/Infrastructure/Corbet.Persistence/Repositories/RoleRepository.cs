@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+
 using Corbet.Application.Contracts.Persistence;
 using Corbet.Application.Features.Roles.Commands.DeleteRole;
 using Corbet.Domain.Entities;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +20,7 @@ namespace Corbet.Persistence.Repositories
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        public RoleRepository(ApplicationDbContext dbContext, ILogger<Role> logger,IMapper mapper) : base(dbContext, logger)
+        public RoleRepository(ApplicationDbContext dbContext, ILogger<Role> logger, IMapper mapper) : base(dbContext, logger)
         {
             _logger = logger;
             _mapper = mapper;
@@ -29,14 +32,15 @@ namespace Corbet.Persistence.Repositories
             return (roles);
         }
 
-        public async Task<DeleteRoleCommandDto> RemoveRoleAsync(int RoleId)
+        public async Task<DeleteRoleCommandDto> RemoveRoleAsync(int RoleId, int? deletedBy)
         {
             _logger.LogInformation("In Repository Remove User Initiated");
             DeleteRoleCommandDto response = new DeleteRoleCommandDto();
             var IsUserExist = await _dbContext.Roles.Where(x => x.RoleId == RoleId).FirstOrDefaultAsync();
             if (IsUserExist != null)
             {
-
+                IsUserExist.DeletedBy = deletedBy;
+                IsUserExist.DeletedDate = DateTime.Now;
                 IsUserExist.IsDeleted = true;
                 await _dbContext.SaveChangesAsync();
 
@@ -59,7 +63,7 @@ namespace Corbet.Persistence.Repositories
 
         public Task<bool> CheckRoleExists(string RoleName)
         {
-            Role check = _dbContext.Roles.Where(x => x.RoleName == RoleName).FirstOrDefault();
+            Role check = _dbContext.Roles.Where(x => x.RoleName == RoleName && x.IsDeleted == false).FirstOrDefault();
             if (check != null)
             {
                 return Task.FromResult(true);

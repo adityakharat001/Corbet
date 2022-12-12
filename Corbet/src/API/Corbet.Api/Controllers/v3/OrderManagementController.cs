@@ -4,6 +4,7 @@ using Corbet.Application.Features.AddCart.Command.CreateCart;
 using Corbet.Application.Features.AddCart.Command.DeleteCart;
 using Corbet.Application.Features.AddCart.Queries;
 using Corbet.Application.Features.AddCart.Queries.GetProductSupplier;
+using Corbet.Application.Features.OrderManagement.Queries.GetAllState;
 //using Corbet.Application.Features.AddCart.Queries.GetProductSupplier;
 //using Corbet.Application.Features.AddCart.Queries.GetTotalBill;
 //using Corbet.Application.Features.OrderManagement.Command.CreateOrder;
@@ -129,7 +130,17 @@ namespace Corbet.Api.Controllers.v3
         #endregion
 
 
-
-
+        #region GetAllState
+        [HttpGet]
+        [Route("GetAllState")]
+        public async Task<IActionResult> GetAllState()
+        {
+            _logger.LogInformation("Cart Details Initiated");
+            var StateData = await _mediator.Send(new GetAllStateQuery());
+            _logger.LogInformation("Successfull");
+            return Ok(StateData);
+        }
+        #endregion
     }
+
 }

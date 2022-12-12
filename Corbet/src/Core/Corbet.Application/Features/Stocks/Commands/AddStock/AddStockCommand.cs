@@ -10,5 +10,7 @@ namespace Corbet.Application.Features.Stocks.Commands.AddStock
         public int StockTypeId { get; set; }
         public DateTime TimeIn { get; set; }
         public DateTime? TimeOut { get; set; }
+        public int? CreatedBy { get; set; }
+
     }
 }

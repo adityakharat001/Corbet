@@ -185,8 +185,8 @@
                     @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td class="tableActions">
-                    <a class="btn btn-sm btn-primary" asp-controller="UnitMeasurement" asp-action="UpdateUnitMeasurement" asp-route-id="@item.Id"><i class="ri-edit-box-fill "></i></a>
-                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.Id')" ><i class="ri-delete-bin-6-fill "></i></button>
+                    <a title="Edit" class="btn btn-sm btn-primary" asp-controller="UnitMeasurement" asp-action="UpdateUnitMeasurement" asp-route-id="@item.Id"><i class="ri-edit-box-fill "></i></a>
+                    <button title="Delete" class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.Id')" ><i class="ri-delete-bin-6-fill "></i></button>
                 </td>
             </tr>
         }

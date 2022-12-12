@@ -1,4 +1,7 @@
 ﻿using Corbet.Application.Contracts.Persistence;
+using Corbet.Application.Features.Customers.Commands.ChangePassword;
+using Corbet.Application.Features.Customers.Commands.ForgotPasswordForCustomer;
+using Corbet.Application.Features.Customers.Commands.ResetPasswordForCustomer;
 using Corbet.Application.Features.Users.Commands.CheckPhoneExist;
 using Corbet.Application.Features.Users.Commands.ForgotPassword;
 using Corbet.Application.Features.Users.Commands.ResetPassword;
@@ -52,6 +55,27 @@ namespace Corbet.Api.Controllers.v3
 
         }
 
+        [HttpPost]
+        [Route("LoginCustomer")]
+        public async Task<ActionResult> LoginCustomer(LoginUserViewModel model)
+        {
+            try
+            {
+                AuthenticationResponse response = await _authService.LoginCustomer(model.Email, model.Password);
+                if (response != null)
+                {
+                    return Ok(response);
+                }
+                return BadRequest(new AuthenticationResponse() { Message = "Failed to login customer", IsAuthenticated = false, Token = null }); ;
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new AuthenticationResponse() { Message = e.Message, IsAuthenticated = false, Token = null });
+            }
+
+        }
+
 
         [Route("ForgotPassword")]
         [HttpPost]
@@ -88,11 +112,62 @@ namespace Corbet.Api.Controllers.v3
             }
         }
 
+        [Route("ForgotPasswordForCustomer")]
+        [HttpPost]
+        public async Task<IActionResult> ForgotPasswordForCustomer(string email)
+        {
+            var response = await _mediator.Send(new ForgotPasswordForCustomerCommand(email));
+
+            if (response.Succeeded)
+            {
+                if (!oldValueEmail.Equals(email))
+                {
+                    flagToSendMail = true;
+                    oldValueEmail.Clear();
+                }
+                if (flagToSendMail is true)
+                {
+                    using (EmailManager emailManager = new EmailManager(_configuration))
+                    {
+                        emailManager.SendEmailToCustomer(response.Data);
+                    }
+                    oldValueEmail.Append(email)
+;
+                    flagToSendMail = false;
+                    return Ok(response);
+                }
+                else
+                {
+                    return BadRequest(new Response<string>() { Data = email, Succeeded = false, Errors = new List<string>() { "Email Already Sent!", "Multiple emails cannot be sent." } });
+                }
+            }
+            else
+            {
+                return NotFound(response);
+            }
+        }
+
         [Route("ResetPassword")]
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordCommand resetPasswordCommand)
         {
             var response = await _mediator.Send(resetPasswordCommand);
+            return (response.Succeeded) ? Ok(response) : BadRequest(response);
+        }
+        
+        [Route("ResetPasswordForCustomer")]
+        [HttpPost]
+        public async Task<IActionResult> ResetPasswordForCustomer(ResetPasswordForCustomerCommand resetPasswordCommand)
+        {
+            var response = await _mediator.Send(resetPasswordCommand);
+            return (response.Succeeded) ? Ok(response) : BadRequest(response);
+        }
+
+        [Route("ChangePasswordForCustomer")]
+        [HttpPost]
+        public async Task<IActionResult> ChangePasswordForCustomer(ChangePasswordCommand changePasswordCommand)
+        {
+            var response = await _mediator.Send(changePasswordCommand);
             return (response.Succeeded) ? Ok(response) : BadRequest(response);
         }
 
@@ -112,6 +187,8 @@ namespace Corbet.Api.Controllers.v3
             var response = await _mediator.Send(new CheckPhoneExistCommand(phone));
             return (response) ? Ok(true) : Ok(false);
         }
+
+
     }
 
 }

@@ -68,10 +68,10 @@ namespace Corbet.Api.Controllers.v3
 
         [HttpDelete]
         [Route("DeleteRole")]
-        public async Task<IActionResult> DeleteRole(int id)
+        public async Task<IActionResult> DeleteRole(int id,int? deletedBy)
         {
             _logger.LogInformation("Roles delete initiated");
-            await _mediator.Send(new DeleteRoleCommand() { RoleId = id});
+            await _mediator.Send(new DeleteRoleCommand() { RoleId = id, DeletedBy = deletedBy});
             _logger.LogInformation("Roles delete completed");
             return NoContent();
         }

@@ -62,12 +62,41 @@ namespace Corbet.Ui.Controllers
                 await supplier.Document.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
             }
 
+            supplier.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(supplier);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Supplier/AddSupplier", content).Result;
             return RedirectToRoute(new { controller = "Supplier", action = "GetAllSuppliersForPurchaseUser" });
         }
 
+
+        [HttpGet]
+        public ActionResult AddSupplierForAdmin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddSupplierForAdmin(SupplierAddDto supplier)
+        {
+            if (supplier.Document != null)
+            {
+                supplier.DocumentPath = supplier.Document.FileName;
+                string folder = "Documents/SupplierDocs/";
+                string supplierGuid = Guid.NewGuid().ToString();
+                supplier.DocumentPath = supplierGuid + supplier.DocumentPath;
+                folder += supplierGuid + supplier.Document.FileName;
+
+                string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
+                await supplier.Document.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+            }
+
+            supplier.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
+            string data = JsonConvert.SerializeObject(supplier);
+            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Supplier/AddSupplier", content).Result;
+            return RedirectToRoute(new { controller = "Supplier", action = "GetAllSuppliersForPurchaseUser" });
+        }
 
 
         [HttpGet]
@@ -88,6 +117,7 @@ namespace Corbet.Ui.Controllers
         {
             if (ModelState.IsValid)
             {
+                supplierUpdate.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 string data = JsonConvert.SerializeObject(supplierUpdate);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Supplier/UpdateSupplierForAdmin", content).Result;
@@ -125,7 +155,7 @@ namespace Corbet.Ui.Controllers
         public ActionResult UpdateSupplierForPurchaseUser(SupplierUpdatePurchaseUserDto supplierUpdate)
         {
             supplierUpdate.LastModifiedDate = DateTime.Now;
-            supplierUpdate.LastModifiedBy = Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+            supplierUpdate.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(supplierUpdate);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Supplier/UpdateSupplierForPurchaseUser", content).Result;
@@ -137,14 +167,28 @@ namespace Corbet.Ui.Controllers
             string data = JsonConvert.SerializeObject(id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"Supplier/ToggleActiveStatus?supplierId={id}").Result;
-            return RedirectToRoute(new { controller = "Supplier", action = "GetAllSuppliersForAdmin" });
+            return NoContent();
         }
 
         public ActionResult DeleteSupplier(int id)
         {
+            int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
             string data = JsonConvert.SerializeObject(id);
+            string delData = JsonConvert.SerializeObject(deletedBy);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"Supplier/DeleteSupplier?Id={id}").Result;
+            StringContent delContent = new StringContent(delData, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"Supplier/DeleteSupplier?Id={id}&deletedBy={deletedBy}").Result;
+            return RedirectToRoute(new { controller = "Supplier", action = "GetAllSuppliersForPurchaseUser" });
+        }
+
+        public ActionResult DeleteSupplierForAdmin(int id)
+        {
+            int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
+            string data = JsonConvert.SerializeObject(id);
+            string delData = JsonConvert.SerializeObject(deletedBy);
+            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            StringContent delContent = new StringContent(delData, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"Supplier/DeleteSupplier?Id={id}&deletedBy={deletedBy}").Result;
             return RedirectToRoute(new { controller = "Supplier", action = "GetAllSuppliersForPurchaseUser" });
         }
 

@@ -207,7 +207,7 @@
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="CategoryId" class="form-control" id="ddlCategory"></select>
+                <select asp-for="CategoryId" class="form-control form-select" id="ddlCategory"></select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
 
@@ -225,7 +225,7 @@
             <div class="form-group">
                 <label asp-for="TaxId" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="TaxId" class="form-control" id="ddlTax"></select>
+                <select asp-for="TaxId" class="form-control form-select" id="ddlTax"></select>
                 <span asp-validation-for="TaxId" class="text-danger"></span>
             </div>
             @*            <div class="form-group form-check">
@@ -238,7 +238,7 @@
                 <span class="text-danger">*</span>
                 @* <input asp-for="UserStatus" class="form-control" />
                 <span asp-validation-for="UserStatus" class="text-danger"></span>*@
-                <select asp-for="Status" class="form-control" required>
+                <select asp-for="Status" class="form-control form-select" required>
                     <option value="">Select Status</option>
                     <option asp-for="Status" value=true>Active</option>
                     <option asp-for="Status" value=false>InActive</option>

@@ -11,5 +11,7 @@ namespace Corbet.Application.Features.Stocks.Commands.UpdateStock
         public int StockTypeId { get; set; }
         public DateTime TimeIn { get; set; }
         public DateTime? TimeOut { get; set; }
+        public int? LastModifiedBy { get; set; }
+
     }
 }

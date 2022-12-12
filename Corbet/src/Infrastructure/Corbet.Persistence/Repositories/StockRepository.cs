@@ -1,5 +1,7 @@
 ﻿using Corbet.Application.Contracts.Persistence;
+using Corbet.Application.Features.PurchaseCart.Queries.GetAllCart;
 using Corbet.Domain.Entities;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -29,6 +31,28 @@ namespace Corbet.Persistence.Repositories
         public async Task<Stock> GetByProductIdAsync(int productId)
         {
             return await _dbContext.Stocks.FirstOrDefaultAsync(s => s.ProductId == productId);
+        }
+
+
+        public async Task<bool> UpdateStockQuantity(List<PurchaseGetAllCartQueryVm> cart)
+        {
+            bool check = true;
+            foreach (var item in cart)
+            {
+                var stockProduct = await _dbContext.Stocks.FirstOrDefaultAsync(s => s.StockId == item.stockId);
+
+                stockProduct.Quantity = stockProduct.Quantity + item.Quantity;
+                int a = _dbContext.SaveChanges();
+                if (a > 0)
+                {
+                    check = true;
+                }
+                else
+                {
+                    check = false;
+                }
+            }
+            return check;
         }
     }
 }

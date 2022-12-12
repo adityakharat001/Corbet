@@ -18,8 +18,9 @@ namespace Corbet.Application.Features.ProductSubCategory.Command.CreateSubCatego
         public string SubCategoryName { get; set; }
         public string? Description { get; set; }
         public int TaxId { get; set; }
-        public int CreatedBy { get; set; }
         public bool Status { get; set; }
+        public int CreatedBy { get; set; }
+
 
     }
 }

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Corbet.Domain.Common;
+
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribute;
 
 namespace Corbet.Ui.Models
 {
-    public class AddStockModel
+    public class AddStockModel:AuditableEntityModel
     {
         [Range(1, int.MaxValue, ErrorMessage = "Please select a product.")]
         [Remote("CheckProductExistsInStockList", "Stock")]

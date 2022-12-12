@@ -29,7 +29,7 @@ namespace Corbet.Persistence.Repositories
 
         public async Task<bool> CheckSupplierExists(string supplier)
         {
-            var supplierExist = await _dbContext.Suppliers.FirstOrDefaultAsync(s => s.SupplierName.Equals(supplier));
+            var supplierExist = await _dbContext.Suppliers.FirstOrDefaultAsync(s => s.SupplierName.Equals(supplier) && s.IsDeleted==false);
             if (supplierExist is not null)
             {
                 return false;
@@ -49,13 +49,15 @@ namespace Corbet.Persistence.Repositories
             return suppliers;
         }
 
-        public async Task<DeleteSupplierCommandDto> RemoveSupplierAsync(int supplierId)
+        public async Task<DeleteSupplierCommandDto> RemoveSupplierAsync(int supplierId, int? deletedBy)
         {
             _logger.LogInformation("In Repository Remove Supplier Initiated");
             DeleteSupplierCommandDto response = new DeleteSupplierCommandDto();
             var IsSupplierExist = await _dbContext.Suppliers.Where(x => x.SupplierId == supplierId).FirstOrDefaultAsync();
             if (IsSupplierExist != null)
             {
+                IsSupplierExist.DeletedBy = deletedBy;
+                IsSupplierExist.DeletedDate = DateTime.Now;
                 IsSupplierExist.IsDeleted = true;
                 IsSupplierExist.IsActive = false;
                 await _dbContext.SaveChangesAsync();

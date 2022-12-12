@@ -13,5 +13,7 @@ namespace Corbet.Application.Features.ProductSubCategory.Command.DeleteSubCatego
     public class DeleteSubCategoryCommand : IRequest<Response<DeleteSubCategoryDto>>
     {
         public int SubCategoryId { get; set; }
+        public int? DeletedBy { get; set; }
+
     }
 }

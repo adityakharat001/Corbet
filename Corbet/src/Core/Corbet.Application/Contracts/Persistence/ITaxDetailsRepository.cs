@@ -11,8 +11,10 @@ namespace Corbet.Application.Contracts.Persistence
 {
     public interface ITaxDetailsRepository : IAsyncRepository<TaxDetail>
     {
-        public Task<DeleteTaxDetailDto> RemoveTaxDetailsAsync(int TaxId);
+        public Task<DeleteTaxDetailDto> RemoveTaxDetailsAsync(int TaxId, int? DeletedBy);
         public Task<List<GetTaxDetailListVm>> GetAllTaxDetails();
+        public Task<bool> ToggleActiveStatus(int id);
+
 
 
     }

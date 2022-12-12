@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace Corbet.Ui.Models
 {
-    public class CreateTaxModel:AuditableEntity
+    public class CreateTaxModel:AuditableEntityModel
     {
         [Required(ErrorMessage = "Tax Id is required")]
         [DisplayName("Tax Id")]

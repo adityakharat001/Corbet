@@ -1,0 +1,449 @@
+﻿@model Corbet.Ui.Models.OrderViewModel
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@Html.Raw(ViewBag.emailSentToSupplierStatusMessage)
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#giveOrder').click(function() {
+        console.log("order");
+        $.ajax({
+            url: "@Url.Action("MailOrder", "PurchaseCart")",
+            type: "post",
+            success: function(data) {
+                console.log(data);
+            },
+
+            error: function() {
+                alert("Fails!");
+            }
+        });
+        //var htmlData = $("#content").html();
+        //htmlData = htmlData.replace(/</g, "strtTag").replace(/>/g, "EngTag");
+        //window.location = window.location.origin + "/Invoice/GeneratePdfAndSendOnMail?html=" + htmlData;
+    });
+</script>
+
+
+
+<html>
+<head>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style>
+    body {
+        font-family: Arial;
+        font-size: 17px;
+        padding: 8px;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .row {
+        display: -ms-flexbox;
+        / IE10 / display: flex;
+        -ms-flex-wrap: wrap;
+        / IE10 / flex-wrap: wrap;
+        margin: 0 -16px;
+    }
+
+    .col-25 {
+        -ms-flex: 25%;
+        / IE10 / flex: 25%;
+    }
+
+    .col-50 {
+        -ms-flex: 50%;
+        / IE10 / flex: 50%;
+    }
+
+    .col-75 {
+        -ms-flex: 75%;
+        / IE10 / flex: 75%;
+    }
+
+    .col-25,
+    .col-50,
+    .col-75 {
+        padding: 0 16px;
+    }
+
+    .container {
+        background-color: #f2f2f2;
+        padding: 5px 20px 15px 20px;
+        border: 1px solid lightgrey;
+        border-radius: 3px;
+    }
+
+    input[type=text] {
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    label {
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .icon-container {
+        margin-bottom: 20px;
+        padding: 7px 0;
+        font-size: 24px;
+    }
+
+    .btn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        width: 100%;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 17px;
+    }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+    a {
+        color: #2196F3;
+    }
+
+    hr {
+        border: 1px solid lightgrey;
+    }
+
+    span.price {
+        float: right;
+        color: grey;
+    }
+
+    .select-dropdown,
+    .select-dropdown * {
+        margin: 0;
+        padding: 0;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    .select-dropdown {
+        position: relative;
+        background-color: #E6E6E6;
+        border-radius: 4px;
+    }
+
+        .select-dropdown select {
+            font-size: 1rem;
+            font-weight: normal;
+            max-width: 100%;
+            padding: 8px 24px 8px 10px;
+            border: none;
+            background-color: transparent;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+            .select-dropdown select:active, .select-dropdown select:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+        .select-dropdown:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            width: 0;
+            height: 0;
+            margin-top: -2px;
+            border-top: 5px solid #aaa;
+            border-right: 5px solid transparent;
+            border-left: 5px solid transparent;
+        }
+
+    / Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) /
+    @@media (max-width: 800px) {
+        .row
+
+    {
+        flex-direction: column-reverse;
+    }
+
+    .col-25 {
+        margin-bottom: 20px;
+    }
+
+    }
+</style>
+<body>
+    <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" asp-controller="PurchaseUser" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliersForPurchaseUser">
+                <i class="bi bi-menu-button-wide"></i><span>Suppliers</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="PurchaseCart"
+               asp-action="PurchaseGetAllCart">
+                <i class="bi bi-menu-button-wide"></i><span>Cart</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="PurchaseCart"
+               asp-action="GetAllProductPurchase">
+                <i class="bi bi-menu-button-wide"></i><span>Products</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="PurchaseCart"
+               asp-action="PurchaseAllOrder">
+                <i class="bi bi-menu-button-wide"></i><span>Order Status</span>
+            </a>
+        </li>
+
+    </ul>
+</aside>
+<!-- End Sidebar -->
+    <h2 style="display:none;">Responsive Checkout Form</h2>
+    <p style="display:none;">Resize the browser window to see the effect. When the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other.</p>
+    <div class="row">
+        <div class="col-75">
+            <div class="container">
+                <form asp-action="CreateOrder" method="post">
+
+                    <div class="row">
+                        <div class="col-50">
+                            <h3 style="text-align:center;font-width:bold;">Billing Address</h3>
+
+
+                            <div class="col-50">
+                                <label style="margin-left:-16px; for="SupplierId"> <i class="bi bi-person-circle"></i>Supplier</label>
+                                <select class="form-select form-select-lg mb-3" asp-for="SupplierId" style="margin-left:-16px;width:500px;font-size:16px; height:50px;" id="SupplierId" aria-label=".form-select-lg example"></select>
+
+
+                            </div>
+
+
+
+                            <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+
+                            <input type="text" asp-for="Address" id="adr" name="address" placeholder="542 W. 15th Street">
+                            <label for="city"><i class="fa fa-institution"></i> City</label>
+
+                            <input type="text" asp-for="City" id="city" name="city">
+                            <div class="row">
+                                <div class="col-50">
+                                    <label for="StateId">State</label>
+
+                                    <select asp-for="StateId" id="ddState" class="form-control" style="height:50px;"></select>
+                                </div>
+
+                                <div class="col-50">
+                                    <label for="zip">Zip</label>
+                                    <input type="text" asp-for="ZipCode" id="ZipCode" name="ZipCode" placeholder="10001">
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <input type="submit" id="giveOrder" value="Submit" class="btn">
+                </form>
+            </div>
+        </div>
+        <div class="col-25">
+            <div class="container">
+                <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
+
+                <table id="cart-details">
+                    <thead>
+                        <tr>
+
+                            <p>
+                            <th>Name</th>
+                            </p>
+                            <p>
+                            <th>Price</th>
+
+                            </p>
+                            <p>
+                            <th>Quantity</th>
+
+                            </p>
+                        </tr>
+                        @*   <th>Quantity</th>
+                        <td></td>*@
+                    </thead>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </table>
+                <hr>
+                <p>Total: Rs<span class="price" style="color:black"><b><span id="ddTotalBill"></span></b></span></p>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+    <script>
+
+        $(document).ready(function() {
+
+            console.log("hello");
+            var ddlSupplier = $('#SupplierId');
+            ddlSupplier.append($("<option></option>").val('').html('---Select Supplier----'));
+            $.ajax({
+                url: 'https://localhost:7221/OrderManagement/GetAllSupplier',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, supplier) {
+                        ddlSupplier.append($("<option></option>").val(supplier.supplierId).html(supplier.supplierName));
+                    });
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+            var TotalBilling = $('#ddTotalBill');
+            console.log("hello");
+            $.ajax({
+                url: 'https://localhost:7221/PurchaseCart/GetAllTotalBill',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.log(d);
+
+                    $('#ddTotalBill').text(d);
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+
+
+
+
+            var ddState = $('#ddState');
+            console.log("hello");
+            $.ajax({
+                url: 'https://localhost:7221/OrderManagement/GetAllState',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.log(d);
+
+                    $.each(d, function(i, state) {
+                        ddState.append($("<option></option>").val(state.stateId).html(state.stateName));
+                    });
+                    $('#ddState').val(d);
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+
+            var CartDetail = $('#CartDetail');
+            console.log("cartdetao");
+            $.ajax({
+                url: 'https://localhost:7221/PurchaseCart/GetAllCartOrder',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.log(d);
+                    for (i in d) {
+                        $('#cart-details tbody').append(`<tr><td>${d[i].productName}</td><td>${(d[i].price) * (d[i].quantity)}</td><td>${d[i].quantity}</td></tr>`)
+
+                        console.log(d[i].productName);
+                    }
+
+
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+
+        });
+    </script>
+    @if (TempData["orderAlert"] != null)
+{
+    <script>
+        $.ajax({
+            url: "@Url.Action("MailOrder", "PurchaseCart")",
+            type: "post",
+            success: function(data) {
+                console.log(data);
+
+                Swal.fire({
+                    title: 'Confirm to give the order?',
+                    text: "If you hit yes, order will be placed successfully.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Give Order'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var htmlData = data;
+                        htmlData = htmlData.replace(/</g, "StartTag").replace(/>/g, "EngTag");
+                        window.location = window.location.origin + "/PurchaseCart/GiveOrderAndSendMail?html=" + htmlData;
+                    }
+                });
+            },
+            error: function() {
+                alert("Fails!");
+            }
+        });
+    </script>
+}

@@ -12,5 +12,8 @@ namespace Corbet.Application.Features.ProductCategory.Commands.UpdateProductCate
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }
+        public string CategoryDescription { get; set; }
+        public int? LastModifiedBy { get; set; }
+
     }
 }

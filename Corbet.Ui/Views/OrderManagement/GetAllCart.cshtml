@@ -118,16 +118,16 @@
 
 
                         <td class="quant">
-                            <a asp-action="Subcartitem" asp-route-id="@item.CartId" class="minus">-</a>
+                            <a asp-action="Subcartitem" asp-route-id="@item.CartId" title="Reduce one unit" class="minus">-</a>
                             @Html.DisplayFor(modelItem => item.Quantity)
-                            <a asp-action="Addcartitem" asp-route-id="@item.CartId" onclick="AddToCart('@item.stockId','@item.UserId','@item.CartId',@item.ProductId','@item.Quantity')" class="plus">+</a>
+                            <a asp-action="Addcartitem" asp-route-id="@item.CartId" onclick="AddToCart('@item.stockId','@item.UserId','@item.CartId',@item.ProductId','@item.Quantity')" title="Add one unit" class="plus">+</a>
 
 
                         </td>
 
 
                         <td>
-                            <a asp-controller="OrderManagement" asp-action="DeleteCart" asp-route-id="@item.CartId" style="background-color:red;color:whitel" class="btn btn-default btn-sm">
+                            <a asp-controller="OrderManagement" asp-action="DeleteCart" asp-route-id="@item.CartId" style="background-color:red;color:whitel" title="Remove From Cart" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-trash"></span>Remove</a>
                             @*                        <a class="btn btn-sm btn-primary" asp-controller="OrderManagement" asp-action="DeleteCart" asp-route-id="@item.CartId"><i class="bag-x-fill"></i></a>
                     *@

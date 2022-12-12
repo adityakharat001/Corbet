@@ -27,7 +27,7 @@ namespace Corbet.Application.Features.Taxes.Commands.DeleteTaxDetail
         public async Task<Response<DeleteTaxDetailDto>> Handle(DeleteTaxDetailCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Delete User Initiated");
-            var taxDetailDto = await _taxDetailsRepository.RemoveTaxDetailsAsync(request.Id);
+            var taxDetailDto = await _taxDetailsRepository.RemoveTaxDetailsAsync(request.Id, request.DeletedBy);
             _logger.LogInformation("Delete User Completed");
 
             if (taxDetailDto.Succeeded)

@@ -1,0 +1,437 @@
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllCart>
+
+
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+    .quantity {
+        display: flex;
+        margin-left: 50px;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .quantity__minus,
+    .quantity__plus {
+        display: block;
+        width: 22px;
+        height: 23px;
+        margin: 0;
+        background: #dee0ee;
+        text-decoration: none;
+        text-align: center;
+        line-height: 23px;
+    }
+
+        .quantity__minus:hover,
+        .quantity__plus:hover {
+            background: #575b71;
+            color: #fff;
+        }
+
+    .quantity__minus {
+        border-radius: 3px 0 0 3px;
+    }
+
+    .quantity__plus {
+        border-radius: 0 3px 3px 0;
+    }
+
+    .quantity__input {
+        width: 32px;
+        height: 19px;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        border-top: 2px solid #dee0ee;
+        border-bottom: 2px solid #dee0ee;
+        border-left: 1px solid #dee0ee;
+        border-right: 2px solid #dee0ee;
+        background: #fff;
+        color: #8184a1;
+    }
+
+    .quantity__minus:link,
+    .quantity__plus:link {
+        color: #8184a1;
+    }
+
+    .quantity__minus:visited,
+    .quantity__plus:visited {
+        color: #fff;
+    }
+</style>
+<body>
+    
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" asp-controller="PurchaseUser" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliersForPurchaseUser">
+                <i class="bi bi-menu-button-wide"></i><span>Suppliers</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="PurchaseCart"
+               asp-action="PurchaseGetAllCart">
+                <i class="bi bi-menu-button-wide"></i><span>Cart</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="PurchaseCart"
+               asp-action="GetAllProductPurchase">
+                <i class="bi bi-menu-button-wide"></i><span>Products</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="PurchaseCart"
+               asp-action="PurchaseAllOrder">
+                <i class="bi bi-menu-button-wide"></i><span>Order Status</span>
+            </a>
+        </li>
+
+    </ul>
+</aside>
+<!-- End Sidebar -->
+    @{
+        ViewData["Title"] = "Viewcart";
+
+    }
+
+
+
+    @*<p>
+    <a asp-action="Create">Create New</a>
+    </p>*@
+    @if (Model.Count() > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Image
+                        @*                    @Html.DisplayNameFor(model => model.ImagePath)
+                    *@
+                    </th>
+                    @*<th>
+                @Html.DisplayNameFor(model => model.UserID)
+                </th>
+                <th>
+                @Html.DisplayNameFor(model => model.ProductID)
+                </th>*@
+                    <th>
+                        Product
+                        @*                @Html.DisplayNameFor(model => model.ProductName)
+                    *@
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxrD7NOJQJYfrT1RSlwjfRbrCZOJdZBbh6ew&usqp=CAU" style="width:75px;height:75px;" />
+
+                        </td>
+                        @*<td>
+                @Html.DisplayFor(modelItem => item.UserID)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.ProductID)
+                </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+
+                        <td>
+
+                            @(item.Quantity*item.Price)
+                        </td>
+
+
+                        @* <td class="quant">
+                <button onclick="DecreaseCart('@item.stockId','@item.UserId','@item.CartId','@item.ProductId','@item.Quantity')" class="minus">-</button>
+                @Html.DisplayFor(modelItem => item.Quantity)
+                <button onclick="IncreaseCart('@item.stockId','@item.UserId','@item.CartId','@item.ProductId','@item.Quantity')" class="plus">+</button>
+
+
+                </td>*@
+                        <td>
+                            <div class="quantity">
+                                <a onclick="PurchaseDecreaseCart('@item.stockId','@item.UserId','@item.CartId','@item.ProductId','@item.Quantity')" class="quantity__minus"><span>-</span></a>
+                                <input id="myQuantity" onChange="QuantityUpdate('@item.stockId','@item.UserId','@item.CartId','@item.ProductId','@item.Quantity')" name="quantity" type="text" class="quantity__input" value=@Html.DisplayFor(modelItem => item.Quantity)>
+                                @*     <span id="quan" style="display:none;">Invalid Quantity</span>*@
+
+
+                                <a onclick="PurchaseIncreaseCart('@item.stockId','@item.UserId','@item.CartId','@item.ProductId','@item.Quantity')" class="quantity__plus"><span>+</span></a>
+                                <div id="quan" style="display:none;color:red;" class="input-error-tip">Invalid Quantity</div>
+                            </div>
+                        </td>
+                        <td>
+                            <a asp-controller="PurchaseCart" asp-action="PurchaseDeleteCart" asp-route-id="@item.CartId" class="btn btn-default btn-sm">
+                                <i class="bag-x-fill"></i>
+                                <span class="glyphicon glyphicon-trash"></span>Remove
+                            </a>
+                            @*                        <a class="btn btn-sm btn-primary" asp-controller="OrderManagement" asp-action="DeleteCart" asp-route-id="@item.CartId"><i class="bag-x-fill"></i></a>
+                    *@
+                            @*                        <a asp-controller="OrderManagement" asp-action="DeleteCart" asp-route-id="@item.CartId" class="close-td first-row"><i class="bag-x-fill"></i></a>
+                    *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tr>
+                <th>
+                    Total Bill
+                </th>
+                <td></td>
+                <td id="ddTotalBill"></td>
+            </tr>
+        </table>
+
+    }
+    else
+    {
+        @Html.ActionLink("EmptyCart","PurchaseCart")
+        ;
+    }
+    @if (Model.Count() > 0)
+    {
+        <a asp-controller="PurchaseCart" asp-action="CreateOrder"><button type="button" class="<button type="button" class="btn btn-primary btn-lg btn-block">Proceed To Checkout</button></a>
+
+        @*    <a class="btn btn-outline-primary btn-sm" asp-controller="OrderManagement" asp-action="CreateOrder" data-abc="true">Order Now!!</a>
+    *@
+    }
+</body>
+</html>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+
+        $(document).ready(function() {
+
+            console.log("445");
+        });
+        function PurchaseIncreaseCart(stockId, UserId, cartId, ProductId, Quantity) {
+            console.log("hello");
+            console.log(stockId);
+            var form = new FormData();
+            form.append("stockId", stockId);
+            console.log(form);
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataType: 'JSON',
+                data: { stockId: stockId, UserId: UserId, cartId: cartId, ProductId: ProductId, Quantity: Quantity },
+                url: '/PurchaseCart/PurchaseIncreaseCartItem',
+                success: function(stockId) {
+                    if (stockId == false) {
+                        location.reload();
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'This Stock is full'
+                        })
+
+
+                    }
+
+
+                    else {
+                        location.reload();
+                    }
+                },
+                error: function() {
+
+
+                }
+
+
+
+
+            });
+        }
+
+        var TotalBilling = $('#ddTotalBill');
+        console.log("hello");
+        $.ajax({
+            url: 'https://localhost:7221/PurchaseCart/GetAllTotalBill',
+            type: 'GET',
+            dataType: 'json',
+            success: function(d) {
+                console.log("new");
+                console.log(d);
+
+                $('#ddTotalBill').text(d);
+            },
+            error: function() {
+                alert('Error!');
+            }
+        });
+        //Function For QuantityInrease
+        function QuantityUpdate(stockId, UserId, cartId, ProductId, Quantity) {
+            var x = document.getElementById("myQuantity").value;
+
+            var numbers = /^[+]?[0-9]+$/;
+            if (x.match(numbers)) {
+                console.log("right");
+                console.log("QuantityUpdate");
+
+                console.log(stockId);
+                var form = new FormData();
+                form.append("stockId", stockId);
+                console.log(form);
+                $.ajax({
+                    async: true,
+                    type: 'GET',
+                    dataType: 'JSON',
+                    data: { stockId: stockId, UserId: UserId, cartId: cartId, ProductId: ProductId, Quantity: x },
+                    url: '/PurchaseCart/QuantityUpdate',
+                    success: function(stockId) {
+                        if (stockId == false) {
+                            location.reload();
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'This Stock is full'
+                            })
+
+
+                        }
+
+
+                        else {
+                            location.reload();
+                        }
+                    },
+                    error: function() {
+
+
+                    }
+
+
+
+
+                });
+
+            }
+            else {
+                console.log("wrong");
+                document.getElementById("quan").style.display = "block";
+                setTimeout(function() {
+                    document.getElementById("quan").style.display = "none";
+                }, 2000);
+                document.getElementById('myQuantity').value = Quantity;
+
+                //QuantityUpdate(stockId, UserId, cartId ,ProductId,Quantity);
+
+
+
+
+
+            }
+
+        }
+
+        //Function For Decrease Cart
+        function PurchaseDecreaseCart(stockId, UserId, cartId, ProductId, Quantity) {
+            console.log("hello");
+            console.log(stockId);
+            var form = new FormData();
+            form.append("stockId", stockId);
+            console.log(form);
+            $.ajax({
+                async: true,
+                type: 'GET',
+                dataType: 'JSON',
+                data: { stockId: stockId, UserId: UserId, cartId: cartId, ProductId: ProductId, Quantity: Quantity },
+                url: '/PurchaseCart/PurchaseDecreaseCartItem',
+                success: function(stockId) {
+                    if (stockId == false) {
+                        location.reload();
+
+
+                    }
+                    else {
+                        location.reload();
+                    }
+                },
+                error: function() {
+
+
+                }
+
+
+
+
+            });
+        }
+
+
+    </script>

@@ -11,5 +11,7 @@ namespace Corbet.Application.Features.Taxes.Commands.DeleteTaxDetail
     public class DeleteTaxDetailCommand: IRequest<Response<DeleteTaxDetailDto>>
     {
         public int Id { get; set; }
+        public int? DeletedBy { get; set; }
+
     }
 }

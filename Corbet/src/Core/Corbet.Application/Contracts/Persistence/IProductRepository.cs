@@ -12,7 +12,7 @@ namespace Corbet.Application.Contracts.Persistence
     public interface IProductRepository : IAsyncRepository<Product>
     {
         public Task<List<GetAllProductsVm>> GetAllProducts();
-        Task<DeleteProductCommandDto> RemoveProductAsync(int id);
+        Task<DeleteProductCommandDto> RemoveProductAsync(int id,int? deletedBy);
         Task<Product> GetByIdAsync(int productId);
     }
 }

@@ -75,10 +75,10 @@ namespace Corbet.Api.Controllers.v3
 
         [HttpDelete]
         [Route("DeleteProduct")]
-        public async Task<ActionResult> DeleteProduct(int Id)
+        public async Task<ActionResult> DeleteProduct(int Id, int? deletedBy)
         {
             _logger.LogInformation("Remove Product Initiated");
-            var dtos = await _mediator.Send(new DeleteProductCommand() { Id = Id });
+            var dtos = await _mediator.Send(new DeleteProductCommand() { Id = Id ,DeletedBy = deletedBy});
             _logger.LogInformation("Remove Product Completed");
             return Ok(dtos);
         }

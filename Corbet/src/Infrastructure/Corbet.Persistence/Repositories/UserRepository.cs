@@ -66,14 +66,15 @@ namespace Corbet.Persistence.Repositories
             return user;
         }
 
-        public async Task<DeleteUserCommandDto> RemoveUserAsync(int UserId)
+        public async Task<DeleteUserCommandDto> RemoveUserAsync(int UserId, int? deletedBy)
         {
             _logger.LogInformation("In Repository Remove User Initiated");
             DeleteUserCommandDto response = new DeleteUserCommandDto();
             var IsUserExist = await _dbContext.Users.Where(x => x.UserId == UserId).FirstOrDefaultAsync();
             if (IsUserExist != null)
             {
-
+                IsUserExist.DeletedBy = deletedBy;
+                IsUserExist.DeletedDate = DateTime.Now;
                 IsUserExist.IsDeleted = true;
                 IsUserExist.IsActive = false;
                 await _dbContext.SaveChangesAsync();

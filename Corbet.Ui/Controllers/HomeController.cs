@@ -34,6 +34,10 @@ namespace Corbet.Ui.Controllers
         {
             return View();
         }
+        public ActionResult PurchaseLayout()
+        {
+            return View();
+        }
         public ActionResult SupplierLayout()
         {
             return View();

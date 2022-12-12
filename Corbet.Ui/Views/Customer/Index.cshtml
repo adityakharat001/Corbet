@@ -1,0 +1,243 @@
+﻿@model IEnumerable<Corbet.Ui.Models.Product>
+
+@{
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+    ViewData["Title"] = "Index";
+}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/assets/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/assets/vendor/bootstrap/css/bootstrap.min.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="~/assets/css/owl-style.css">
+
+</head>
+
+<style>
+    .carousel-container {
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        align-items: center;
+        height: 95vh;
+        margin-top: 1.5rem;
+    }
+
+    .carousel,
+    .carousel-inner {
+        width: 100%;
+        height: 100%;
+    }
+
+    .img {
+        position: relative;
+        top: -200px;
+        background-size: contain;
+        max-height: auto;
+    }
+
+    .c1Text {
+        background-color: rgba(240, 248, 255, 0.7);
+        border-radius: 18px;
+        height: auto;
+        width: 45%;
+        position: absolute;
+        box-shadow: 2px 2px 5px rgb(0, 0,0);
+        top: 4rem;
+        right: 5rem;
+        z-index: 1;
+    }
+
+    .c2Text {
+        background-color: rgba(240, 248, 255, 0.7);
+        border-radius: 18px;
+        height: auto;
+        width: 40%;
+        position: absolute;
+        box-shadow: 2px 2px 5px rgb(0, 0,0);
+        top: 14rem;
+        left: 4rem;
+        z-index: 1;
+    }
+
+        .c1Text > h1,
+        .c2Text > h1 {
+            font-family: "Poppins", sans-serif;
+            margin: 1.75rem 1.75rem;
+            font-size: 2.75rem;
+            line-height: 3.5rem;
+        }
+
+        .c1Text p,
+        .c2Text p {
+            line-height: 3rem;
+            font-size: 2rem;
+            margin: 1.75rem 1.75rem;
+        }
+
+    .mid-container {
+        margin: 2rem;
+        width: 100%;
+    }
+
+    .mid-text {
+        /*margin: 1rem;*/
+        width: 80%;
+    }
+
+    h2 {
+        font-size: 3rem;
+        padding-left: 1rem;
+    }
+
+    .mid-text > p {
+        margin: 2rem auto;
+        font-size: 2rem;
+        line-height: 2.5rem;
+    }
+
+    .mid-btn {
+        align-self: center;
+        margin: 1rem 0 1rem 4rem;
+    }
+
+    .card {
+        width: 30%;
+        margin: 1rem;
+    }
+
+    .course-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .buyNowBtn {
+        margin: 1rem auto 0.5rem 5rem;
+    }
+
+    .list-inline-item {
+        color: #ffd700
+    }
+
+    .price {
+        color: #9B1B30;
+    }
+
+    .btn-pink {
+        background-color: #fcb2b2 !important;
+    }
+
+</style>
+<main>
+    <div class="carousel-container">
+        <div id="carouselExampleIndicators"
+             class="carousel slide"
+             data-bs-ride="true">
+            <div class="carousel-indicators">
+                <button type="button"
+                        data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide-to="0"
+                        class="active"
+                        aria-current="true"
+                        aria-label="Slide 1"></button>
+                <button type="button"
+                        data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="4000">
+                    <img src="~/Images/carousal1.jpg"
+                         class="d-block w-100 img"
+                         alt="..." />
+                    <div class="c1Text cText">
+                        <h1>Quality Agro-Products At Reasonable Price</h1>
+                        <p>Handpicked Goods For Your Better Farm</p>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="4000">
+                    <img src="~/Images/carousal2.jpg"
+                         class="d-block w-100 img"
+                         alt="..." />
+                    <div class="c2Text cText">
+                        <h1>Well Crafted Machinaries</h1>
+                        <p>Agricutural Machines Crafted With Precision</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+
+
+    <div class="mid-container mx-auto container d-flex">
+        <div class="mid-text">
+            <h2>About Us</h2>
+            <p>
+                We Deliver Good Quality Of Agricultural Products And Precisely Crafted Field Machinaries.
+            </p>
+        </div>
+        <div class="d-flex">
+            <button class="btn btn-lg btn-primary mid-btn" asp-action="RegisterCustomer">
+                Sign Up Now
+            </button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="site-section mb-5">
+            <div class="container owl-2-style">
+                <h2 class="mb-3">Our Products</h2>
+                <div class="owl-carousel owl-2">
+                    @foreach (var item in Model)
+                    {
+                        <div class="media-29101 text-center">
+                            <img src="~/Images/ProductImages/@item.ImagePath" alt="Image" class="img-fluid" />
+                            <h3>@Html.DisplayFor(modelItem => item.ProductName)</h3>
+                            <h3>Sub Category: @Html.DisplayFor(modelItem => item.ProductSubCategory)</h3>
+                            <h3>Price: Rs. @Html.DisplayFor(modelItem => item.Price)</h3>
+                            <button class="btn btn-sm btn-primary mt-4" itemid='@item.Id' asp-route-id="@item.Id"><i class="bag-plus-fill"></i> Add to cart</button>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<script src="~/assets/js/jquery-3.3.1.min.js"></script>
+<script defer src="~/assets/js/owl.carousel.min.js"></script>
+<script src="~/assets/js/popper.min.js"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/assets/js/owl-main.js"></script>
+

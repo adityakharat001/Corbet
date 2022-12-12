@@ -10,6 +10,7 @@ namespace Corbet.Application.Features.Taxes.Commands.CreateTax
     public class CreateTaxCommand: IRequest<CreateTaxDto>
     {
         public string Name { get; set; }
+        public int? CreatedBy { get; set; }
 
     }
 }

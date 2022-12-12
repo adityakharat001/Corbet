@@ -11,6 +11,7 @@ namespace Corbet.Application.Contracts.Persistence
     {
         Task<UnitMeasurement> GetByTypeAsync(string type);
         Task<bool> CheckIfUnitTypeAlreadyExists(string unit);
+        Task<IReadOnlyList<UnitMeasurement>> ListAllAsyncAddOn();
 
     }
 }

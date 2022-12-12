@@ -7,5 +7,6 @@ namespace Corbet.Application.Contracts.Persistence
         Task<bool> CheckStockTypeExists(string stockTypeName);
         Task<StockType> GetByIdAsync(int id);
         Task<StockType> GetByTypeAsync(string stockTypeName);
+        Task<IReadOnlyList<StockType>> ListAllAsyncAddOn();
     }
 }

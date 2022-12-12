@@ -26,7 +26,7 @@ namespace Corbet.Application.Features.UnitMeasurements.Queries.GetAllUnitMeasure
         }
         public async Task<List<GetAllUnitMeasurementsVm>> Handle(GetAllUnitMeasurementsQuery request, CancellationToken cancellationToken)
         {
-            var unitMeasurements = await _unitMeasurementRepository.ListAllAsync();
+            var unitMeasurements = await _unitMeasurementRepository.ListAllAsyncAddOn();
             var unitMeasurementsVm = _mapper.Map<List<GetAllUnitMeasurementsVm>>(unitMeasurements);
             return unitMeasurementsVm;
         }

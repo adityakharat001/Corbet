@@ -1,9 +1,14 @@
 ﻿using Corbet.Domain.Entities;
+using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Ui.Models;
 using Microsoft.AspNetCore.Mvc;
+
+using Nancy.Helpers;
 using Nancy.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Corbet.Mvc.Controllers
@@ -15,6 +20,7 @@ namespace Corbet.Mvc.Controllers
         [HttpGet]
         public IActionResult GetAllStockTypes()
         {
+            var stockTypeList = new List<GetAllStockTypesModel>();
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = baseAddress;
@@ -27,13 +33,25 @@ namespace Corbet.Mvc.Controllers
                     var resultData = jsonArrayResponse["data"].ToString();
 
                     JavaScriptSerializer js = new JavaScriptSerializer();
-                    var stockTypeList = js.Deserialize<List<GetAllStockTypesModel>>(resultData);
-                    return View(stockTypeList);
+                    stockTypeList = js.Deserialize<List<GetAllStockTypesModel>>(resultData);
+                    //return View(stockTypeList);
                 }
                 else
                 {
                     return View();
                 }
+
+                List<GetAllStockTypesViewModel> getAllStockTypesVmList = new List<GetAllStockTypesViewModel>();
+                for (int i = 0; i < stockTypeList.Count; i++)
+                {
+                    GetAllStockTypesViewModel getAllStockTypesVm = new GetAllStockTypesViewModel()
+                    {
+                        StockTypeId = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(stockTypeList[i].StockTypeId))),
+                        StockTypeName = stockTypeList[i].StockTypeName
+                    };
+                    getAllStockTypesVmList.Add(getAllStockTypesVm);
+                }
+                return View(getAllStockTypesVmList);
             }
         }
 
@@ -69,12 +87,13 @@ namespace Corbet.Mvc.Controllers
         }
 
         [HttpGet]
-        public IActionResult UpdateStockType(int id)
+        public IActionResult UpdateStockType(string id)
         {
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = baseAddress;
-                HttpResponseMessage response = httpClient.GetAsync($"{httpClient.BaseAddress}/StockType/GetStockTypeById/{id}").Result;
+                int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+                HttpResponseMessage response = httpClient.GetAsync($"{httpClient.BaseAddress}/StockType/GetStockTypeById/{_id}").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     string apiResponse = response.Content.ReadAsStringAsync().Result;
@@ -98,9 +117,10 @@ namespace Corbet.Mvc.Controllers
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = baseAddress;
+                var _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(updateStockTypeModel.Id)));
                 string data = JsonConvert.SerializeObject(updateStockTypeModel);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await httpClient.PutAsync($"{httpClient.BaseAddress}/StockType/UpdateStockType/{updateStockTypeModel.Id}", content);
+                HttpResponseMessage response = await httpClient.PutAsync($"{httpClient.BaseAddress}/StockType/UpdateStockType/{_id}", content);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
@@ -121,12 +141,13 @@ namespace Corbet.Mvc.Controllers
             }
         }
 
-        public async Task<IActionResult> DeleteStockType(int id)
+        public async Task<IActionResult> DeleteStockType(string id)
         {
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = baseAddress;
-                HttpResponseMessage response = await httpClient.DeleteAsync($"{httpClient.BaseAddress}/StockType/DeleteStockType/{id}");
+                int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+                HttpResponseMessage response = await httpClient.DeleteAsync($"{httpClient.BaseAddress}/StockType/DeleteStockType/{_id}");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
@@ -134,12 +155,12 @@ namespace Corbet.Mvc.Controllers
 
                     var result = jsonArrayResponse["data"].ToString();
                     JavaScriptSerializer js = new JavaScriptSerializer();
-                    var resultDeserialized = js.Deserialize<GetAllStocksModel>(result);
-                    return RedirectToAction("GetAllStockTypes");
+                    var resultDeserialized = js.Deserialize<GetAllStockTypesModel>(result);
+                    return Json("True");
                 }
                 else
                 {
-                    return View();
+                    return Json("False");
                 }
             }
         }

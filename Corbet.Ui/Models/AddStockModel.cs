@@ -21,5 +21,6 @@ namespace Corbet.Ui.Models
         public DateTime TimeIn { get; set; } = DateTime.Now;
 
         public DateTime? TimeOut { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

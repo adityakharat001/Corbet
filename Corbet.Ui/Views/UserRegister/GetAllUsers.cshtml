@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Ui.Models.UserViewModel>
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllUsersViewModel>
 
 @{
     ViewData["Title"] = "GetAllUsers";
@@ -233,7 +233,7 @@ $(document).ready(function () {
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
         $("#success-alert").slideUp(500);
     });
-function DeleteAlert(id)
+function DeleteAlert(idVal)
  {
     Swal.fire({
         title: 'Are you sure?',
@@ -245,8 +245,22 @@ function DeleteAlert(id)
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.assign(`/UserRegister/DeleteUser/${id}`);
-
+            //window.location.assign(`/UserRegister/DeleteUser/${id}`);
+                let URL = "/UserRegister/DeleteUser";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log(d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
         }
     })
 }

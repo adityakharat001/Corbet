@@ -4,7 +4,9 @@ namespace Corbet.Ui.Models
 {
     public class SubCategoryUpdateView
     {
-        public int Id { get; set; }
+        public string? Id { get; set; }
+
+        public int SubCategoryId { get; set; }
         [Required(ErrorMessage = "Select a Category Name")]
 
         public int CategoryId { get; set; }

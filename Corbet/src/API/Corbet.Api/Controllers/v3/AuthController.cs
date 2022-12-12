@@ -70,7 +70,7 @@ namespace Corbet.Api.Controllers.v3
                 {
                     using (EmailManager emailManager = new EmailManager(_configuration))
                     {
-                        emailManager.SendEmail(response.Data);
+                        emailManager.SendEmail(response.Data.Email, response.Data.UserId);
                     }
                     oldValueEmail.Append(email)
 ;

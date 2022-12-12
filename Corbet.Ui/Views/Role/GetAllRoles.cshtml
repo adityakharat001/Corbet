@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Ui.Models.Role>
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllRolesViewModel>
 
 @{
     ViewData["Title"] = "GetAllRoles";
@@ -169,7 +169,7 @@
     <thead>
         <tr>
             <th>
-                Sr. No
+                Sr. No.
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RoleName)
@@ -192,7 +192,7 @@
                 </td>
                 <td class="tableActions">
                     <a class="btn btn-sm btn-primary" asp-controller="Role" asp-action="UpdateRole" asp-route-id="@item.RoleId"><i class="ri-edit-box-fill "></i></a>
-                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.RoleId')" ><i class="ri-delete-bin-6-fill "></i></button>
+                    <button class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.RoleId')"><i class="ri-delete-bin-6-fill "></i></button>
                 </td>
             </tr>
         }
@@ -202,30 +202,44 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
-$(document).ready(function () {
+    $(document).ready(function () {
         $('#myTable').DataTable({
- 
+
         });
-});
+    });
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
         $("#success-alert").slideUp(500);
     });
-function DeleteAlert(id)
- {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.assign(`/Role/DeleteRole/${id}`);
-        }
-    })
-}
+    function DeleteAlert(idVal) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //window.location.assign(`/Role/DeleteRole/${id}`);
+                let URL = "/Role/DeleteRole";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log(d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
+            }
+        })
+    }
 </script>
 
 

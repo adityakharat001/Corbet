@@ -7,7 +7,7 @@ namespace Corbet.Ui.Models
 {
     public class UpdateStockTypeModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         [Remote("CheckStockTypeExists", "StockType")]

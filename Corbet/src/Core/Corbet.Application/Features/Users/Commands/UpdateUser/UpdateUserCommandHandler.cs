@@ -45,7 +45,7 @@ namespace Corbet.Application.Features.Users.Commands.UpdateUser
         {
 
 
-            var userToUpdate = await _userRepository.GetById(request.Id);
+            var userToUpdate = await _userRepository.GetById(request.UserId);
             string oldEmail = userToUpdate.Email;
             var userData = _mapper.Map(request, userToUpdate, typeof(UpdateUserCommand), typeof(User));
             await _userRepository.UpdateAsync(userToUpdate);

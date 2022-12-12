@@ -30,10 +30,10 @@ namespace Corbet.Application.Features.ProductSubCategory.Command.UpdateSubCatego
         public async Task<Response<UpdateSubCategoryDto>> Handle(UpdateSubCategoryCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Update subCategory initiated");
-            var subcategory = await _productSubCategoryRepo.GetById(request.Id);
+            var subcategory = await _productSubCategoryRepo.GetById(request.SubCategoryId);
             if (subcategory == null)
             {
-                throw new NotFoundException(nameof(ProductSubCategory), request.Id);
+                throw new NotFoundException(nameof(ProductSubCategory), request.SubCategoryId);
             }
 
             var subCategoryData = _mapper.Map(request, subcategory);

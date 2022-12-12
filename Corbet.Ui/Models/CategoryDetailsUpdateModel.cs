@@ -7,7 +7,8 @@ namespace Corbet.Ui.Models
 {
     public class CategoryDetailsUpdateModel
     {
-        public int Id { get; set; }
+        public string? Id { get; set; }
+        public int CategoryDetailsId { get; set; }
         [DisplayName("Category Name")]
         [Required(ErrorMessage ="Please Enter Category Name")]
         public int CategoryId { get; set; }
@@ -15,6 +16,6 @@ namespace Corbet.Ui.Models
         [Required(ErrorMessage = "Please Add Product Category description")]
         public string CategoryDescription { get; set; }
         public bool Status { get; set; }
-        public bool IsDeleted { get; set; } 
+        public bool IsDeleted { get; set; }
     }
 }

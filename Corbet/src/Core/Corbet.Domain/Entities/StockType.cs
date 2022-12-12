@@ -16,5 +16,6 @@ namespace Corbet.Domain.Entities
 
         [Column(TypeName = "varchar(40)")]
         public string StockTypeName { get; set; } = null!;
+        public bool IsDeleted { get; set; }
     }
 }

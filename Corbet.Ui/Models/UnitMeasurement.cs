@@ -16,5 +16,6 @@ namespace Corbet.Ui.Models
         [Remote("IsUnitMeasurementExists", "UnitMeasurement")]
         [DisplayName("Unit Type")]
         public string Type { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

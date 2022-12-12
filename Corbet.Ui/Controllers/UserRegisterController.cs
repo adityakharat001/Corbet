@@ -1,6 +1,11 @@
-﻿using Corbet.Ui.Models;
+﻿using Corbet.Domain.Entities;
+using Corbet.Infrastructure.EncryptDecrypt;
+using Corbet.Ui.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
+using Nancy.Helpers;
+
 using Newtonsoft.Json;
 
 namespace Corbet.Ui.Controllers
@@ -63,11 +68,12 @@ namespace Corbet.Ui.Controllers
 
 
         [HttpGet]
-        public ActionResult UpdateUser(int id)
+        public ActionResult UpdateUser(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"User/GetUserById?id={id}").Result;
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"User/GetUserById?id={_id}").Result;
             dynamic userData = response.Content.ReadAsStringAsync().Result;
             var user = JsonConvert.DeserializeObject<UserUpdateDto>(userData);
             return View(user);
@@ -76,6 +82,7 @@ namespace Corbet.Ui.Controllers
         [HttpPost]
         public ActionResult UpdateUser(UserUpdateDto user)
         {
+            user.UserId = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(user.Id)));
             string data = JsonConvert.SerializeObject(user);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "User/UpdateUser", content).Result;
@@ -101,21 +108,40 @@ namespace Corbet.Ui.Controllers
         {
             HttpResponseMessage response = client.GetAsync(client.BaseAddress + "User/GetAllUsers").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
-            var users = JsonConvert.DeserializeObject<List<UserViewModel>>(data);
-            return View(users);
+            List<UserViewModel> users = JsonConvert.DeserializeObject<List<UserViewModel>>(data);
+            //return View(users);
+
+            List<GetAllUsersViewModel> getAllUsersVmList = new List<GetAllUsersViewModel>();
+            for (int i = 0; i < users.Count; i++)
+            {
+                GetAllUsersViewModel getAllUsersVm = new GetAllUsersViewModel()
+                {
+                    UserId = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(users[i].UserId))),
+                    FirstName = users[i].FirstName,
+                    LastName = users[i].LastName,
+                    Email = users[i].Email,
+                    IsEmailConfirmed = users[i].IsEmailConfirmed,
+                    Password = users[i].Password,
+                    PhoneNumber = users[i].PhoneNumber,
+                    Role = users[i].Role,
+                    IsActive = users[i].IsActive,
+                    IsDeleted = users[i].IsDeleted
+                };
+                getAllUsersVmList.Add(getAllUsersVm);
+            }
+            return View(getAllUsersVmList);
         }
         #endregion
 
 
-        public ActionResult DeleteUser(int id)
+        public ActionResult DeleteUser(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"User/DeleteUser?Id={id}").Result;
-            return RedirectToAction("GetAllUsers");
-
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"User/DeleteUser?Id={_id}").Result;
+            return Json("True");
         }
-
 
         [HttpGet]
         public JsonResult IsEmailExist(string Email)

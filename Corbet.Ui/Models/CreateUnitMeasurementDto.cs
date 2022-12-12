@@ -13,5 +13,6 @@ namespace Corbet.Ui.Models
         //[Remote("IsUnitExist", "UnitMeasurement", HttpMethod = "GET", ErrorMessage = "Unit Already Exist")]
         [DisplayName("Tax Type")]
         public string Type { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

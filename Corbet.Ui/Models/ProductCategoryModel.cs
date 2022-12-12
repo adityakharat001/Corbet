@@ -6,6 +6,7 @@ namespace Corbet.Ui.Models
 {
     public class ProductCategoryModel
     {
+        public string? Id { get; set; }
         public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "Category Name is required")]

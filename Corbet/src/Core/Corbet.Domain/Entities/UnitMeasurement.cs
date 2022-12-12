@@ -15,5 +15,6 @@ namespace Corbet.Domain.Entities
         public int Id { get; set; }
         [MaxLength(20)]
         public string Type { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

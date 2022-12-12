@@ -26,7 +26,9 @@ namespace Corbet.Application.Features.Stocks.Commands.DeleteStock
             var stockData = await _stockRepository.GetByIdAsync(stock.StockId);
             if (stockData is not null)
             {
-                await _stockRepository.DeleteAsync(stockData);
+                //await _stockRepository.DeleteAsync(stockData);
+                stockData.IsDeleted = true;
+                await _stockRepository.UpdateAsync(stockData);
                 var stockDto = _mapper.Map<DeleteStockDto>(stockData);
                 return new Response<DeleteStockDto>() { Data = stockDto, Succeeded = true };
             }

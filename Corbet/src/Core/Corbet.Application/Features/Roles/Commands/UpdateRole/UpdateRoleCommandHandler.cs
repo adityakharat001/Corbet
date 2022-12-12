@@ -27,10 +27,10 @@ namespace Corbet.Application.Features.Roles.Commands.UpdateRole
         public async Task<Response<UpdateRoleCommandDto>> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Update Role initiated");
-            var role = await _roleRepository.GetById(request.Id);
+            var role = await _roleRepository.GetById(request.RoleId);
             if (role == null)
             {
-                throw new NotFoundException(nameof(Role), request.Id);
+                throw new NotFoundException(nameof(Role), request.RoleId);
             }
 
             var roleData = _mapper.Map(request, role);

@@ -10,5 +10,6 @@
         public string StockTypeName { get; set; }
         public DateTime TimeIn { get; set; }
         public DateTime? TimeOut { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

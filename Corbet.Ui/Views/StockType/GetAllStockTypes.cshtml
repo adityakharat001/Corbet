@@ -1,7 +1,7 @@
-﻿@model IEnumerable<Corbet.Ui.Models.GetAllStockTypesModel>
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllStockTypesViewModel>
 
 @{
-    ViewData["Title"] = "GetAllStocks";
+    ViewData["Title"] = "GetAllStockTypes";
     int counter = 0;
 }
 
@@ -207,8 +207,8 @@
         $("#success-alert").slideUp(500);
     });
 
-    function DeleteStockTypeWithSwal(id) {
-        console.log(`StockType having id=${id} will be deleted if you hit yes button.`);
+    function DeleteStockTypeWithSwal(idVal) {
+        console.log(`StockType having id=${idVal} will be deleted if you hit yes button.`);
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -219,7 +219,22 @@
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/StockType/DeleteStockType/${id}`);
+                //window.location.assign(`/StockType/DeleteStockType/${id}`);
+                let URL = "/StockType/DeleteStockType";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log("Success -> "+d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
             }
         });
     }

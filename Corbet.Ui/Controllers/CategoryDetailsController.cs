@@ -1,8 +1,13 @@
 ﻿using Corbet.Application.Features.Taxes.Queries.GetAllTaxDetails;
 using Corbet.Application.Responses;
+using Corbet.Domain.Entities;
+using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Ui.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
+using Nancy.Helpers;
+
 using Newtonsoft.Json;
 
 
@@ -73,18 +78,33 @@ namespace Corbet.Ui.Controllers
             HttpResponseMessage msg = _httpClient.GetAsync(_httpClient.BaseAddress + "ProductCategoryDetails/GetAllCategoryDetails").Result;
             dynamic data = msg.Content.ReadAsStringAsync().Result;
             var detailsList = JsonConvert.DeserializeObject<List<GetCategoryDetailView>>(data);
-            return View(detailsList);
+            //return View(detailsList);
+
+            List<GetAllCategoryDetailsViewModel> getAllCategoryDetailsList = new List<GetAllCategoryDetailsViewModel>();
+            for (int i = 0; i < detailsList.Count; i++)
+            {
+                GetAllCategoryDetailsViewModel getAllCategoryDetailsVm = new GetAllCategoryDetailsViewModel()
+                {
+                    Id = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(detailsList[i].Id))),
+                    CategoryName = detailsList[i].CategoryName,
+                    CategoryDescription = detailsList[i].CategoryDescription
+                };
+                getAllCategoryDetailsList.Add(getAllCategoryDetailsVm);
+            }
+            return View(getAllCategoryDetailsList);
+
         }
         #endregion
 
 
         #region Delete Category Details
-        public ActionResult DeleteCategoryDetails(int id)
+        public ActionResult DeleteCategoryDetails(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"ProductCategoryDetails/DeleteCategoryDetails?id={id}").Result;
-            return RedirectToAction("GetAllCategoryDetails");
+            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"ProductCategoryDetails/DeleteCategoryDetails?id={_id}").Result;
+            return Json("True");
         }
         #endregion
 
@@ -92,11 +112,12 @@ namespace Corbet.Ui.Controllers
         //update category details
         #region Update Category Details
         [HttpGet]
-        public ActionResult UpdateCategoryDetails(int id)
+        public ActionResult UpdateCategoryDetails(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"ProductCategoryDetails/GetcategoryDetailsById?id={id}").Result;
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"ProductCategoryDetails/GetcategoryDetailsById?id={_id}").Result;
             dynamic categoryDetailsData = response.Content.ReadAsStringAsync().Result;
             CategoryDetailsViewModel categoryDetails = JsonConvert.DeserializeObject<Response<CategoryDetailsViewModel>>(categoryDetailsData).Data;
 
@@ -123,15 +144,17 @@ namespace Corbet.Ui.Controllers
 
 
         [HttpPost]
-        public ActionResult UpdateCategoryDetails(CategoryDetailsUpdateModel taxDetails)
+        public async Task<ActionResult> UpdateCategoryDetails(CategoryDetailsUpdateModel categoryDetailsUpdateModel, int categoryName)
         {
-            string data = JsonConvert.SerializeObject(taxDetails);
+            categoryDetailsUpdateModel.CategoryDetailsId = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(categoryDetailsUpdateModel.Id)));
+            categoryDetailsUpdateModel.CategoryId = categoryName;
+            string data = JsonConvert.SerializeObject(categoryDetailsUpdateModel);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategoryDetails/UpdateCategoryDetail", content).Result;
+            HttpResponseMessage response = await _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategoryDetails/UpdateCategoryDetails", content);
 
             if (response.IsSuccessStatusCode)
             {
-                ViewBag.categoryDetailUpdateAlert = "<script type='text/javascript'>Swal.fire('Product Category Details Update','Product Category Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/Tax/GetAllTaxDetails');</script>";
+                ViewBag.categoryDetailUpdateAlert = "<script type='text/javascript'>Swal.fire('Product Category Details Update','Product Category Details Updated Successfully!','success').then(()=>window.location.href='/CategoryDetails/GetAllCategoryDetails');</script>";
                 return View();
             }
             else

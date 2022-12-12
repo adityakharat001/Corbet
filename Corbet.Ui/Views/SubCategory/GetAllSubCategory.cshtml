@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Ui.Models.GetSubCategoryVm>
+﻿@model IEnumerable<Corbet.Ui.Models.GetSubCategoryViewModel>
 
 
 @{
@@ -283,7 +283,7 @@ $(document).ready(function () {
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
         $("#success-alert").slideUp(500);
     });
-        function DeleteAlert(id) {
+        function DeleteAlert(idVal) {
             console.log("he");
             Swal.fire({
                 title: 'Are you sure?',
@@ -295,7 +295,22 @@ $(document).ready(function () {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.assign(`/SubCategory/DeleteSubCategory/${id}`);
+                    //window.location.assign(`/SubCategory/DeleteSubCategory/${id}`);
+                    let URL = "/SubCategory/DeleteSubCategory";
+                    $.ajax({
+                        url: URL,
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { id: idVal },
+                        success: function (d) {
+                            console.log(d);
+                            window.location.reload();
+                        },
+                        error: function () {
+                            console.error(d);
+                            console.error("Error!!!");
+                        }
+                    });
                 }
             })
         }

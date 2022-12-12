@@ -28,7 +28,9 @@ namespace Corbet.Application.Features.UnitMeasurements.Commands.DeleteUnitMeasur
             var unitMeasurementData = await _unitMeasurementRepository.GetById(unitMeasurement.Id);
             if (unitMeasurementData is not null)
             {
-                await _unitMeasurementRepository.DeleteAsync(unitMeasurementData);
+                //await _unitMeasurementRepository.DeleteAsync(unitMeasurementData);
+                unitMeasurementData.IsDeleted = true;
+                await _unitMeasurementRepository.UpdateAsync(unitMeasurementData);
                 var unitMeasurementDto = _mapper.Map<DeleteUnitMeasurementDto>(unitMeasurementData);
                 return new Response<DeleteUnitMeasurementDto>() { Data = unitMeasurementDto, Succeeded = true };
             }

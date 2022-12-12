@@ -1,13 +1,17 @@
 ﻿using Corbet.Application.Responses;
+using Corbet.Domain.Entities;
+using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Ui.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Nancy;
 using Nancy.Diagnostics;
+using Nancy.Helpers;
 
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Xml.Linq;
 
 namespace Corbet.Ui.Controllers
 {
@@ -101,21 +105,36 @@ namespace Corbet.Ui.Controllers
         {
             HttpResponseMessage response = client.GetAsync(client.BaseAddress + "ProductSubCategory/GetAllSubCategories").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
-            var subCategoryList = JsonConvert.DeserializeObject<List<GetSubCategoryVm>>(data);
-            return View(subCategoryList);
+            List<GetSubCategoryVm> subCategoryList = JsonConvert.DeserializeObject<List<GetSubCategoryVm>>(data);
+            //return View(subCategoryList);
+
+            List<GetSubCategoryViewModel> getSubCategoryVmList = new List<GetSubCategoryViewModel>();
+            for (int i = 0; i < subCategoryList.Count; i++)
+            {
+                GetSubCategoryViewModel getSubCategoryVm = new GetSubCategoryViewModel()
+                {
+                    SubCategoryId = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(subCategoryList[i].SubCategoryId))),
+                    CategoryName = subCategoryList[i].CategoryName,
+                    SubCategoryName = subCategoryList[i].SubCategoryName,
+                    Description = subCategoryList[i].Description,
+                    TaxName = subCategoryList[i].TaxName,
+                    Status = subCategoryList[i].Status
+                };
+                getSubCategoryVmList.Add(getSubCategoryVm);
+            }
+            return View(getSubCategoryVmList);
 
         }
 
 
-
-
         //Update Controller
         [HttpGet]
-        public ActionResult UpdateSubCategory(int id)
+        public ActionResult UpdateSubCategory(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"ProductSubCategory/GetSubCategoryById?id={id}").Result;
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"ProductSubCategory/GetSubCategoryById?id={_id}").Result;
             dynamic categoryData = response.Content.ReadAsStringAsync().Result;
             SubCategoryUpdateView category = JsonConvert.DeserializeObject<Response<SubCategoryUpdateView>>(categoryData).Data;
             HttpResponseMessage msg = client.GetAsync(client.BaseAddress + "ProductCategory/GetAllCategories").Result;
@@ -166,6 +185,7 @@ namespace Corbet.Ui.Controllers
         {
             if (ModelState.IsValid)
             {
+                subcategoryUpdate.SubCategoryId = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(subcategoryUpdate.Id)));
                 string userid = HttpContext.Session.GetString("UserId");
                
                 subcategoryUpdate.LastModifiedBy = Convert.ToInt32(userid);
@@ -191,15 +211,16 @@ namespace Corbet.Ui.Controllers
         }
 
 
-        public ActionResult DeleteSubCategory(int id)
+        public ActionResult DeleteSubCategory(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"ProductSubCategory/DeleteSubCategory?id={id}").Result;
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"ProductSubCategory/DeleteSubCategory?id={_id}").Result;
 
             ViewBag.DeleteSuccess = "Data Deleted Successful!!";
 
-            return RedirectToAction("GetAllSubCategory");
+            return Json("True");
 
         }
     }

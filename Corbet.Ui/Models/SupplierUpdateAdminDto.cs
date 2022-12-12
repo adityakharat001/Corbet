@@ -6,9 +6,11 @@ namespace Corbet.Ui.Models
 {
     public class SupplierUpdateAdminDto : AuditableEntityModel
     {
+        public string? Id { get; set; }
         [Required(ErrorMessage = "Supplier Id is required")]
         [DisplayName("Supplier Id")]
-        public int Id { get; set; }
+        public int SupplierId { get; set; }
+
         [Required(ErrorMessage = "Supplier Name is required")]
         [DisplayName("Supplier Name")]
         public string SupplierName { get; set; }

@@ -1,12 +1,20 @@
 ﻿using Corbet.Application.Contracts;
 using Corbet.Application.Features.Users.Commands.ResetPassword;
+using Corbet.Application.Models.Mail;
+using Corbet.Domain.Entities;
+using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Ui.Helper;
 using Corbet.Ui.Models;
 using Microsoft.AspNetCore.Mvc;
+
+using Nancy.Helpers;
 using Nancy.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+using System;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Corbet.Ui.Controllers
 {
@@ -59,7 +67,6 @@ namespace Corbet.Ui.Controllers
                     if (roleId == "2")
                     {
                         return RedirectToRoute(new { controller = "Home", action = "SupplierLayout" });
-
                     }
                     
                 }
@@ -108,16 +115,55 @@ namespace Corbet.Ui.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResetPassword(string email)
+        public IActionResult ResetPassword(string userId)
         {
-            ResetPasswordCommand resetPasswordCommand = new ResetPasswordCommand();
-            resetPasswordCommand.Email = email;
-            return View(resetPasswordCommand);
+            try
+            {
+                var decryptedUserId = Convert.ToInt32(EncryptionDecryption.DecryptString(userId));
+                //GetAllUsers
+                Uri baseAddress = new Uri("https://localhost:5000/api/v3/");
+                var httpClient = new HttpClient();
+                httpClient.BaseAddress = baseAddress;
+                HttpResponseMessage response = httpClient.GetAsync(httpClient.BaseAddress + "User/GetAllUsers").Result;
+                dynamic data = response.Content.ReadAsStringAsync().Result;
+                List<UserViewModel> users = JsonConvert.DeserializeObject<List<UserViewModel>>(data);
+                StringBuilder emailId = new StringBuilder("");
+
+                StringBuilder resetPasswordSignal = new StringBuilder("Red");
+                foreach(var user in users)
+                {
+                    if(user.UserId == decryptedUserId)
+                    {
+                        emailId.Append(user.Email);
+                        resetPasswordSignal.Clear().Append("Green");
+                        break;
+                    }
+                }
+                if(resetPasswordSignal.Equals("Red"))
+                {
+                    return RedirectToAction("Index", "ErrorPage", 404);
+                }
+                else
+                {
+                    ResetPasswordViewModel resetPasswordViewModel = new ResetPasswordViewModel()
+                    {
+                        UserId = userId,
+                        Email = emailId.ToString()
+                    };
+                    return View(resetPasswordViewModel);
+                }
+            }
+            catch
+            {
+                return RedirectToAction("Index", "ErrorPage", 404);
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword(ResetPasswordCommand resetPasswordCommand)
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordCommand)
         {
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(resetPasswordCommand.UserId));
+            //int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(resetPasswordCommand.UserId)));
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = baseAddress;
@@ -131,8 +177,9 @@ namespace Corbet.Ui.Controllers
                 }
                 else
                 {
-                    ViewBag.resetPasswordAlert = "<script type='text/javascript'>Swal.fire('','Old password and new password are same. If you wanna reset the password, try different password.','warning');</script>";
-                    return View();
+                    TempData["OldNew"] = "Old password and new password are same. If you wanna reset the password, try using different password.";
+                    string userId = resetPasswordCommand.UserId;
+                    return RedirectToRoute(new { controller = "Login", action = "ResetPassword", userId });
                 }
             }
         }

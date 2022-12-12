@@ -30,5 +30,9 @@ namespace Corbet.Persistence.Repositories
         {
             return await _dbContext.Stocks.FirstOrDefaultAsync(s => s.ProductId == productId);
         }
+        public async Task<IReadOnlyList<Stock>> ListAllAsyncAddOn()
+        {
+            return await _dbContext.Stocks.Where(s => s.IsDeleted == false).ToListAsync();
+        }
     }
 }

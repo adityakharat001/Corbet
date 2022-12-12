@@ -12,7 +12,6 @@ namespace Corbet.Application.Features.UnitMeasurements.Commands.CreateUnitMeasur
 {
     public class CreateUnitMeasurementCommand : IRequest<Response<CreateUnitMeasurementDto>>
     {
-
         public string Type { get; set; }
     }
 }

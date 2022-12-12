@@ -53,7 +53,7 @@ namespace Corbet.Api.Controllers.v3
             _logger.LogInformation("Upadte Category Detail completed");
             return Ok(response);
         }
-#endregion
+        #endregion
 
 
 

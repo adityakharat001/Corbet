@@ -25,7 +25,7 @@ namespace Corbet.Application.Features.Stocks.Queries.GetAllStocks
 
         public async Task<Response<List<GetAllStocksVmOut>>> Handle(GetAllStocksQuery request, CancellationToken cancellationToken)
         {
-            var stockList = await _stockRepository.ListAllAsync();
+            var stockList = await _stockRepository.ListAllAsyncAddOn();
             var stockListVm = _mapper.Map<List<GetAllStocksVm>>(stockList);
             foreach(var stock in stockListVm)
             {

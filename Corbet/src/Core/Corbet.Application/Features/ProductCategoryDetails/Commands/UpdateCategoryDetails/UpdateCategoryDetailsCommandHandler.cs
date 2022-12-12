@@ -30,10 +30,10 @@ namespace Corbet.Application.Features.ProductCategoryDetails.Commands.UpdateCate
         public async Task<Response<UpdateCategoryDetailsCommandDto>> Handle(UpdateCategoryDetailsCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Update categoryDetails initiated");
-            var category = await _categoryDetailsRepo.GetById(request.Id);
+            var category = await _categoryDetailsRepo.GetById(request.CategoryDetailsId);
             if (category == null)
             {
-                throw new NotFoundException(nameof(ProductCategoryDetail), request.Id);
+                throw new NotFoundException(nameof(ProductCategoryDetail), request.CategoryDetailsId);
             }
             var categoryData = _mapper.Map(request, category);
             await _categoryDetailsRepo.UpdateAsync(categoryData);

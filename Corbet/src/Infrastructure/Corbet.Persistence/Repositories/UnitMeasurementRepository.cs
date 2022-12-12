@@ -37,5 +37,10 @@ namespace Corbet.Persistence.Repositories
         //    return await _dbContext.Set<UnitMeasurement>().FindAsync(id);
         //}
 
+        public async Task<IReadOnlyList<UnitMeasurement>> ListAllAsyncAddOn()
+        {
+            return await _dbContext.UnitMeasurements.Where(s => s.IsDeleted == false).ToListAsync();
+        }
+
     }
 }

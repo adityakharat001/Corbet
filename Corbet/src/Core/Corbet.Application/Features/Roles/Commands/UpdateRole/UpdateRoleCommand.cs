@@ -11,7 +11,7 @@ namespace Corbet.Application.Features.Roles.Commands.UpdateRole
 {
     public class UpdateRoleCommand:IRequest<Response<UpdateRoleCommandDto>>
     {
-        public int Id { get; set; }
+        public int RoleId { get; set; }
         public string RoleName { get; set; }
     }
 }

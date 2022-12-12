@@ -9,7 +9,7 @@ namespace Corbet.Application.Features.ProductSubCategory.Command.UpdateSubCatego
 {
     public class UpdateSubCategoryDto
     {
-        public int Id { get; set; }
+        public int SubCategoryId { get; set; }
         public int CategoryId { get; set; }
         [MaxLength(50)]
         public string SubCategoryName { get; set; }

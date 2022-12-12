@@ -11,7 +11,7 @@ namespace Corbet.Ui.Models
         [DisplayName("Tax Id")]
         public int TaxId { get; set; }
         [Required(ErrorMessage = "Tax Name is required")]
-        [RegularExpression(@"^[A-Za-z0-9]+$", ErrorMessage = "Tax Name should not contain special characters")]
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " Tax Name must contain only alphabet")]
         //[Remote("IsTaxExist", "Tax", HttpMethod = "GET", ErrorMessage = "Tax Name Already Exist")]
         [DisplayName("Tax Name")]
         public string Name { get; set; }

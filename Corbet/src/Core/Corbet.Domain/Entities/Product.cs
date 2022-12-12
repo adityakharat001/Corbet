@@ -49,6 +49,4 @@ namespace Corbet.Domain.Entities
         public virtual Tax Taxes { get; set; }
     }
 
-
-
 }

@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-using Corbet.Application.Features.ProductCategory.Queries.GetAllProductCategories;
-using MediatR;
+//using Corbet.Application.Features.ProductCategory.Queries.GetAllProductCategories;
 
-namespace Corbet.Application.Features.OrderManagement.Queries
-{
-    public class GetOrderListQuery : IRequest<List<GetOrderListVm>>
-    {
-       
+//using MediatR;
 
-    }
-}
+//namespace Corbet.Application.Features.OrderManagement.Queries
+//{
+//    public class GetOrderListQuery : IRequest<List<GetOrderListVm>>
+//    {
+
+
+//    }
+//}

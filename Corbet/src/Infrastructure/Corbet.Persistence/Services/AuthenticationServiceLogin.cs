@@ -51,7 +51,7 @@ namespace Corbet.Persistence.Services
         public string GenerateToken(int id, string email, string name)
         {
 
-            _logger.LogInformation("Generated Token  Initiated");
+            _logger.LogInformation("Generated Token Initiated");
             var Userclaims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Jti,new Guid().ToString()),

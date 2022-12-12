@@ -33,7 +33,7 @@ namespace Corbet.Ui.Controllers
                 string data = JsonConvert.SerializeObject(role);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Role/AddRole", content).Result;
-                TempData["AlertMessage"] = "User Role Added Suucessfully";
+                TempData["AlertMessage"] = "User Role Added Successfully";
                 return RedirectToAction("GetAllRoles");
 
             }

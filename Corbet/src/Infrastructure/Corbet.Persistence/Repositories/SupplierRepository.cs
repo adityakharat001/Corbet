@@ -8,6 +8,7 @@ using AutoMapper;
 
 using Corbet.Application.Contracts.Persistence;
 using Corbet.Application.Features.Suppliers.Commands.DeleteSupplier;
+using Corbet.Application.Features.Suppliers.Queries.GetAllSuppliers;
 using Corbet.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,28 @@ namespace Corbet.Persistence.Repositories
             _mapper = mapper;
         }
 
+        public async Task<bool> CheckSupplierExists(string supplier)
+        {
+            var supplierExist = await _dbContext.Suppliers.FirstOrDefaultAsync(s => s.SupplierName.Equals(supplier));
+            if (supplierExist is not null)
+            {
+                return false;
+            }
+            else return true;
+        }
+
+        public List<Supplier> GetAllSuppliers()
+        {
+            var suppliers = _dbContext.Suppliers.Where(s => s.IsDeleted != true).ToList();
+            return suppliers;
+        }
+
+        public List<Supplier> GetAllSuppliersForPurchaseUser()
+        {
+            var suppliers = _dbContext.Suppliers.Where(s => s.IsDeleted != true && s.IsActive != false).ToList();
+            return suppliers;
+        }
+
         public async Task<DeleteSupplierCommandDto> RemoveSupplierAsync(int supplierId)
         {
             _logger.LogInformation("In Repository Remove Supplier Initiated");
@@ -33,7 +56,6 @@ namespace Corbet.Persistence.Repositories
             var IsSupplierExist = await _dbContext.Suppliers.Where(x => x.SupplierId == supplierId).FirstOrDefaultAsync();
             if (IsSupplierExist != null)
             {
-
                 IsSupplierExist.IsDeleted = true;
                 IsSupplierExist.IsActive = false;
                 await _dbContext.SaveChangesAsync();
@@ -56,6 +78,8 @@ namespace Corbet.Persistence.Repositories
                 _logger.LogInformation("In Repository Supplier Doesn't exist");
             }
         }
+
+
 
         public async Task<bool> ToggleActiveStatus(int supplierId)
         {

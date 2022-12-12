@@ -1,4 +1,4 @@
-﻿@model Corbet.Ui.Models.CategoryDetailsViewModel
+﻿@model Corbet.Ui.Models.CategoryDetailsUpdateModel
 
 @{
     ViewData["Title"] = "UpdateCategoryDetails";
@@ -38,7 +38,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -119,8 +119,8 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
+                <li>
+                    <a asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
@@ -148,46 +148,32 @@
 </aside>
 <!-- End Sidebar -->
 
-<h4>Product Category Details</h4>
+<div class="pagetitle">
+    <h1>Update Category Details</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="GetAllCategoryDetails">Category Details</a></li>
+            <li class="breadcrumb-item active">Update Category Details</li>
+        </ol>
+    </nav>
+</div>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="UpdateCategoryDetails">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           @* <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>*@
-            @*<div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label><span class="text-danger">*</span>
-                <input asp-for="CategoryName" class="form-control" />
-
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
-            </div>*@
-             <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label><span class="text-danger">*</span>
-                @*<input asp-for="CategoryName" class="form-control" />*@
-                <select asp-for="CategoryName" id="CategoryName" class="form-control" asp-items="ViewBag.CategoryNameList">
-                    <option value="">---select Product Category---</option>
-                </select>
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="CategoryId" class="form-control" data-category="@Model.CategoryId" id="ddlCategory"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CategoryDescription" class="control-label"></label><span class="text-danger">*</span>
                 <input asp-for="CategoryDescription" class="form-control" />
                 <span asp-validation-for="CategoryDescription" class="text-danger"></span>
             </div>
-           @* <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>*@
             <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -197,10 +183,34 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            var ddlCategory = $('#ddlCategory');
+            ddlCategory.append($("<option></option>").val('').html('Select Category'));
+            $.ajax({
+                url: 'https://localhost:7221/Product/CategoryDdl',
+                type: 'GET',
+                dataType: 'json',
+                success: function(d) {
+                    console.table(d);
+                    $.each(d, function(i, category) {
+                        ddlCategory.append($("<option></option>").val(category.categoryId).html(category.categoryName));
+                    });
+                    ddlCategory.val(ddlCategory.data("category"));
+                },
+                error: function() {
+                    alert('Error!');
+                }
+            });
+        });
+    </script>

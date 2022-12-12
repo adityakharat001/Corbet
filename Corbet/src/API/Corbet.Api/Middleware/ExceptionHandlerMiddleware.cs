@@ -67,6 +67,7 @@ namespace Corbet.Api.Middleware
                     break;
             }
 
+
             context.Response.StatusCode = (int)httpStatusCode;
 
             return context.Response.WriteAsync(result);

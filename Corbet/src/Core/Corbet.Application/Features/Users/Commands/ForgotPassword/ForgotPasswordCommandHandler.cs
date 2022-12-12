@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Corbet.Application.Contracts.Persistence;
+﻿using Corbet.Application.Contracts.Persistence;
 using Corbet.Application.Responses;
 using Corbet.Domain.Entities;
 using MediatR;

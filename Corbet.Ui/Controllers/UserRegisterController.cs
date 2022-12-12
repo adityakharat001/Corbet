@@ -61,6 +61,7 @@ namespace Corbet.Ui.Controllers
             string data = JsonConvert.SerializeObject(user);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "User/AddUser", content).Result;
+            TempData["AlertMessage"] = "User Added Successfully..!";
             return RedirectToRoute(new { controller = "UserRegister", action = "GetAllUsers" });
         }
         #endregion
@@ -88,15 +89,17 @@ namespace Corbet.Ui.Controllers
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "User/UpdateUser", content).Result;
             if (response.IsSuccessStatusCode)
             {
-                ViewBag.userUpdateAlert = "<script type='text/javascript'>Swal.fire('User Update','User Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/UserRegister/GetAllUsers');</script>";
+                ViewBag.userUpdateAlert = "<script type='text/javascript'>Swal.fire('User Update','User Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/UserRegister/GetAllUsers');</script>";
                 return View();
             }
             else
             {
-                ViewBag.userUpdateAlert = "<script type='text/javascript'>Swal.fire('User Update','Failed To Update User Details!','error');</script>";
+                ViewBag.userUpdateAlert = "<script type='text/javascript'>Swal.fire('User Update','Failed To Update User!','error');</script>";
                 return View();
 
             }
+
+            return RedirectToAction("GetAllUsers");
         }
 
 

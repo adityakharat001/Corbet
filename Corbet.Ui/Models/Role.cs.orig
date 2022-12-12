@@ -1,0 +1,21 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace Corbet.Ui.Models
+{
+    public class Role
+    {
+        [DisplayName("Role Id")]
+        public int RoleId { get; set; }
+        [DisplayName("Role")]
+<<<<<<< HEAD
+  
+        [RegularExpression(@"^([a-zA-Z, ])+$", ErrorMessage = " Role Name must contain only alphabet")]
+=======
+        //[RegularExpression(@"^[a-zA-Z\s]*$", ErrorMessage = " Role Name Must Contain Only Alphabet")]
+>>>>>>> c4b6f3676c98c61e7e20582b9715064970236ade
+        [Remote("IsRoleExist", "Role", HttpMethod = "GET", ErrorMessage = "Role Already Exist")]
+        public string RoleName { get; set; }
+    }
+}

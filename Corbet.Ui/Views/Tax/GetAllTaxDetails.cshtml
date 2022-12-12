@@ -41,7 +41,6 @@
         </li>
 
         <li class="nav-item">
-
             <a class="nav-link collapsed"
                asp-controller="Supplier"
                asp-action="GetAllSuppliers">
@@ -54,14 +53,6 @@
                asp-controller="Product"
                asp-action="GetAllProducts">
                 <i class="bi bi-menu-button-wide"></i><span>Products</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
             </a>
         </li>
 
@@ -124,21 +115,20 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
                         <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
                     </a>
                 </li>
 
-                <li class="nav-item">
+               <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                       data-bs-target="#stock-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="stock-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -152,13 +142,14 @@
         </li>
     </ul>
 </aside>
+
 <!-- End Sidebar -->
 
 <div class="pagetitle">
     <h1>Tax Details</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="GetAllTaxDetails">Tax Details</a></li>
+            @*<li class="breadcrumb-item"><a asp-action="GetAllTaxDetails">Tax Details</a></li>*@
         </ol>
     </nav>
 </div>

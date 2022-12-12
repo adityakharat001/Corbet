@@ -12,7 +12,7 @@ namespace Corbet.Ui.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Enter Unit Type")]
-        [RegularExpression(@"^[A-Za-z0-9]+$", ErrorMessage = "Unit Type should not contain special characters")]
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " Role Name must contain only alphabet")]
         [Remote("IsUnitMeasurementExists", "UnitMeasurement")]
         [DisplayName("Unit Type")]
         public string Type { get; set; }

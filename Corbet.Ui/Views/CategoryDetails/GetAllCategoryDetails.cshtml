@@ -38,7 +38,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -148,18 +148,19 @@
 </aside>
 <!-- End Sidebar -->
 
-@*<div class="pagetitle">
-    <h1>Product Category Details</h1>
+<div class="pagetitle">
+    <h1>All Category Details</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="GetAllCategoryDetails">Product Category Details</a></li>
+            <li class="breadcrumb-item"></li>
         </ol>
     </nav>
-</div>*@
-<p>
-    <a class="btn btn-primary" asp-action="CreateCategoryDetails">Add Product Category Details</a>
-</p>
+</div>
 
+<p>
+    <a class="btn btn-primary" asp-action="CreateCategoryDetails">Add New</a>
+</p>
+<hr />
 <table class="table" id="myTable">
     <thead>
         <tr>
@@ -168,18 +169,10 @@
             </th>
             <th>
                 Category Name
-                @*@Html.DisplayNameFor(model => model.CategoryName)*@
             </th>
             <th data-orderable="false">
                 Description
-                @*@Html.DisplayNameFor(model => model.CategoryDescription)*@
             </th>
-          @*  <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -199,12 +192,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CategoryDescription)
             </td>
-           @* <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>*@
             <td>
                 <td>
                     <a class="btn btn-sm btn-primary" asp-controller="CategoryDetails" asp-action="UpdateCategoryDetails" asp-route-id="@item.Id"><i class="ri-edit-box-fill"></i></a>

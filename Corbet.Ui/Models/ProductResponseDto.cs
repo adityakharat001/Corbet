@@ -8,6 +8,7 @@ namespace Corbet.Ui.Models
         public int Id { get; set; }
         [Required]
         [DisplayName("Product Name")]
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " Product Name must contain only alphabet")]
         public string ProductName { get; set; }
         [Required]
         [DisplayName("Product Category")]

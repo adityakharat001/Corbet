@@ -32,7 +32,6 @@ namespace Corbet.Persistence.Repositories
             var IsTaxTypeExist = await _dbContext.TaxDetails.Where(x => x.Id == Id).FirstOrDefaultAsync();
             if (IsTaxTypeExist != null)
             {
-
                 IsTaxTypeExist.IsDeleted = true;
 
                 await _dbContext.SaveChangesAsync();
@@ -42,7 +41,6 @@ namespace Corbet.Persistence.Repositories
                 return response;
                 _logger.LogInformation("In Repository Remove tax type Completed");
             }
-
             else
             {
                 response.Message = "Tax Details with this Id doesn't Exist";
@@ -50,15 +48,12 @@ namespace Corbet.Persistence.Repositories
                 return response;
                 _logger.LogInformation("In Repository Remove User Doesn't exist");
             }
-
         }
-
         //public async Task<List<TaxDetail>> GetAllTaxDetails()
         //{
         //    List<TaxDetail> taxDetail = await _dbContext.TaxDetails.Where(t => t.IsDeleted == false).ToListAsync();
         //    return taxDetail;
         //}
-
         public async Task<List<GetTaxDetailListVm>> GetAllTaxDetails()
         {
             //var taxdta=_dbContext.TaxesDetails.

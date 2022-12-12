@@ -4,15 +4,6 @@
     Layout = "~/Views/Shared/_LayoutTemplate.cshtml";
 };
 
-@if (TempData["Error"] != null)
-{
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
-    <script>
-        $.notify("@TempData["Error"]", { position: "bottom right" }, "error");
-    </script>
-}
 
 
 
@@ -146,3 +137,12 @@
 
     </body>
     </html>
+@if (TempData["Error"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+    <script>
+        $.notify("@TempData["Error"]", { position: "bottom right" }, "error");
+    </script>
+}

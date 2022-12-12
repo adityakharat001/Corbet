@@ -15,7 +15,6 @@ namespace Corbet.Ui.Controllers
 
 
         Uri baseAddress = new Uri("https://localhost:5000/api/v3/");
-        //Uri ddlAddress = new Uri("https://localhost:7221/Product/CategoryDdl")
         HttpClient client;
         public ProductController(ILogger<ProductController> logger, IWebHostEnvironment webHostEnvironment)
         {
@@ -56,9 +55,9 @@ namespace Corbet.Ui.Controllers
             string data = JsonConvert.SerializeObject(product);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Product/AddProduct", content).Result;
+            TempData["AlertMessage"] = "Product Added Suucessfully";
             return RedirectToRoute(new { controller = "Product", action = "GetAllProducts" });
         }
-
 
         [HttpGet]
         public ActionResult GetAllProducts()
@@ -169,6 +168,7 @@ namespace Corbet.Ui.Controllers
             return RedirectToAction("GetAllProducts");
 
         }
+
 
 
         public IActionResult Index()

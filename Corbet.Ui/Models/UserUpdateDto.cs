@@ -11,14 +11,14 @@ namespace Corbet.Ui.Models
         public int UserId { get; set; }
 
         [Required(ErrorMessage = "First Name Is required")]
-        [RegularExpression(@"^([a-zA-Z])*$", ErrorMessage = " First Name must contain only alphabet ")]
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " First Name must contain only alphabet")]
         [MinLength(3, ErrorMessage = "First Name must at least 3 characters")]
         [MaxLength(20, ErrorMessage = "First Name must less than 20 characters")]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last Name Is required")]
-        [RegularExpression(@"^([a-zA-Z])*$", ErrorMessage = " Last Name must contain only alphabet ")]
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " Last Name must contain only alphabet")]
         [MinLength(3, ErrorMessage = "Last Name must at least 3 characters")]
         [MaxLength(20, ErrorMessage = "Last Name must less than 20 characters")]
         [DisplayName("Last Name")]

@@ -26,7 +26,7 @@ namespace Corbet.Application.Features.Suppliers.Queries.GetAllSuppliers
     public async Task<List<GetAllSuppliersQueryVm>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Suppliers list Initiated");
-        var supplierList = await _supplierRepository.ListAllAsync();
+        var supplierList = _supplierRepository.GetAllSuppliers();
         var supplierData = _mapper.Map<List<GetAllSuppliersQueryVm>>(supplierList);
         _logger.LogInformation("Suppliers list completed");
         return new List<GetAllSuppliersQueryVm>(supplierData);

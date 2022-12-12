@@ -1,0 +1,229 @@
+﻿@model IEnumerable<Corbet.Ui.Models.SupplierViewModel>
+
+@{
+    ViewData["Title"] = "GetAllSuppliersForAdmin";
+    int counter = 0;
+}
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <!-- End Dashboard Nav -->
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="Role"
+               asp-action="GetAllRoles">
+                <i class="bi bi-menu-button-wide"></i><span>Roles</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               asp-controller="UserRegister"
+               asp-action="GetAllUsers">
+                <i class="bi bi-menu-button-wide"></i><span>All Users</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link "
+               asp-controller="Supplier"
+               asp-action="GetAllSuppliersForAdmin">
+                <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+            asp-controller="Product"
+               asp-action="GetAllProducts">
+                <i class="bi bi-menu-button-wide"></i><span>Products</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               data-bs-target="#generics-nav"
+               data-bs-toggle="collapse"
+               href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>Generics</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="generics-nav"
+                class="nav-content collapse"
+                data-bs-parent="#sidebar-nav">
+                <li>
+                    <a asp-controller="UnitMeasurement" asp-action="GetAllUnitMeasurements">
+                        <i class="bi bi-circle"></i><span>Unit Data</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Tax Management</span>
+                    </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="Tax" asp-action="GetAllTaxes">
+                                <i class="bi bi-circle"></i><span>Tax Types</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Tax" asp-action="GetAllTaxDetails">
+                                <i class="bi bi-circle"></i><span>Tax Details</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+               <li class="nav-item">
+                    <a class="nav-link collapsed"
+                       data-bs-target="#tax-nav"
+                       data-bs-toggle="collapse"
+                       href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Product Category Management</span>
+                    </a>
+                    <ul id="tax-nav"
+                        class="nav-content collapse"
+                        data-bs-parent="#generics-nav">
+                        <li>
+                            <a asp-controller="ProductCategory" asp-action="GetAllCategories">
+                                <i class="bi bi-circle"></i><span>Product Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="CategoryDetails" asp-action="GetAllCategoryDetails">
+                                <i class="bi bi-circle"></i><span>Product Category Details</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+<<<<<<< HEAD:Corbet.Ui/Views/Supplier/GetAllSuppliers.cshtml
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-controller="SubCategory" asp-action="GetAllSubCategory">
+=======
+                <li>
+                    <a asp-controller="Product" asp-action="GetAllProductSubCategories">
+>>>>>>> 3e4c3af219f7d1e019fc55972200f403765aeb77:Corbet.Ui/Views/Supplier/GetAllSuppliersForAdmin.cshtml
+                        <i class="bi bi-circle"></i><span>Product Sub-Categories</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</aside>
+<!-- End Sidebar-->
+<div class="pagetitle">
+    <h1>Suppliers</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Suppliers</li>
+        </ol>
+    </nav>
+</div>
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                Sr. No
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupplierName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreditLimit)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.IsPaymentDone)
+            </th>
+            <th data-orderable="false">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th data-orderable="false">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{counter++;}
+                    @counter
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditLimit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                    @if (item.IsPaymentDone)
+                {
+                    <td>
+                        Paid
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        UnPaid
+                    </td>
+                }
+         
+                @if (item.IsActive)
+                {
+                    <td>
+                        Active
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        InActive
+                    </td>
+                }
+
+                <td class="text-center align-items-center ">
+                    <a class="btn btn-sm btn-primary my-1" asp-controller="Supplier" asp-action="UpdateSupplierForAdmin" asp-route-id="@item.SupplierId"><i class="ri-edit-box-fill "></i></a>
+                    <br/>
+                    @if (item.IsActive == true)
+                    {
+                        <a class="btn btn-sm btn-danger my-1" asp-controller="Supplier" asp-action="ToggleActiveStatus" asp-route-id="@item.SupplierId">Deactivate</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-sm btn-warning my-1" asp-controller="Supplier" asp-action="ToggleActiveStatus" asp-route-id="@item.SupplierId">Activate</a>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+$(document).ready(function () {
+        $('#myTable').DataTable({
+ 
+        });
+});
+</script>
+

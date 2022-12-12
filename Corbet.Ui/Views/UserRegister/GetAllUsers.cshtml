@@ -35,7 +35,7 @@
 
 
         <li class="nav-item">
-            <a class="nav-link collapsed"
+            <a class="nav-link"
                asp-controller="UserRegister"
                asp-action="GetAllUsers">
                 <i class="bi bi-menu-button-wide"></i><span>All Users</span>
@@ -43,7 +43,6 @@
         </li>
 
         <li class="nav-item">
-
             <a class="nav-link collapsed"
                asp-controller="Supplier"
                asp-action="GetAllSuppliers">
@@ -59,16 +58,9 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed"
-               asp-controller="Stock"
-               asp-action="GetAllStocks">
-                <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
-            </a>
-        </li>
 
         <li class="nav-item">
-            <a class="nav-link"
+            <a class="nav-link collapsed"
                data-bs-target="#generics-nav"
                data-bs-toggle="collapse"
                href="#">
@@ -135,12 +127,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link collapsed"
-                       data-bs-target="#tax-nav"
+                       data-bs-target="#stock-nav"
                        data-bs-toggle="collapse"
                        href="#">
                         <i class="bi bi-layout-text-window-reverse"></i><span>Stock Management</span>
                     </a>
-                    <ul id="tax-nav"
+                    <ul id="stock-nav"
                         class="nav-content collapse"
                         data-bs-parent="#generics-nav">
                         <li>
@@ -160,7 +152,7 @@
     <h1>Users</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">Users</li>
+            @*<li class="breadcrumb-item">Users</li>*@
         </ol>
     </nav>
 </div>
@@ -171,14 +163,14 @@
 <table class="table" id="myTable">
     <thead>
         <tr>
-            <th>Sr. No</th>
+            <th data-orderable="false">Sr. No</th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
-            <th>
+            <th data-orderable="false">
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>

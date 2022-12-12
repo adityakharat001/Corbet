@@ -11,7 +11,7 @@ namespace Corbet.Ui.Models
 
         [Required(ErrorMessage = "Category Name is required")]
         [Remote("IsCategoryExist", "ProductCategory", HttpMethod = "GET", ErrorMessage = "Category Already Exist")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Category Name should contain only alphabates")]
+        [RegularExpression(@"^([A-Za-z])+( [A-Za-z]+)*$", ErrorMessage = " Category Name must contain only alphabet")]
         [DisplayName("Category Name")]
         public string CategoryName { get; set; }
     }

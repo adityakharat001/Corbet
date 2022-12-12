@@ -55,6 +55,7 @@ namespace Corbet.Ui.Controllers
                     LoginResponseDto AuthData = JsonConvert.DeserializeObject<LoginResponseDto>(responseData);
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "UserName", AuthData.UserName);
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "user", AuthData);
+                    SessionHelper.SetObjectAsJson(HttpContext.Session, "UserId", AuthData.Id);
                     string Username = HttpContext.Session.GetString("UserName");
                     TempData["UserName"] = Username.Replace("\"", "");
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "RoleId", AuthData.RoleId);
@@ -68,7 +69,10 @@ namespace Corbet.Ui.Controllers
                     {
                         return RedirectToRoute(new { controller = "Home", action = "SupplierLayout" });
                     }
-                    
+                    else if (roleId == "3")
+                    {
+                        return RedirectToRoute(new { controller = "Home", action = "StaffUserLayout" });
+                    }
                 }
                 TempData["Error"] = "Failed To Login User. Please Enter Valid Credentials";
                 return View();

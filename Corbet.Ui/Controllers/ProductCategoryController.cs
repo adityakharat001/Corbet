@@ -91,13 +91,13 @@ namespace Corbet.Ui.Controllers
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"ProductCategory/GetcategoryById?id={_id}").Result;
             dynamic categoryData = response.Content.ReadAsStringAsync().Result;
-            ProductCategoryModel category = JsonConvert.DeserializeObject<Response<ProductCategoryModel>>(categoryData).Data;
+            ProductCategoryUpdateModel category = JsonConvert.DeserializeObject<Response<ProductCategoryUpdateModel>>(categoryData).Data;
             return View(category);
         }
 
 
         [HttpPost]
-        public ActionResult UpdateCategory(ProductCategoryModel categoryUpdate)
+        public ActionResult UpdateCategory(ProductCategoryUpdateModel categoryUpdate)
         {
             if (ModelState.IsValid)
             {

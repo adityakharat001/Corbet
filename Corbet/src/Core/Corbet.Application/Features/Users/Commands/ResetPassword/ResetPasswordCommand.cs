@@ -23,3 +23,5 @@ namespace Corbet.Application.Features.Users.Commands.ResetPassword
         public string ConfirmPassword { get; set; }
     }
 }
+
+

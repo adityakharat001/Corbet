@@ -1,0 +1,282 @@
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllCart>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-controller="PurchaseUser" asp-action="Index">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <!-- End Dashboard Nav -->
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed"
+                   asp-controller="Supplier"
+                   asp-action="GetAllSuppliersForPurchaseUser">
+                    <i class="bi bi-menu-button-wide"></i><span>Suppliers</span>
+                </a>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed"
+                   asp-controller="PurchaseUser"
+                   asp-action="GetAllOrders">
+                    <i class="bi bi-menu-button-wide"></i><span>Orders</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed"
+                   asp-controller="OrderManagement"
+                   asp-action="GetAllProductSupplier">
+                    <i class="bi bi-menu-button-wide"></i><span>Stocks</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+
+                <a class="nav-link"
+                   asp-controller="OrderManagement"
+                   asp-action="GetAllCart">
+                    <i class="bi bi-menu-button-wide"></i><span>Cart</span>
+                </a>
+            </li>
+
+        </ul>
+    </aside>
+
+    <!-- End Sidebar -->
+    @{
+        ViewData["Title"] = "Viewcart";
+
+    }
+
+
+    @*<p>
+    <a asp-action="Create">Create New</a>
+    </p>*@
+    @if (Model.Count() > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImagePath)
+                    </th>
+                    @*<th>
+                @Html.DisplayNameFor(model => model.UserID)
+                </th>
+                <th>
+                @Html.DisplayNameFor(model => model.ProductID)
+                </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductName)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="~/Images/ProductImages/@item.ImagePath" style="width:75px;height:75px;" />
+                        </td>
+                        @*<td>
+                @Html.DisplayFor(modelItem => item.UserID)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.ProductID)
+                </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+
+                        <td>
+
+                            @(item.Quantity*item.Price)
+                        </td>
+
+
+                        <td class="quant">
+                            <a asp-action="Subcartitem" asp-route-id="@item.CartId" class="minus">-</a>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                            <a asp-action="Addcartitem" asp-route-id="@item.CartId" onclick="AddToCart('@item.stockId','@item.UserId','@item.CartId',@item.ProductId','@item.Quantity')" class="plus">+</a>
+
+
+                        </td>
+
+
+                        <td>
+                            <a asp-controller="OrderManagement" asp-action="DeleteCart" asp-route-id="@item.CartId" style="background-color:red;color:whitel" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span>Remove</a>
+                            @*                        <a class="btn btn-sm btn-primary" asp-controller="OrderManagement" asp-action="DeleteCart" asp-route-id="@item.CartId"><i class="bag-x-fill"></i></a>
+                    *@
+                            @*                        <a asp-controller="OrderManagement" asp-action="DeleteCart" asp-route-id="@item.CartId" class="close-td first-row"><i class="bag-x-fill"></i></a>
+                    *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <h4 class="font-weight-bold Text-center"> Your cart is empty</h4>
+
+        <a class="btn btn-outline-danger" asp-controller="OrderManagement" asp-action="GetAllProductSupplier" data-abc="true">View Products</a>
+    }
+    @if (Model.Count() > 0)
+    {
+
+        <a class="btn btn-outline-primary btn-sm" asp-action="CheckOut" data-abc="true">Checkout</a>
+    }
+</body>
+
+
+</html>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>  <script src="~/lib/package/dist/sweetalert2.all.min.js"></script>  <script src="~/lib/package/dist/sweetalert2.all.js"></script>  <script src="~/lib/package/dist/sweetalert2.min.js"></script>
+
+    @if (TempData["AlertMessage"] != null)
+{
+    <script>
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: 'Item Remove From Cart Successful!!!'
+        })</script>
+}
+
+
+
+
+
+@*   <!-- checkout btn -->
+                        <tr class="checkoutrow">
+                        <td><a class="btn btn-sm btn-primary mt-4 " asp-controller="OrderManagement" asp-action="CreateOrder">Order Now !!<i class="ri-edit-box-fill ri-2x"></i></a></td>
+                        <br/>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+*@
+
+<script>
+
+    $(document).ready(function() {
+
+        console.log("445");
+    });
+    function IncreaseCart(stockId, UserId, cartId productId, Quantity) {
+        console.log("hello");
+        console.log(stockId);
+
+        var form = new FormData();
+        form.append("stockId", stockId);
+        console.log(form);
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: 'JSON',
+            data: { stockId: stockId, UserId: UserId, cartId: cartId, productId: productId, Quantity: Quantity },
+            url: '/ProductSupplier/AddToCart',
+            success: function(stockId, UserId, cartId, productId, Quantity) {
+                if (stockId == true) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Item Added Successful'
+                    })
+
+                }
+
+                else {
+                    if (stockId == true) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'Error',
+                            title: 'Item Not Added'
+                        })
+
+
+                    }
+                },
+                error: function () {
+
+
+                }
+
+
+
+
+            });
+    }
+
+</script>

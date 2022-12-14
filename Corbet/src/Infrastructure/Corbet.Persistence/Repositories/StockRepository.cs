@@ -15,7 +15,7 @@ namespace Corbet.Persistence.Repositories
 
         public async Task<bool> CheckProductExistsInStockList(int productId)
         {
-            var stockProduct = await _dbContext.Stocks.FirstOrDefaultAsync(s => s.ProductId == productId);
+            var stockProduct = await _dbContext.Stocks.FirstOrDefaultAsync(s => s.ProductId == productId && s.IsDeleted==false);
             if (stockProduct is not null)
             {
                 return false;
@@ -53,6 +53,11 @@ namespace Corbet.Persistence.Repositories
                 }
             }
             return check;
+        }
+
+        public async Task<IReadOnlyList<Stock>> ListAllAsyncAddOn()
+        {
+            return await _dbContext.Stocks.Where(s => s.IsDeleted == false).ToListAsync();
         }
     }
 }

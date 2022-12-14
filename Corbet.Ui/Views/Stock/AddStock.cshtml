@@ -81,12 +81,12 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Time Out</label>
-                <input asp-for="TimeOut" class="form-control" />
-                <span asp-validation-for="TimeOut" class="text-danger"></span>
+                <input asp-for="TimeOut" class="form-control" onchange="timeOutVaueChange(this.value)"/>
+                <span asp-validation-for="TimeOut" class="text-danger timeOut"></span>
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary btnCreate" />
                 <a class="btn btn-warning" asp-controller="Stock" asp-action="GetAllStocks">Back to List</a>
             </div>
         </form>
@@ -118,20 +118,70 @@
             });
         });
 
-        //DateTime Validations
-        var timeIn = new Date();
-        console.log(timeIn);
-        var mTimeIn = moment(timeIn).format('YYYY-MM-DDThh:mm');
-        console.log(mTimeIn);
-        var timeIn_day = timeIn.getDate();
-        var timeIn_month = timeIn.getMonth() + 1;
-        var timeIn_year = timeIn.getFullYear();
-        var timeIn_hours = timeIn.getHours();
-        var timeIn_minutes = timeIn.getMinutes();
+        //console.log($("#TimeOut").val());
+        //var timeOutVal = $("#TimeOut").val();
+        //if (timeOutVal != "") {
+        //    //console.log("hhjkjhmkj");
+        //    var timeIn = new Date();
+        //    var mTimeIn = moment(timeIn).format('YYYY-MM-DDTHH:mm');
+        //    console.log(mTimeIn);
 
-        var minDateTimeOut = `${timeIn_year}-${timeIn_month}-${timeIn_day}T${timeIn_hours}:${timeIn_minutes+5}`;//2022-11-21T16:11
-        $('#TimeOut').attr('min', minDateTimeOut);
+        //    //var timeIn_day = timeIn.getDate();
+        //    //var timeIn_month = timeIn.getMonth();
+        //    //var timeIn_year = timeIn.getFullYear();
+        //    //var timeIn_hours = timeIn.getHours();
+        //    //var timeIn_minutes = timeIn.getMinutes();
+        //    //var timeIn_seconds = timeIn.getSeconds();
+
+        //    //var minDateTimeOut = `${timeIn_year}-${timeIn_month}-${timeIn_day}T${timeIn_hours}:${timeIn_minutes}`;//2022-11-21T16:11
+
+        //    //var minDateTimeOut = new Date(timeIn_year, timeIn_month, timeIn_day, timeIn_hours, timeIn_minutes, timeIn_seconds);
+        //    console.log(timeIn);
+        //    //console.log(minDateTimeOut);
+        //    console.log(timeOutVal);
+        //    if (mTimeIn >= timeOutVal) {
+        //        $(".timeOut").html("TimeOut value should be greater than TimeIn value.");
+        //        $(".btnCreate").prop('disabled', true);
+        //        console.log("TimeOut value should be greater than TimeIn value.");
+        //    }
+        //    else {
+        //        $(".timeOut").html("");
+        //        $(".btnCreate").prop('disabled', false);
+        //    }
+        //}
     };
+
+    function timeOutVaueChange(timeOutVal) {
+        if (timeOutVal != "")
+        {
+            var timeIn = new Date();
+            var mTimeIn = moment(timeIn).format('YYYY-MM-DDTHH:mm');
+            console.log(mTimeIn);
+
+            //var timeIn_day = timeIn.getDate();
+            //var timeIn_month = timeIn.getMonth();
+            //var timeIn_year = timeIn.getFullYear();
+            //var timeIn_hours = timeIn.getHours();
+            //var timeIn_minutes = timeIn.getMinutes();
+            //var timeIn_seconds = timeIn.getSeconds();
+
+            //var minDateTimeOut = `${timeIn_year}-${timeIn_month}-${timeIn_day}T${timeIn_hours}:${timeIn_minutes}`;//2022-11-21T16:11
+
+            //var minDateTimeOut = new Date(timeIn_year, timeIn_month, timeIn_day, timeIn_hours, timeIn_minutes, timeIn_seconds);
+            console.log(timeIn);
+            //console.log(minDateTimeOut);
+            console.log(timeOutVal);
+            if (mTimeIn >= timeOutVal) {
+                $(".timeOut").html("TimeOut value should be greater than TimeIn value.");
+                $(".btnCreate").prop('disabled', true);
+                console.log("TimeOut value should be greater than TimeIn value.");
+            }
+            else {
+                $(".timeOut").html("");
+                $(".btnCreate").prop('disabled', false);
+            }
+        }
+    }
 </script>
 
 @section Scripts {

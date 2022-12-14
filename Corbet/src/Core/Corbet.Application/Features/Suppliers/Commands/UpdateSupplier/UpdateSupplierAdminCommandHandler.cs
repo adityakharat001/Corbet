@@ -26,7 +26,7 @@ namespace Corbet.Application.Features.Suppliers.Commands.UpdateSupplier
         }
         public async Task<Response<UpdateSupplierAdminCommandDto>> Handle(UpdateSupplierAdminCommand request, CancellationToken cancellationToken)
         {
-            var supplierToUpdate = await _supplierRepository.GetById(request.Id);
+            var supplierToUpdate = await _supplierRepository.GetById(request.SupplierId);
             var supplierData = _mapper.Map(request, supplierToUpdate, typeof(UpdateSupplierAdminCommand), typeof(Supplier));
             await _supplierRepository.UpdateAsync(supplierToUpdate);
             var supplierDto = _mapper.Map<UpdateSupplierAdminCommandDto>(supplierData);

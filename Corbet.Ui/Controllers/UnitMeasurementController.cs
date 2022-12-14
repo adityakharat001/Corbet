@@ -1,9 +1,15 @@
 ﻿using Corbet.Application.Features.UnitMeasurements.Commands.CreateUnitMeasurement;
+using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Ui.Models;
+
 using Microsoft.AspNetCore.Mvc;
+
+using Nancy.Helpers;
 using Nancy.Json;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using System.Text;
 
 namespace Corbet.Ui.Controllers
@@ -15,23 +21,35 @@ namespace Corbet.Ui.Controllers
         [HttpGet]
         public IActionResult GetAllUnitMeasurements()
         {
+            var unitMeasurementList = new List<UnitMeasurement>();
             using (var httpClient = new HttpClient())
             {
-                //httpClient.BaseAddress = baseAddress;
-                HttpResponseMessage response = httpClient.GetAsync($"{baseAddress}/UnitMeasurement/GetAllUnitMeasurements").Result;
+                httpClient.BaseAddress = baseAddress;
+                HttpResponseMessage response = httpClient.GetAsync($"{httpClient.BaseAddress}/UnitMeasurement/GetAllUnitMeasurements").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     dynamic data = response.Content.ReadAsStringAsync().Result;
-                    var unitMeasurementList = JsonConvert.DeserializeObject<List<UnitMeasurement>>(data);
-                    return View(unitMeasurementList);
+                    unitMeasurementList = JsonConvert.DeserializeObject<List<UnitMeasurement>>(data);
+                    //return View(unitMeasurementList);
                 }
                 else
                 {
                     return View();
                 }
+
+                List<GetAllUnitMeasurementsViewModel> getAllUnitMeasurementsVmList = new List<GetAllUnitMeasurementsViewModel>();
+                for (int i = 0; i < unitMeasurementList.Count; i++)
+                {
+                    GetAllUnitMeasurementsViewModel getAllUnitMeasurementsVm = new GetAllUnitMeasurementsViewModel()
+                    {
+                        Id = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(unitMeasurementList[i].Id))),
+                        Type = unitMeasurementList[i].Type
+                    };
+                    getAllUnitMeasurementsVmList.Add(getAllUnitMeasurementsVm);
+                }
+                return View(getAllUnitMeasurementsVmList);
             }
         }
-
 
         [HttpGet]
         public IActionResult CreateUnitMeasurement()
@@ -72,12 +90,13 @@ namespace Corbet.Ui.Controllers
         }
 
         [HttpGet]
-        public IActionResult UpdateUnitMeasurement(int id)
+        public IActionResult UpdateUnitMeasurement(string id)
         {
             using (var httpClient = new HttpClient())
             {
-                //httpClient.BaseAddress = baseAddress;
-                HttpResponseMessage response = httpClient.GetAsync($"{baseAddress}/UnitMeasurement/GetUnitMeasurementById?id={id}").Result;
+                httpClient.BaseAddress = baseAddress;
+                int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+                HttpResponseMessage response = httpClient.GetAsync($"{httpClient.BaseAddress}/UnitMeasurement/GetUnitMeasurementById?id={_id}").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     string apiResponse = response.Content.ReadAsStringAsync().Result;
@@ -98,17 +117,18 @@ namespace Corbet.Ui.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUnitMeasurement(UnitMeasurement editUnitMeasurementDto)
+        public async Task<IActionResult> UpdateUnitMeasurement(GetAllUnitMeasurementsViewModel getAllUnitMeasurementsVm)
         {
             if (ModelState.IsValid)
             {
                 using (var httpClient = new HttpClient())
                 {
-                    editUnitMeasurementDto.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
+                    getAllUnitMeasurementsVm.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                     httpClient.BaseAddress = baseAddress;
-                    string data = JsonConvert.SerializeObject(editUnitMeasurementDto);
+                    var _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(getAllUnitMeasurementsVm.Id)));
+                    string data = JsonConvert.SerializeObject(getAllUnitMeasurementsVm);
                     StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await httpClient.PutAsync($"{baseAddress}/UnitMeasurement/UpdateUnitMeasurement/{editUnitMeasurementDto.Id}", content);
+                    HttpResponseMessage response = await httpClient.PutAsync($"{baseAddress}/UnitMeasurement/UpdateUnitMeasurement/{_id}", content);
                     if (response.IsSuccessStatusCode)
                     {
                         var responseData = await response.Content.ReadAsStringAsync();
@@ -131,13 +151,15 @@ namespace Corbet.Ui.Controllers
             return View();
         }
 
-        public async Task<IActionResult> DeleteUnitMeasurement(int id)
+
+        public async Task<IActionResult> DeleteUnitMeasurement(string id)
         {
             using (var httpClient = new HttpClient())
             {
                 //https://localhost:5000/api/v3/UnitMeasurement/DeleteUnitMeasurement/12
                 httpClient.BaseAddress = baseAddress;
-                HttpResponseMessage response = await httpClient.DeleteAsync($"{httpClient.BaseAddress}/UnitMeasurement/DeleteUnitMeasurement/{id}");
+                int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+                HttpResponseMessage response = await httpClient.DeleteAsync($"{httpClient.BaseAddress}/UnitMeasurement/DeleteUnitMeasurement/{_id}");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
@@ -146,11 +168,11 @@ namespace Corbet.Ui.Controllers
                     var result = jsonArrayResponse["data"].ToString();
                     JavaScriptSerializer js = new JavaScriptSerializer();
                     var resultDeserialized = js.Deserialize<UnitMeasurement>(result);
-                    return RedirectToAction("GetAllUnitMeasurements");
+                    return Json("True");
                 }
                 else
                 {
-                    return View();
+                    return Json("False");
                 }
             }
         }

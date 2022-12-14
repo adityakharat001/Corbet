@@ -24,17 +24,17 @@ namespace Corbet.Application.Features.UnitMeasurements.Commands.CreateUnitMeasur
         public async Task<Response<CreateUnitMeasurementDto>> Handle(CreateUnitMeasurementCommand request, CancellationToken cancellationToken)
         {
             var unitMeasurement = _mapper.Map<UnitMeasurement>(request);
-            var unitMeasurementData = await _unitMeasurementRepository.GetByTypeAsync(unitMeasurement.Type);
-            if (unitMeasurementData is null)
-            {
+            //var unitMeasurementData = await _unitMeasurementRepository.GetByTypeAsync(unitMeasurement.Type);
+            //if (unitMeasurementData is null)
+            //{
                 var CreateUnitMeasurement = await _unitMeasurementRepository.AddAsync(unitMeasurement);
                 var CreateUnitMeasurementDto = _mapper.Map<CreateUnitMeasurementDto>(CreateUnitMeasurement);
                 return new Response<CreateUnitMeasurementDto>() { Data = CreateUnitMeasurementDto, Succeeded = true };
-            }
-            else
-            {
-                return new Response<CreateUnitMeasurementDto>() { Succeeded = false, Errors = new List<string>() { "Already Exists : Conflict" } };
-            }
+            //}
+            //else
+            //{
+            //    return new Response<CreateUnitMeasurementDto>() { Succeeded = false, Errors = new List<string>() { "Already Exists : Conflict" } };
+            //}
         }
     }
 }

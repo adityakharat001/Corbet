@@ -5,9 +5,10 @@ namespace Corbet.Ui.Models
 {
     public class SubCategoryUpdateView
     {
-        public int Id { get; set; }
+
+        public string? Id { get; set; }
+        public int SubCategoryId { get; set; }
         [Required(ErrorMessage = "Select a Category Name")]
-        [DisplayName("Category Name")]
         public int CategoryId { get; set; }
         [Required(ErrorMessage = "SubCategory Name is required")]
         [RegularExpression(@"^[A-Za-z0-9\s]+$", ErrorMessage = "SubCategory Name should not contain special characters")]

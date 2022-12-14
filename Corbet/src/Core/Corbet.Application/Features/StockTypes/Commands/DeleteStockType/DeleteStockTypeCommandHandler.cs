@@ -26,7 +26,9 @@ namespace Corbet.Application.Features.StockTypes.Commands.DeleteStockType
             var stockTypeData = await _stockTypeRepository.GetByIdAsync(stockType.StockTypeId);
             if (stockTypeData is not null)
             {
-                await _stockTypeRepository.DeleteAsync(stockTypeData);
+                //await _stockTypeRepository.DeleteAsync(stockTypeData);
+                stockTypeData.IsDeleted = true;
+                await _stockTypeRepository.UpdateAsync(stockTypeData);
                 var stockTypeDto = _mapper.Map<DeleteStockTypeDto>(stockTypeData);
                 return new Response<DeleteStockTypeDto>() { Data = stockTypeDto, Succeeded = true };
             }

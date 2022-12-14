@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Ui.Models.TaxViewModel>
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllTaxTypesViewModel>
 
 @{
     ViewData["Title"] = "GetAllTaxes";
@@ -46,7 +46,7 @@
 
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -204,7 +204,7 @@
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
         $("#success-alert").slideUp(500);
     });
-    function DeleteAlert(id) {
+    function DeleteAlert(idVal) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -215,7 +215,22 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/Tax/DeleteTaxType/${id}`);
+                //window.location.assign(`/Tax/DeleteTaxType/${id}`);
+                let URL = "/Tax/DeleteTaxType";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log(d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
             }
         })
     }

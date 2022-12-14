@@ -62,6 +62,7 @@ using Corbet.Application.Features.UnitMeasurements.Commands.UpdateUnitMeasuremen
 using Corbet.Application.Features.UnitMeasurements.Queries.GetAllUnitMeasurements;
 using Corbet.Application.Features.UnitMeasurements.Queries.GetUnitMeasurementById;
 using Corbet.Application.Features.Users.Commands.CreateUser;
+using Corbet.Application.Features.Users.Commands.ForgotPassword;
 using Corbet.Application.Features.Users.Commands.ResetPassword;
 using Corbet.Application.Features.Users.Commands.UpdateUser;
 using Corbet.Application.Features.Users.Queries.GetAllUsers;
@@ -248,6 +249,9 @@ namespace Corbet.Application.Profiles
             CreateMap<PurchaseCart, CreatePurchaseCartCommand>().ReverseMap();
             CreateMap<State, GetAllStateQueryVm>().ReverseMap();
             CreateMap<PurchaseOrderManagement, CreatePurchaseOrderCommand>().ReverseMap();
+
+            //ForgotPassword
+            CreateMap<User, ForgotPasswordDto>();
 
         }
     }

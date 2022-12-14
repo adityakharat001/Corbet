@@ -1,10 +1,15 @@
-﻿using Corbet.Application.Responses;
+﻿using System.Data;
+using Corbet.Application.Responses;
+using Corbet.Domain.Entities;
+using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Ui.Models;
-
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using Nancy.Helpers;
 using Newtonsoft.Json;
+using Product = Corbet.Ui.Models.Product;
+using UnitMeasurement = Corbet.Ui.Models.UnitMeasurement;
 
 namespace Corbet.Ui.Controllers
 {
@@ -66,7 +71,31 @@ namespace Corbet.Ui.Controllers
             HttpResponseMessage response = client.GetAsync(client.BaseAddress + "Product/GetAllProducts").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
             var products = JsonConvert.DeserializeObject<List<Product>>(data);
-            return View(products);
+            //return View(products);
+
+            List<GetAllProductsViewModel> getAllProductsVmList = new List<GetAllProductsViewModel>();
+            for (int i = 0; i < products.Count; i++)
+            {
+                GetAllProductsViewModel getAllProductsVm = new GetAllProductsViewModel()
+                {
+                    ProductId = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(products[i].Id))),
+                    ProductCode = products[i].ProductCode,
+                    ProductName = products[i].ProductName,
+                    ProductCategory = products[i].ProductCategory,
+                    ProductSubCategory = products[i].ProductSubCategory,
+                    Unit = products[i].Unit,
+                    Price = products[i].Price,
+                    PrimarySupplier = products[i].PrimarySupplier,
+                    SecondarySupplier = products[i].SecondarySupplier,
+                    ImagePath = products[i].ImagePath,
+                    Tax = products[i].Tax,
+                    TaxApplicable = products[i].TaxApplicable,
+                    IsActive = products[i].IsActive
+                };
+                getAllProductsVmList.Add(getAllProductsVm);
+            }
+            return View(getAllProductsVmList);
+
         }
 
         [HttpGet]
@@ -126,11 +155,12 @@ namespace Corbet.Ui.Controllers
 
 
         [HttpGet]
-        public ActionResult UpdateProduct(int id)
+        public ActionResult UpdateProduct(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"Product/GetProductById?id={id}").Result;
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"Product/GetProductById?id={_id}").Result;
             dynamic productData = response.Content.ReadAsStringAsync().Result;
             var product = JsonConvert.DeserializeObject<ProductResponseDto>(productData);
             return View(product);
@@ -154,6 +184,7 @@ namespace Corbet.Ui.Controllers
                 product.ImagePath = "default.jpg";
             }
             product.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
+            product.ProductId = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(product.Id)));
             string data = JsonConvert.SerializeObject(product);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = client.PostAsync(client.BaseAddress + "Product/UpdateProduct", content).Result;
@@ -171,13 +202,14 @@ namespace Corbet.Ui.Controllers
         }
 
 
-        public ActionResult DeleteProduct(int id)
+        public ActionResult DeleteProduct(string id)
         {
             int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"Product/DeleteProduct?Id={id}&deletedBy={deletedBy}").Result;
-            return RedirectToAction("GetAllProducts");
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"Product/DeleteProduct?Id={_id}&deletedBy={deletedBy}").Result;
+            return Json(true);
 
         }
 

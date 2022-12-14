@@ -10,5 +10,6 @@ namespace Corbet.Application.Features.UnitMeasurements.Commands.UpdateUnitMeasur
     {
         public int Id { get; set; }
         public string? Type { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -22,17 +22,17 @@ namespace Corbet.Application.Features.Stocks.Commands.AddStock
         public async Task<Response<AddStockDto>> Handle(AddStockCommand request, CancellationToken cancellationToken)
         {
             var stock = _mapper.Map<Stock>(request);
-            var stockData = await _stockRepository.GetByProductIdAsync(request.ProductId);
-            if (stockData is null)
-            {
+            //var stockData = await _stockRepository.GetByProductIdAsync(request.ProductId);
+            //if (stockData is null)
+            //{
                 var addStock = await _stockRepository.AddAsync(stock);
                 var addStockDto = _mapper.Map<AddStockDto>(addStock);
                 return new Response<AddStockDto>() { Data = addStockDto, Succeeded = true };
-            }
-            else
-            {
-                return new Response<AddStockDto>() { Succeeded = false, Errors = new List<string>() { "409", "Conflict", "Stock Already Exists!", "Please select the different product or if you want to update, you can see action buttons on stock listing page." } };
-            }
+            //}
+            //else
+            //{
+            //    return new Response<AddStockDto>() { Succeeded = false, Errors = new List<string>() { "409", "Conflict", "Stock Already Exists!", "Please select the different product or if you want to update, you can see action buttons on stock listing page." } };
+            //}
         }
     }
 }

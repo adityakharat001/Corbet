@@ -7,7 +7,9 @@ namespace Corbet.Ui.Models
 {
     public class ProductCategoryUpdateModel:AuditableEntityModel
     {
-        public int Id { get; set; }
+
+        public string? Id { get; set; }
+        public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "Category Name is required")]
         [Remote("IsCategoryExist", "ProductCategory", HttpMethod = "GET", ErrorMessage = "Category Already Exist")]

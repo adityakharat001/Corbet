@@ -9,5 +9,6 @@ namespace Corbet.Ui.Models
         public int StockTypeId { get; set; }
         [DisplayName("Stock Type Name")]
         public string StockTypeName { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -6,7 +6,8 @@ namespace Corbet.Ui.Models
 {
     public class TaxDetailsViewModel : AuditableEntityModel
     {
-        public int Id { get; set; }
+        public string? Id { get; set; }
+        public int TaxDetailsId { get; set; }
         [Required(ErrorMessage = "Please Enter TaxType")]
         [DisplayName("Tax Type")]
         public int TaxId { get; set; }

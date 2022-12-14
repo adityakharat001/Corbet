@@ -1,10 +1,12 @@
 ﻿using Corbet.Application.Responses;
+using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Ui.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Nancy;
 using Nancy.Diagnostics;
+using Nancy.Helpers;
 
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -101,7 +103,23 @@ namespace Corbet.Ui.Controllers
             HttpResponseMessage response = client.GetAsync(client.BaseAddress + "ProductSubCategory/GetAllSubCategories").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
             var subCategoryList = JsonConvert.DeserializeObject<List<GetSubCategoryVm>>(data);
-            return View(subCategoryList);
+            //return View(subCategoryList);
+
+            List<GetSubCategoryViewModel> getSubCategoryVmList = new List<GetSubCategoryViewModel>();
+            for (int i = 0; i < subCategoryList.Count; i++)
+            {
+                GetSubCategoryViewModel getSubCategoryVm = new GetSubCategoryViewModel()
+                {
+                    SubCategoryId = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(subCategoryList[i].SubCategoryId))),
+                    CategoryName = subCategoryList[i].CategoryName,
+                    SubCategoryName = subCategoryList[i].SubCategoryName,
+                    Description = subCategoryList[i].Description,
+                    TaxName = subCategoryList[i].TaxName,
+                    Status = subCategoryList[i].Status
+                };
+                getSubCategoryVmList.Add(getSubCategoryVm);
+            }
+            return View(getSubCategoryVmList);
 
         }
 
@@ -110,11 +128,12 @@ namespace Corbet.Ui.Controllers
 
         //Update Controller
         [HttpGet]
-        public ActionResult UpdateSubCategory(int id)
+        public ActionResult UpdateSubCategory(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"ProductSubCategory/GetSubCategoryById?id={id}").Result;
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"ProductSubCategory/GetSubCategoryById?id={_id}").Result;
             dynamic categoryData = response.Content.ReadAsStringAsync().Result;
             SubCategoryUpdateView category = JsonConvert.DeserializeObject<Response<SubCategoryUpdateView>>(categoryData).Data;
             HttpResponseMessage msg = client.GetAsync(client.BaseAddress + "ProductCategory/GetAllCategories").Result;
@@ -137,7 +156,7 @@ namespace Corbet.Ui.Controllers
                 //Viewbag for Tax Type
                 HttpResponseMessage Taxresponse = client.GetAsync(client.BaseAddress + "Tax/GetAllTaxes").Result;
                 if (msg.IsSuccessStatusCode)
-                   {
+                {
                     var TaxresponseData = Taxresponse.Content.ReadAsStringAsync().Result;
 
                     dynamic TaxList = JsonConvert.DeserializeObject(TaxresponseData);
@@ -159,7 +178,6 @@ namespace Corbet.Ui.Controllers
             return View();
         }
 
-
         [HttpPost]
         public ActionResult UpdateSubCategory(SubCategoryUpdateView subcategoryUpdate)
         {
@@ -167,7 +185,7 @@ namespace Corbet.Ui.Controllers
             {
                 subcategoryUpdate.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 string userid = HttpContext.Session.GetString("UserId");
-               
+                subcategoryUpdate.SubCategoryId = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(subcategoryUpdate.Id)));
                 subcategoryUpdate.LastModifiedBy = Convert.ToInt32(userid);
                 string data = JsonConvert.SerializeObject(subcategoryUpdate);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
@@ -176,7 +194,7 @@ namespace Corbet.Ui.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    ViewBag.supplierUpdateAlert = "<script type='text/javascript'>Swal.fire('SubCategory Update','SubCategory Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/SubCategory/GetAllSubCategory');</script>";
+                    ViewBag.subCategoryUpdateAlert = "<script type='text/javascript'>Swal.fire('SubCategory Update','SubCategory Details Updated Successfully!','success').then(()=>window.location.href='https://localhost:7221/SubCategory/GetAllSubCategory');</script>";
                     return RedirectToAction("GetAllSubCategory");
                 }
                 else
@@ -191,28 +209,28 @@ namespace Corbet.Ui.Controllers
         }
 
 
-        public ActionResult DeleteSubCategory(int id)
+        public ActionResult DeleteSubCategory(string id)
         {
             int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
-            string data = JsonConvert.SerializeObject(id);
-            string delData = JsonConvert.SerializeObject(deletedBy);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            StringContent delContent = new StringContent(delData, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"ProductSubCategory/DeleteSubCategory?id={id}&deletedBy={deletedBy}").Result;
+            HttpResponseMessage response = client.DeleteAsync(client.BaseAddress + $"ProductSubCategory/DeleteSubCategory?id={_id}").Result;
 
             ViewBag.DeleteSuccess = "Data Deleted Successful!!";
 
-            return RedirectToAction("GetAllSubCategory");
+            return Json("True");
 
         }
 
 
-        public ActionResult ToggleActiveStatus(int id)
+        public ActionResult ToggleActiveStatus(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"ProductSubCategory/ToggleActiveStatus?id={id}").Result;
-            return NoContent();
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + $"ProductSubCategory/ToggleActiveStatus?id={_id}").Result;
+            return Json(true);
         }
 
     }

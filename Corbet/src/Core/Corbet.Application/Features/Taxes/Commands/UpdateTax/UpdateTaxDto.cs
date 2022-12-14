@@ -8,7 +8,7 @@ namespace Corbet.Application.Features.Taxes.Commands.UpdateTax
 {
     public class UpdateTaxDto
     {
-        public int Id { get; set; }
+        public int TaxId { get; set; }
         public string Name { get; set; }
     }
 }

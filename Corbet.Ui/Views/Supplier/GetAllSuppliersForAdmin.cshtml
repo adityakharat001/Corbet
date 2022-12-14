@@ -328,13 +328,28 @@
         });
     });
 
-    function ToggleActiveStatus(id) {
-        window.location.assign(`/Supplier/ToggleActiveStatus/${id}`);
+    function ToggleActiveStatus(idVal) {
+        //window.location.assign(`/Supplier/ToggleActiveStatus/${id}`);
+        let URL = "/Supplier/ToggleActiveStatus";
+        $.ajax({
+            url: URL,
+            type: 'GET',
+            dataType: 'json',
+            data: { id: idVal },
+            success: function (d) {
+                console.log(d);
+                //window.location.reload();
+            },
+            error: function () {
+                console.error(d);
+                console.error("Error!!!");
+            }
+        });
     }
 
 
 
-    function DeleteAlert(id) {
+    function DeleteAlert(idVal) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -345,7 +360,22 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/Supplier/DeleteSupplierForAdmin/${id}`);
+                //window.location.assign(`/Supplier/DeleteSupplierForAdmin/${id}`);
+                let URL = "/Supplier/DeleteSupplierForAdmin";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log(d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
             }
         })
     }

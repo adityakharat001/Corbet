@@ -7,7 +7,8 @@ namespace Corbet.Ui.Models
 {
     public class UpdateStockModel:AuditableEntityModel
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
+        public string Id { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select a product.")]
         public int ProductId { get; set; }
@@ -23,5 +24,6 @@ namespace Corbet.Ui.Models
         public DateTime TimeIn { get; set; }
 
         public DateTime? TimeOut { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

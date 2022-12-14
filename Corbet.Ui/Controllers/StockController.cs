@@ -1,8 +1,11 @@
 ﻿using System.Text;
 
 using Corbet.Domain.Entities;
+using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Ui.Models;
 using Microsoft.AspNetCore.Mvc;
+
+using Nancy.Helpers;
 using Nancy.Json;
 
 using Newtonsoft.Json;
@@ -16,9 +19,11 @@ namespace Corbet.Ui.Controllers
     {
         Uri baseAddress = new Uri("https://localhost:5000/api/v3");
 
+
         [HttpGet]
         public IActionResult GetAllStocks()
         {
+            var stockList = new List<GetAllStocksModel>();
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = baseAddress;
@@ -31,14 +36,31 @@ namespace Corbet.Ui.Controllers
                     var resultData = jsonArrayResponse["data"].ToString();
 
                     JavaScriptSerializer js = new JavaScriptSerializer();
-                    var stockList = js.Deserialize<List<GetAllStocksModel>>(resultData);
-                    return View(stockList);
+                    stockList = js.Deserialize<List<GetAllStocksModel>>(resultData);
+                    //return View(stockList);
                 }
                 else
                 {
                     return View();
                 }
             }
+
+            List<GetAllStocksViewModel> getAllStocksVmList = new List<GetAllStocksViewModel>();
+            for (int i = 0; i < stockList.Count; i++)
+            {
+                GetAllStocksViewModel getAllStocksVm = new GetAllStocksViewModel()
+                {
+                    StockId = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(stockList[i].StockId))),
+                    //StockId = (EncryptionDecryption.EncryptString(stockList[i].StockId.ToString())),
+                    ProductName = stockList[i].ProductName,
+                    Quantity = stockList[i].Quantity,
+                    StockTypeName = stockList[i].StockTypeName,
+                    TimeIn = stockList[i].TimeIn,
+                    TimeOut = stockList[i].TimeOut
+                };
+                getAllStocksVmList.Add(getAllStocksVm);
+            }
+            return View(getAllStocksVmList);
         }
 
         [HttpGet]
@@ -49,14 +71,14 @@ namespace Corbet.Ui.Controllers
         [HttpPost]
         public async Task<IActionResult> AddStock(AddStockModel addStockModel)
         {
-            //int year, month, day, hour, min, sec;
-            //year = addStockModel.TimeIn.Year;
-            //month = addStockModel.TimeIn.Month;
-            //day = addStockModel.TimeIn.Day;
-            //hour = addStockModel.TimeIn.Hour;
-            //min = addStockModel.TimeIn.Minute;
-            //sec = 0;
-            //addStockModel.TimeIn = new DateTime(year, month, day, hour, min, sec);//assigns year, month, day, hour, min, seconds
+            int year, month, day, hour, min, sec;
+            year = addStockModel.TimeIn.Year;
+            month = addStockModel.TimeIn.Month;
+            day = addStockModel.TimeIn.Day;
+            hour = addStockModel.TimeIn.Hour;
+            min = addStockModel.TimeIn.Minute;
+            sec = 0;
+            addStockModel.TimeIn = new DateTime(year, month, day, hour, min, sec);//assigns year, month, day, hour, min, seconds
             using (var httpClient = new HttpClient())
             {
                 addStockModel.CreatedBy = int.Parse(HttpContext.Session.GetString("UserId"));
@@ -81,12 +103,13 @@ namespace Corbet.Ui.Controllers
             }
         }
 
-        public async Task<IActionResult> DeleteStock(int id)
+        public async Task<IActionResult> DeleteStock(string id)
         {
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = baseAddress;
-                HttpResponseMessage response = await httpClient.DeleteAsync($"{httpClient.BaseAddress}/Stock/DeleteStock/{id}");
+                int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+                HttpResponseMessage response = await httpClient.DeleteAsync($"{httpClient.BaseAddress}/Stock/DeleteStock/{_id}");
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
@@ -95,22 +118,23 @@ namespace Corbet.Ui.Controllers
                     var result = jsonArrayResponse["data"].ToString();
                     JavaScriptSerializer js = new JavaScriptSerializer();
                     var resultDeserialized = js.Deserialize<GetAllStocksModel>(result);
-                    return RedirectToAction("GetAllStocks");
+                    return Json("True");
                 }
                 else
                 {
-                    return View();
+                    return Json("False");
                 }
             }
         }
 
         [HttpGet]
-        public IActionResult UpdateStock(int id)
+        public IActionResult UpdateStock(string id)
         {
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = baseAddress;
-                HttpResponseMessage response = httpClient.GetAsync($"{httpClient.BaseAddress}/Stock/GetStockByStockId/{id}").Result;
+                int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+                HttpResponseMessage response = httpClient.GetAsync($"{httpClient.BaseAddress}/Stock/GetStockByStockId/{_id}").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     string apiResponse = response.Content.ReadAsStringAsync().Result;
@@ -133,11 +157,11 @@ namespace Corbet.Ui.Controllers
         {
             using (var httpClient = new HttpClient())
             {
-                updateStockModel.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
                 httpClient.BaseAddress = baseAddress;
+                var _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(updateStockModel.Id)));
                 string data = JsonConvert.SerializeObject(updateStockModel);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Stock/UpdateStock/{updateStockModel.Id}", content);
+                HttpResponseMessage response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Stock/UpdateStock/{_id}", content);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();

@@ -1,4 +1,6 @@
 ﻿using Corbet.Application.Contracts.Persistence;
+using Corbet.Domain.Entities;
+
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -84,5 +86,6 @@ namespace Corbet.Persistence.Repositories
             }
             return parameterNames;
         }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Application.Features.Taxes.Queries.GetAllTaxDetails.GetTaxDetailListVm>
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllTaxDetailsViewModel>
 
 @{
     ViewData["Title"] = "GetAllTaxDetails";
@@ -127,7 +127,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed"
                asp-controller="Supplier"
-               asp-action="GetAllSuppliers">
+               asp-action="GetAllSuppliersForAdmin">
                 <i class="bi bi-menu-button-wide"></i><span>All Suppliers</span>
             </a>
         </li>
@@ -290,22 +290,22 @@
                     @if (item.Status == true)
                     {
                         <label class="switch ">
-                            <input type="checkbox" checked onchange="ToggleActiveStatus('@item.Id')" class="success">
+                            <input type="checkbox" checked onchange="ToggleActiveStatus('@item.TaxDetailsId')" class="success">
                             <span class="slider round"></span>
                         </label>
                     }
                     else
                     {
                         <label class="switch ">
-                            <input type="checkbox" onchange="ToggleActiveStatus('@item.Id')" class="success">
+                            <input type="checkbox" onchange="ToggleActiveStatus('@item.TaxDetailsId')" class="success">
                             <span class="slider round"></span>
                         </label>
                     }
                 </td>
 
                 <td>
-                    <a title="Edit" class="btn btn-sm btn-primary" asp-controller="Tax" asp-action="UpdateTaxDetails" asp-route-id="@item.Id"><i class="ri-edit-box-fill "></i></a>
-                    <button title="Delete" class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.Id')"><i class="ri-delete-bin-6-fill "></i></button>
+                    <a title="Edit" class="btn btn-sm btn-primary" asp-controller="Tax" asp-action="UpdateTaxDetails" asp-route-id="@item.TaxDetailsId"><i class="ri-edit-box-fill "></i></a>
+                    <button title="Delete" class="btn btn-sm btn-danger" onclick="DeleteAlert('@item.TaxDetailsId')"><i class="ri-delete-bin-6-fill "></i></button>
                 </td>
             </tr>
         }
@@ -325,11 +325,26 @@
     });
 
     
-    function ToggleActiveStatus(id) {
-        window.location.assign(`/Tax/ToggleActiveStatus/${id}`);
+    function ToggleActiveStatus(idVal) {
+        //window.location.assign(`/Tax/ToggleActiveStatus/${id}`);
+        let URL = "/Tax/ToggleActiveStatus";
+        $.ajax({
+            url: URL,
+            type: 'GET',
+            dataType: 'json',
+            data: { id: idVal },
+            success: function (d) {
+                console.log(d);
+                //window.location.reload();
+            },
+            error: function () {
+                console.error(d);
+                console.error("Error!!!");
+            }
+        });
     }
 
-    function DeleteAlert(id) {
+    function DeleteAlert(idVal) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -340,7 +355,22 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/Tax/DeleteTaxDetails/${id}`);
+                //window.location.assign(`/Tax/DeleteTaxDetails/${id}`);
+                let URL = "/Tax/DeleteTaxDetails";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log(d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
             }
         })
     }

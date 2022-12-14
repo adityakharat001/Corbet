@@ -13,7 +13,7 @@ namespace Corbet.Persistence.Repositories
 
         public async Task<bool> CheckStockTypeExists(string stockTypeName)
         {
-            var stockTypeProduct = await _dbContext.StockTypes.FirstOrDefaultAsync(s => s.StockTypeName.Equals(stockTypeName));
+            var stockTypeProduct = await _dbContext.StockTypes.FirstOrDefaultAsync(s => s.StockTypeName.Equals(stockTypeName) && s.IsDeleted==false);
             if (stockTypeProduct is not null)
             {
                 return false;
@@ -29,6 +29,11 @@ namespace Corbet.Persistence.Repositories
         public async Task<StockType> GetByTypeAsync(string stockTypeName)
         {
             return await _dbContext.StockTypes.FirstOrDefaultAsync(st => st.StockTypeName.Equals(stockTypeName));
+        }
+
+        public async Task<IReadOnlyList<StockType>> ListAllAsyncAddOn()
+        {
+            return await _dbContext.StockTypes.Where(s => s.IsDeleted == false).ToListAsync();
         }
     }
 }

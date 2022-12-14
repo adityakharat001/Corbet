@@ -14,13 +14,14 @@ namespace Corbet.Application.Features.ProductSubCategory.Command.UpdateSubCatego
 {
     public class UpdateSubCategoryCommand: IRequest<Response<UpdateSubCategoryDto>>
     {
-        public int Id { get; set; }
-        public  int CategoryId { get; set; }
+        public int SubCategoryId { get; set; }
+        public int CategoryId { get; set; }
         [MaxLength(50)]
         public string SubCategoryName { get; set; }
         public string? Description { get; set; }
-        public  int TaxId { get; set; }
+        public int TaxId { get; set; }
         public int? LastModifiedBy { get; set; }
+        //public bool Status { get; set; }
 
 
 

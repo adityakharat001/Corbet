@@ -10,5 +10,6 @@ namespace Corbet.Application.Features.StockTypes.Commands.DeleteStockType
     {
         public int StockTypeId { get; set; }
         public string StockTypeName { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

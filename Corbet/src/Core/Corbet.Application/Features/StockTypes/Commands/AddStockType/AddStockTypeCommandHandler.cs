@@ -22,17 +22,17 @@ namespace Corbet.Application.Features.StockTypes.Commands.AddStockType
         public async Task<Response<AddStockTypeDto>> Handle(AddStockTypeCommand request, CancellationToken cancellationToken)
         {
             var stockType = _mapper.Map<StockType>(request);
-            var stockTypeData = await _stockTypeRepository.GetByTypeAsync(request.StockTypeName);
-            if (stockTypeData is null)
-            {
+            //var stockTypeData = await _stockTypeRepository.GetByTypeAsync(request.StockTypeName);
+            //if (stockTypeData is null)
+            //{
                 var addStockType = await _stockTypeRepository.AddAsync(stockType);
                 var addStockTypeDto = _mapper.Map<AddStockTypeDto>(addStockType);
                 return new Response<AddStockTypeDto>() { Data = addStockTypeDto, Succeeded = true };
-            }
-            else
-            {
-                return new Response<AddStockTypeDto>() { Succeeded = false, Errors = new List<string>() { "409", "Conflict", "StockType Already Exists!" } };
-            }
+            //}
+            //else
+            //{
+            //    return new Response<AddStockTypeDto>() { Succeeded = false, Errors = new List<string>() { "409", "Conflict", "StockType Already Exists!" } };
+            //}
         }
     }
 }

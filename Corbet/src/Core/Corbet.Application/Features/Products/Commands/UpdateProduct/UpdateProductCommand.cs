@@ -10,7 +10,7 @@ namespace Corbet.Application.Features.Products.Commands.UpdateProduct
 {
     public class UpdateProductCommand : IRequest<Response<UpdateProductCommandDto>>
     {
-        public int Id { get; set; }
+        public int ProductId { get; set; }
         public string ProductName { get; set; }
         public int CategoryId { get; set; }
         public int SubCategoryId { get; set; }

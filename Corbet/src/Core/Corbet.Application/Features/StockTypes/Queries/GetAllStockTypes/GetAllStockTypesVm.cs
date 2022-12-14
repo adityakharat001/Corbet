@@ -4,5 +4,7 @@
     {
         public int StockTypeId { get; set; }
         public string StockTypeName { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

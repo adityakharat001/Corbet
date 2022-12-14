@@ -22,7 +22,7 @@ namespace Corbet.Application.Features.StockTypes.Queries.GetAllStockTypes
 
         public async Task<Response<List<GetAllStockTypesVm>>> Handle(GetAllStockTypesQuery request, CancellationToken cancellationToken)
         {
-            var stockTypeList = await _stockTypeRepository.ListAllAsync();
+            var stockTypeList = await _stockTypeRepository.ListAllAsyncAddOn();
             var stockTypeListVm = _mapper.Map<List<GetAllStockTypesVm>>(stockTypeList);
             return new Response<List<GetAllStockTypesVm>>() { Data = stockTypeListVm, Succeeded = true };
         }

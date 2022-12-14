@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Ui.Models.Product>
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllProductsViewModel>
 
 @{
     ViewData["Title"] = "GetAllProducts";
@@ -214,8 +214,8 @@
                 </div>
             </div>
             <div class="col-md-2 mt-5 text-center">
-                <a title="Edit" class="btn btn-sm btn-primary mt-4 " asp-controller="Product" asp-action="UpdateProduct" asp-route-id="@item.Id"><i class="ri-edit-box-fill ri-2x"></i></a><br/>
-                <button title="Delete" class="btn btn-sm btn-danger mt-2 " onclick="DeleteAlert('@item.Id')"><i class="ri-delete-bin-6-fill ri-2x"></i></button>
+                <a title="Edit" class="btn btn-sm btn-primary mt-4 " asp-controller="Product" asp-action="UpdateProduct" asp-route-id="@item.ProductId"><i class="ri-edit-box-fill ri-2x"></i></a><br/>
+                <button title="Delete" class="btn btn-sm btn-danger mt-2 " onclick="DeleteAlert('@item.ProductId')"><i class="ri-delete-bin-6-fill ri-2x"></i></button>
             </div>
         </div>
     </div>
@@ -231,7 +231,7 @@
         });
     });
 
-    function DeleteAlert(id) {
+    function DeleteAlert(idVal) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -242,7 +242,22 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/Product/DeleteProduct/${id}`);
+                //window.location.assign(`/Product/DeleteProduct/${id}`);
+                let URL = "/Product/DeleteProduct";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log(d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
 
             }
         })

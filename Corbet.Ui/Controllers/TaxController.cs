@@ -1,14 +1,20 @@
-﻿using System.Security.Cryptography;
+﻿using System.Data;
+using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web.Helpers;
 
 using Corbet.Application.Features.Taxes.Queries.GetAllTaxDetails;
 using Corbet.Application.Responses;
+using Corbet.Domain.Entities;
+using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Ui.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Primitives;
+
+using Nancy.Helpers;
 
 using Newtonsoft.Json;
 
@@ -103,7 +109,23 @@ namespace Corbet.Ui.Controllers
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "Tax/GetAllTaxDetails").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
             var taxList = JsonConvert.DeserializeObject<List<GetTaxDetailListVm>>(data);
-            return View(taxList);
+            //return View(taxList);
+
+            List<GetAllTaxDetailsViewModel> getAllTaxDetailsVmList = new List<GetAllTaxDetailsViewModel>();
+            for (int i = 0; i < taxList.Count; i++)
+            {
+                GetAllTaxDetailsViewModel getTaxDetailsVm = new GetAllTaxDetailsViewModel()
+                {
+                    TaxDetailsId = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(taxList[i].Id))),
+                    Name = taxList[i].Name,
+                    MinTax = taxList[i].MinTax,
+                    MaxTax = taxList[i].MaxTax,
+                    Percentage = taxList[i].Percentage,
+                    Status = taxList[i].Status
+                };
+                getAllTaxDetailsVmList.Add(getTaxDetailsVm);
+            }
+            return View(getAllTaxDetailsVmList);
 
         }
         #endregion
@@ -115,7 +137,7 @@ namespace Corbet.Ui.Controllers
         {
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "Tax/GetAllTaxes").Result;
             dynamic data = response.Content.ReadAsStringAsync().Result;
-            List<TaxViewModel> taxlist = JsonConvert.DeserializeObject<List<TaxViewModel>>(data);
+            List<TaxViewModel> taxList = JsonConvert.DeserializeObject<List<TaxViewModel>>(data);
 
             //string taxIdvalue;
             //foreach(var i in taxlist){
@@ -143,16 +165,28 @@ namespace Corbet.Ui.Controllers
             //    taxlist.TaxId = valuenew;
             // byte[] encoded = System.Text.Encoding.UTF8.GetBytes(encodeMe);
             //taxlist.TaxId= Convert.ToInt32(encoded);
-            return View(taxlist);
+            //return View(taxlist);
+            List<GetAllTaxTypesViewModel> getAllTaxTypesVmList = new List<GetAllTaxTypesViewModel>();
+            for (int i = 0; i < taxList.Count; i++)
+            {
+                GetAllTaxTypesViewModel getTaxTypesVm = new GetAllTaxTypesViewModel()
+                {
+                    TaxId = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(taxList[i].TaxId))),
+                    Name = taxList[i].Name
+                };
+                getAllTaxTypesVmList.Add(getTaxTypesVm);
+            }
+            return View(getAllTaxTypesVmList);
         }
         #endregion
 
         [HttpGet]
-        public ActionResult UpdateTax(int id)
+        public ActionResult UpdateTax(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/GetTaxById?id={id}").Result;
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/GetTaxById?id={_id}").Result;
             if (response.IsSuccessStatusCode)
             {
                 dynamic responseData = response.Content.ReadAsStringAsync().Result;
@@ -171,6 +205,7 @@ namespace Corbet.Ui.Controllers
             if (ModelState.IsValid)
             {
                 tax.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
+                tax.TaxId = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(tax.Id)));
                 string data = JsonConvert.SerializeObject(tax);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "Tax/UpdateTax", content).Result;
@@ -194,11 +229,12 @@ namespace Corbet.Ui.Controllers
 
 
         [HttpGet]
-        public ActionResult UpdateTaxDetails(int id)
+        public ActionResult UpdateTaxDetails(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/GetTaxDetailsById?id={id}").Result;
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/GetTaxDetailsById?id={_id}").Result;
             dynamic taxDetailsData = response.Content.ReadAsStringAsync().Result;
             TaxDetailsViewModel taxDetails = JsonConvert.DeserializeObject<Response<TaxDetailsViewModel>>(taxDetailsData).Data;
 
@@ -239,6 +275,7 @@ namespace Corbet.Ui.Controllers
         public ActionResult UpdateTaxDetails(TaxDetailsViewModel taxDetails)
         {
             taxDetails.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
+            taxDetails.TaxDetailsId = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(taxDetails.Id)));
             string data = JsonConvert.SerializeObject(taxDetails);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "Tax/UpdateTaxDetail", content).Result;
@@ -260,33 +297,32 @@ namespace Corbet.Ui.Controllers
 
 
         #region Delete TaxType
-        public ActionResult DeleteTaxType(int id)
+        public ActionResult DeleteTaxType(string id)
         {
             int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             string delData = JsonConvert.SerializeObject(deletedBy);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             StringContent delContent = new StringContent(delData, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"Tax/DeleteTaxType?id={id}&deletedBy={deletedBy}").Result;
-            return RedirectToAction("GetAllTaxes");
+            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"Tax/DeleteTaxType?id={_id}&deletedBy={deletedBy}").Result;
+            return Json(true);
         }
         #endregion
 
         #region Delete TaxDetails
-        public ActionResult DeleteTaxDetails(int id)
+        public ActionResult DeleteTaxDetails(string id)
         {
             int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             string delData = JsonConvert.SerializeObject(deletedBy);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             StringContent delContent = new StringContent(delData, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"Tax/DeleteTaxDetails?id={id}&deletedBy={deletedBy}").Result;
-            return RedirectToAction("GetAllTaxDetails");
+            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"Tax/DeleteTaxDetails?id={_id}&deletedBy={deletedBy}").Result;
+            return Json(true);
         }
         #endregion
-
-
-
 
 
         [HttpGet]
@@ -306,11 +342,12 @@ namespace Corbet.Ui.Controllers
         }
         
 
-        public ActionResult ToggleActiveStatus(int id)
+        public ActionResult ToggleActiveStatus(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/ToggleActiveStatus?id={id}").Result;
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"Tax/ToggleActiveStatus?id={_id}").Result;
             return NoContent();
         }
 

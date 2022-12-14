@@ -6,7 +6,8 @@ namespace Corbet.Ui.Models
     public class SupplierViewModel
     {
         [DisplayName("Supplier Id")]
-        public int SupplierId { get; set; }
+        //public int SupplierId { get; set; }
+        public string SupplierId { get; set; }
         [DisplayName("Supplier Name")]
         public string SupplierName { get; set; }
         [DisplayName("Email")]

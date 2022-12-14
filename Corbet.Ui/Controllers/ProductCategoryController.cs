@@ -1,8 +1,12 @@
 ﻿using Corbet.Application.Responses;
 using Corbet.Domain.Entities;
+using Corbet.Infrastructure.EncryptDecrypt;
 using Corbet.Ui.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+
+using Nancy.Helpers;
+
 using Newtonsoft.Json;
 
 namespace Corbet.Ui.Controllers
@@ -61,7 +65,20 @@ namespace Corbet.Ui.Controllers
             HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + "ProductCategory/GetAllCategories").Result;
             dynamic data=response.Content.ReadAsStringAsync().Result;
             var categorylist=JsonConvert.DeserializeObject<List<ProductCategoryModel>>(data);
-            return View(categorylist);
+            //return View(categorylist);
+            List<GetAllProductCategoriesViewModel> getAllProductCategoriesViewModelList = new List<GetAllProductCategoriesViewModel>();
+            for (int i = 0; i < categorylist.Count; i++)
+            {
+                GetAllProductCategoriesViewModel getAllProductCategoriesVm = new GetAllProductCategoriesViewModel()
+                {
+                    CategoryId = HttpUtility.UrlEncode(EncryptionDecryption.EncryptString(Convert.ToString(categorylist[i].CategoryId))),
+                    CategoryName = categorylist[i].CategoryName,
+                    CategoryDescription = categorylist[i].CategoryDescription,
+                    Status = categorylist[i].Status
+                };
+                getAllProductCategoriesViewModelList.Add(getAllProductCategoriesVm);
+            }
+            return View(getAllProductCategoriesViewModelList);
         }
         #endregion
 
@@ -69,11 +86,12 @@ namespace Corbet.Ui.Controllers
         //Update product category
         #region Update category
         [HttpGet]
-        public ActionResult UpdateCategory(int id)
+        public ActionResult UpdateCategory(string id)
         {
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"ProductCategory/GetcategoryById?id={id}").Result;
+            HttpResponseMessage response = _httpClient.GetAsync(_httpClient.BaseAddress + $"ProductCategory/GetcategoryById?id={_id}").Result;
             dynamic categoryData = response.Content.ReadAsStringAsync().Result;
             ProductCategoryUpdateModel category = JsonConvert.DeserializeObject<Response<ProductCategoryUpdateModel>>(categoryData).Data;
             return View(category);
@@ -86,10 +104,10 @@ namespace Corbet.Ui.Controllers
             if (ModelState.IsValid)
             {
                 categoryUpdate.LastModifiedBy = int.Parse(HttpContext.Session.GetString("UserId"));
+                categoryUpdate.CategoryId = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(categoryUpdate.Id)));
                 string data = JsonConvert.SerializeObject(categoryUpdate);
                 StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = _httpClient.PostAsync(_httpClient.BaseAddress + "ProductCategory/UpdateCategory", content).Result;
-
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -111,13 +129,14 @@ namespace Corbet.Ui.Controllers
 
         //delete category 
         #region Delete category
-        public ActionResult DeleteCategory(int id)
+        public ActionResult DeleteCategory(string id)
         {
             int deletedBy = int.Parse(HttpContext.Session.GetString("UserId"));
-            string data = JsonConvert.SerializeObject(id);
+            int _id = Convert.ToInt32(EncryptionDecryption.DecryptString(HttpUtility.UrlDecode(id)));
+            string data = JsonConvert.SerializeObject(_id);
             StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"ProductCategory/DeleteCategory?id={id}&deletedBy={deletedBy}").Result;
-            return RedirectToAction("GetAllCategories");
+            HttpResponseMessage response = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"ProductCategory/DeleteCategory?id={_id}").Result;
+            return Json("True");
 
         }
 

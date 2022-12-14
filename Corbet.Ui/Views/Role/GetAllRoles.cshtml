@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Ui.Models.Role>
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllRolesViewModel>
 
 @{
     ViewData["Title"] = "GetAllRoles";
@@ -203,22 +203,37 @@ $(document).ready(function () {
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
         $("#success-alert").slideUp(500);
     });
-function DeleteAlert(id)
- {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.assign(`/Role/DeleteRole/${id}`);
-        }
-    })
-}
+
+    function DeleteAlert(idVal) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //window.location.assign(`/Role/DeleteRole/${id}`);
+                let URL = "/Role/DeleteRole";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log(d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
+            }
+        })
+    }
 </script>
 
 

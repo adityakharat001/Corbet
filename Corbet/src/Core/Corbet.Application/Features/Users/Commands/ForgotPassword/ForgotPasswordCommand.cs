@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Corbet.Application.Features.Users.Commands.ForgotPassword
 {
-    public class ForgotPasswordCommand : IRequest<Response<string>>
+    public class ForgotPasswordCommand : IRequest<Response<ForgotPasswordDto>>
     {
         [Required]
         [DataType(DataType.EmailAddress)]

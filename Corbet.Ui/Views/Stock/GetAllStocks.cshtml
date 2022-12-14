@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Ui.Models.GetAllStocksModel>
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllStocksViewModel>
 
 @{
     ViewData["Title"] = "GetAllStocks";
@@ -10,6 +10,15 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 10px;
+    }
+
+    .filters tr::before {
+        content: "Filter By";
+        margin: 0px 10px 0px 0px;
+    }
+
+    .filters select {
+        margin: 0px 5px 0px 0px;
     }
 </style>
 
@@ -65,12 +74,7 @@
     <div class="addStockBtnDiv">
         <a class="btn btn-primary" asp-controller="Stock" asp-action="AddStock">Add Stock</a>
     </div>
-    <div class="filters">
-        <label class="labelFilter">Filter By </label>
-        <select class="cl_product" id="ddlProduct" title="filter by product name"></select>
-        <select class="cl_quantity" id="ddlQuantity" title="filter by quantity (no. of stocks available)"></select>
-        <select class="cl_type" id="ddlType" title="filter by stock type"></select>
-    </div>
+    <div class="filters"></div>
 </div>
 <hr />
 
@@ -130,171 +134,61 @@
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th data-orderable="false"></th>
+            <th data-orderable="false"></th>
+            <th data-orderable="false"></th>
+            <th data-orderable="false"></th>
+        </tr>
+    </tfoot>
 </table>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
-    //$("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
-    //    $("#success-alert").slideUp(500);
-    //});
-
-    //MULTIPLE FILTERS
     $(document).ready(function () {
         $('#myTable').DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 20, 50, 100],
+            initComplete: function () {
+                var idForSelect = 1;
+                this.api()
+                    .columns([1, 2, 3])
+                    .every(function () {
+                        var column = this;
+                        var select = $(`<select id="select${idForSelect}"><option value=""></option></select>`)
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
 
-        });
+                                column.search(val ? '^' + val + '$' : '', true, false).draw();
+                            });
 
-        //ProductList -> Extract ProductName
-        var productNode = $("#ddlProduct");
-        productNode.append($("<option></option>").val("all").html("Select Product"));
-        var url = "/Stock/GetProductList";
-        $.get(url, null, function (data) {
-            console.log(data);
-            $.each(data, function (i, product) {
-                productNode.append($("<option></option>").val(product.productName).html(product.productName));
-            });
-        });
-        //StockTypeList -> Extract StockTypeName
-        var stockTypeNode = $("#ddlType");
-        stockTypeNode.append($("<option></option>").val("all").html("Select Type"));
-        var url = "/Stock/GetStockTypeList";
-        $.get(url, null, function (data) {
-            console.log(data);
+                        column
+                            .data()
+                            .unique()
+                            .sort()
+                            .each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                            });
 
-            $.each(data, function (i, type) {
-                stockTypeNode.append($("<option></option>").val(type.stockTypeName).html(type.stockTypeName));
-            });
+                        //console.log(idForSelect);
+                        idForSelect += 1;
+                    });
+            },
         });
-        //StockList's Quantity -> Putting Quantity of range(1, 100)
-        var stockQuantityNode = $("#ddlQuantity");
-        stockQuantityNode.append($("<option></option>").val("all").html("Select Quantity"));
-        for (let q = 1; q <= 100; q++) {
-            stockQuantityNode.append($("<option></option>").val(q).html(q));
-        }
-
-        //OnChange dropdown list -> apply filters
-        $("#ddlProduct, #ddlQuantity, #ddlType").on("change", function () {
-            var product = $('#ddlProduct').find("option:selected").val();
-            var quantity = $('#ddlQuantity').find("option:selected").val();
-            var type = $('#ddlType').find("option:selected").val();
-            SearchData(product, quantity, type);
-        });
+        $("#myTable tfoot tr").appendTo(".filters");
+        $("#select1 option:nth-child(1)").html("Select Product");
+        $("#select2 option:nth-child(1)").html("Select Quantity");
+        $("#select3 option:nth-child(1)").html("Select Type");
     });
 
-    function SearchData(product, quantity, type) {
-        if (product.toUpperCase() == 'ALL' && quantity.toUpperCase() == 'ALL' && type.toUpperCase() == 'ALL') {
-            $('#myTable tbody tr').show();
-        }
-        else {
-            $('#myTable tbody tr:has(td)').each(function () {
-                var rowProduct = $.trim($(this).find('td:eq(1)').text());
-                var rowQuantity = $.trim($(this).find('td:eq(2)').text());
-                var rowType = $.trim($(this).find('td:eq(3)').text());
-
-                if (product.toUpperCase() != 'ALL' && quantity.toUpperCase() != 'ALL' && rowType.toUpperCase() != 'ALL') {
-                    if (rowProduct.toUpperCase() == product.toUpperCase() && rowQuantity == quantity && rowType.toUpperCase() == type.toUpperCase()) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                }
-                if (product.toUpperCase() != 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() == 'ALL') {
-                    //console.log("1");
-                    //console.log("product.toUpperCase() != 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() == 'ALL'");
-                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
-                    if (rowProduct.toUpperCase() == product.toUpperCase() && rowType.toUpperCase() == type.toUpperCase()) {
-                        //console.log("1-true");
-                        $(this).show();
-                    }
-                    else {
-                        //console.log("1-false");
-                        $(this).hide();
-                    }
-                    //console.log("===================================");
-                }
-
-                if (product.toUpperCase() != 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() != 'ALL') {
-                    //console.log("2");
-                    //console.log("product.toUpperCase() != 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() != 'ALL'");
-                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
-                    if (rowProduct.toUpperCase() == product.toUpperCase() && rowQuantity == quantity) {
-                        //console.log("2-true");
-                        $(this).show();
-                    }
-                    else {
-                        //console.log("2-false");
-                        $(this).hide();
-                    }
-                    //console.log("===================================");
-                }
-
-                if (product.toUpperCase() != 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() == 'ALL') {
-                    //console.log("3");
-                    //console.log("product.toUpperCase() != 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() == 'ALL'");
-                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
-                    if (rowProduct.toUpperCase() == product.toUpperCase()) {
-                        //console.log("3-true");
-                        $(this).show();
-                    }
-                    else {
-                        //console.log("3-false");
-                        $(this).hide();
-                    }
-                    //console.log("===================================");
-                }
-
-                if (product.toUpperCase() == 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() != 'ALL') {
-                    console.log("4");
-                    //console.log("product.toUpperCase() == 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() != 'ALL'");
-                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
-                    if (rowType.toUpperCase() == type.toUpperCase() && rowQuantity == quantity) {
-                        //console.log("4-true");
-                        $(this).show();
-                    }
-                    else {
-                        //console.log("4-false");
-                        $(this).hide();
-                    }
-                    //console.log("===================================");
-                }
-
-                if (product.toUpperCase() == 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() == 'ALL') {
-                    //console.log("5");
-                    //console.log("product.toUpperCase() == 'ALL' && type.toUpperCase() != 'ALL' && quantity.toUpperCase() == 'ALL'");
-                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
-                    if (rowType.toUpperCase() == type.toUpperCase()) {
-                        //console.log("5-true");
-                        $(this).show();
-                    }
-                    else {
-
-                        //console.log("5-false");
-                        $(this).hide();
-                    }
-                    //console.log("===================================");
-                }
-                if (product.toUpperCase() == 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() != 'ALL') {
-                    //console.log("6");
-                    //console.log("product.toUpperCase() == 'ALL' && type.toUpperCase() == 'ALL' && quantity.toUpperCase() != 'ALL'");
-                    //console.log(`[rp:${rowProduct},p:${product}], [rt:${rowType},t:${type}], [rq:${rowQuantity},q:${quantity}]`);
-                    if (rowQuantity == quantity) {
-                        //console.log("6-true");
-                        $(this).show();
-                    }
-                    else {
-                        //console.log("6-false");
-                        $(this).hide();
-                    }
-                    //console.log("===================================");
-                }
-
-            });
-        }
-    }
-
-    function DeleteStockWithSwal(id) {
-        console.log(`Stock having id=${id} will be deleted if you hit yes button.`);
+    function DeleteStockWithSwal(idVal) {
+        console.log(`Stock having id=${idVal} will be deleted if you hit yes button.`);
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -305,7 +199,22 @@
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/Stock/DeleteStock/${id}`);
+                //window.location.assign(`/Stock/DeleteStock/${idVal}`);
+                let URL = "/Stock/DeleteStock";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log(d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
             }
         });
     }

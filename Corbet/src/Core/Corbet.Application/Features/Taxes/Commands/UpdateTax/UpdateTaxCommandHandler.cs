@@ -27,10 +27,10 @@ namespace Corbet.Application.Features.Taxes.Commands.UpdateTax
         public async Task<Response<UpdateTaxDto>> Handle(UpdateTaxCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Update tax initiated");
-            var tax = await _taxRepository.GetById(request.Id);
+            var tax = await _taxRepository.GetById(request.TaxId);
             if (tax == null)
             {
-                throw new NotFoundException(nameof(Tax), request.Id);
+                throw new NotFoundException(nameof(Tax), request.TaxId);
             }
             var taxData = _mapper.Map(request, tax);
             await _taxRepository.UpdateAsync(taxData);

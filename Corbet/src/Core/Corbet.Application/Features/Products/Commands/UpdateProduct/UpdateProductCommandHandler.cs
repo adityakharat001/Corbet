@@ -30,7 +30,7 @@ namespace Corbet.Application.Features.Products.Commands.UpdateProduct
 
         public async Task<Response<UpdateProductCommandDto>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var productToUpdate = await _productRepository.GetById(request.Id);
+            var productToUpdate = await _productRepository.GetById(request.ProductId);
             var productData = _mapper.Map(request, productToUpdate, typeof(UpdateProductCommand), typeof(Product));
             await _productRepository.UpdateAsync(productToUpdate);
             var productDto = _mapper.Map<UpdateProductCommandDto>(productData);

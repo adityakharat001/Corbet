@@ -2,6 +2,8 @@
 using Corbet.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Client;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace Corbet.Persistence.Repositories
 
         public async Task<bool> CheckIfUnitTypeAlreadyExists(string unitType)
         {
-            var unitTypeExists = await _dbContext.UnitMeasurements.Where(e => e.Type == unitType).FirstOrDefaultAsync();
+            var unitTypeExists = await _dbContext.UnitMeasurements.Where(e => e.Type == unitType && e.IsDeleted==false).FirstOrDefaultAsync();
             if (unitTypeExists is not null)
             {
                 return false;
@@ -36,6 +38,11 @@ namespace Corbet.Persistence.Repositories
         //{
         //    return await _dbContext.Set<UnitMeasurement>().FindAsync(id);
         //}
+
+        public async Task<IReadOnlyList<UnitMeasurement>> ListAllAsyncAddOn()
+        {
+            return await _dbContext.UnitMeasurements.Where(um => um.IsDeleted==false).ToListAsync();
+        }
 
     }
 }

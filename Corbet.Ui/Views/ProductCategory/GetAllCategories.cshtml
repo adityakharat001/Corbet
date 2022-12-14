@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Corbet.Ui.Models.ProductCategoryModel>
+﻿@model IEnumerable<Corbet.Ui.Models.GetAllProductCategoriesViewModel>
 
 @{
     ViewData["Title"] = "GetAllCategories";
@@ -202,10 +202,6 @@
 </table>
 
 
-
-
-
-
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
@@ -216,7 +212,8 @@
     $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
         $("#success-alert").slideUp(500);
     });
-    function DeleteAlert(id) {
+
+    function DeleteAlert(idVal) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -227,7 +224,22 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.assign(`/ProductCategory/DeleteCategory/${id}`);
+                //window.location.assign(`/ProductCategory/DeleteCategory/${id}`);
+                let URL = "/ProductCategory/DeleteCategory";
+                $.ajax({
+                    url: URL,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { id: idVal },
+                    success: function (d) {
+                        console.log(d);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        console.error(d);
+                        console.error("Error!!!");
+                    }
+                });
             }
         })
     }

@@ -7,7 +7,8 @@ namespace Corbet.Ui.Models
 {
     public class ProductResponseDto:AuditableEntityModel
     {
-        public int Id { get; set; }
+        public string? Id { get; set; }
+        public int ProductId { get; set; }
         [Required]
         [DisplayName("Product Name")]
         public string ProductName { get; set; }
